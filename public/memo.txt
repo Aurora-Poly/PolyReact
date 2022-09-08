@@ -1,0 +1,36 @@
+==AUTHENTICATION============================================
+|| drf_new서버의 admin 계정 아이디,비번                    ||
+|| username: dspoly123/pw: aurora123!                     ||
+||                                                        ||
+|| react서버에서 만든 임의의 계정 아이디,비번              ||
+|| username: user123/ password: aurora123!                ||
+|| email: dspoly123@gmail.com                             ||
+============================================================
+
+
+
+메인 텍스트 컬러 > color: #2e4057;
+메인 그레디언트 컬러 > linear-gradient(118deg, rgba(113,136,208,1) 0%, rgba(135,118,176,1) 100%);
+
+
+1. 컬러감,디자인 참고할 사이트 
+https://dribbble.com/shots/14181670-Online-Educational-Mobile-App-Prototyping
+
+2.
+
+
+3.
+
+// const fileInputImg = useRef(null);
+    // const fileInputFile = useRef(null);
+    
+    //참조하고 있는 input과 이미지 추가 버튼을 연결
+    // const handleImage =(event)=>{
+    //     event.preventDefault();
+    //     fileInputImg.current.click();
+    // }
+    // //참조하고 있는 input과 파일 추가 버튼을 연결
+    // const handleFile =(event)=>{
+    //     event.preventDefault();
+    //     fileInputFile.current.click();
+    // }
