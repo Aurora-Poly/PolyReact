@@ -1,27 +1,24 @@
 import styled from "styled-components";
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import '../styles/Pagination.css';
+import Pagination from "react-js-pagination";
 
-function Paginator(props) {
-    const {count} = props;
-    const [pagenum, setPagenum] = useState([]);
-    const handlePage = (page) => {
-        if(count/2){ //나머지가 ~보다 작으면..
-            setPagenum((count/10)+1);
-        }else{ //나머지가 ~보다 작으면..
-            setPagenum(count/10);
-        }
-      };
+function Paginator({page,count,setPage}) {
 
+    let apage = page;
+    let tcount = count;
 
-    return(
-        <Pcontainer>
-            
-        </Pcontainer>
-    )
+    return (
+        <Pagination
+          activePage={apage} //현재 페이지
+          itemsCountPerPage={10} //한 페이지당 보여줄 아이템 갯수
+          totalItemsCount={tcount||0} //총 아이템 갯수
+          pageRangeDisplayed={5} //Paginator 내에서 보여줄 페이지의 범위
+          prevPageText={"pre"} //"이전"을 나타낼 텍스트 (prev, <, ...)
+          nextPageText={"next"} //"다음"을 나타낼 텍스트 (next, >, ...)
+          onChange={setPage} //페이지가 바뀔 때 핸들링해줄 함수
+        />
+      );
 }
-
-const Pcontainer = styled.div`
-    background-color: yellow;
-`;
 
 export default Paginator;

@@ -1,0 +1,17 @@
+.searchContainer{
+    text-align: center;
+}
+
+.searchContainer input{
+    display: inline-block;
+    width: 600px;
+    height: 56px;
+    padding: 3px 35px 0px 35px;
+    font-size: 18px;
+    background: transparent;
+    outline: none;
+    border: 1px solid rgba(169,169,169,0.1);
+    border-radius: 50px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px;
+    transition: all 0.5s;
+}

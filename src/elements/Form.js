@@ -39,7 +39,7 @@ function Form(props){
 
 Form.defaultProps = {
     padding: "10px",
-    minwidth: "600px"
+    minwidth: "300px"
 };
 
 const Container = styled.form`
@@ -56,7 +56,7 @@ const Container = styled.form`
     margin: ${(props)=>props.margin};
     padding: ${(props)=>props.padding};
     border: 1px solid #e6e6e6;
-    border-radius: 15px;
+    border-radius: 5px;
 `;
 
 export default Form;

@@ -13,9 +13,11 @@ function Button(props){
             text, 
             href,
             borderRadius,
-            onClick,
             delay,
             animation,
+            just,
+            outside,
+            onClick,
             onSubmit
         } = props;
 
@@ -38,8 +40,10 @@ function Button(props){
         )
     }
 
-    return( //기본 버튼
-        <StyledButton 
+    if(just){ //외부로 빠져나가는 버튼
+        return(
+            <StyledButton 
+            just
             width={width} 
             height={height} 
             margin={margin} 
@@ -50,13 +54,45 @@ function Button(props){
             borderRadius={borderRadius}
             onClick={onClick}
             onSubmit={onSubmit}>
+                {text}
+        </StyledButton>
+        )}
+
+        if(outside){ //외부로 빠져나가는 버튼
+            return(
+                <StyledButton 
+                outside
+                width={width} 
+                height={height} 
+                margin={margin} 
+                padding={padding} 
+                fontsize={fontsize}
+                position={position}
+                top={top} left={left} bottom={bottom} right={right}
+                onClick={onClick}
+                onSubmit={onSubmit}>
+                    <A href={href}>{text}</A> 
+            </StyledButton>
+            )}
+
+    return( //기본 버튼
+        <StyledButton 
+            width={width} 
+            height={height} 
+            margin={margin} 
+            padding={padding} 
+            fontsize={fontsize}
+            position={position}
+            top={top} left={left} bottom={bottom} right={right}
+            onClick={onClick}
+            onSubmit={onSubmit}>
                 <StyledLink to={href}>{text}</StyledLink>
         </StyledButton>
     )
 }
 
 Button.defaultProps = {
-    height:"50px",
+    height:"45px",
     fontsize: "14px",
 };
 
@@ -73,10 +109,9 @@ const boxAnimation = keyframes`
 
 const StyledButton = styled.button`
     font-size: ${(props)=>props.fontsize};
-    background: rgb(113,136,208);
-    background: linear-gradient(118deg, rgba(113,136,208,1) 0%, rgba(135,118,176,1) 100%);
-    border: 1px solid #9BA6CA;
-    border-radius: ${(props)=>props.borderRadius};
+    background: #54d498;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
     width: ${(props)=>props.width};
     height: ${(props)=>props.height};
     margin: ${(props)=>props.margin};
@@ -86,15 +121,17 @@ const StyledButton = styled.button`
     bottom: ${(props)=>props.bottom};
     left: ${(props)=>props.left};
     right: ${(props)=>props.right};
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: #fff;
+    transition: all 0.3s;
 `;
 
 const AnimationButton = styled.button`
     font-size: ${(props)=>props.fontsize};
-    background: rgb(113,136,208);
-    background: linear-gradient(118deg, rgba(113,136,208,1) 0%, rgba(135,118,176,1) 100%);
-    border: 1px solid #9BA6CA;
-    border-radius: ${(props)=>props.borderRadius};
+    background: #54d498;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
     width: ${(props)=>props.width};
     height: ${(props)=>props.height};
     margin: ${(props)=>props.margin};
@@ -104,26 +141,32 @@ const AnimationButton = styled.button`
     bottom: ${(props)=>props.bottom};
     left: ${(props)=>props.left};
     right: ${(props)=>props.right};
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: #fff;
     animation: ${boxAnimation} 0.6s ease-in-out both;
     animation-delay: ${(props)=>props.delay};
+    transition: all 0.3s;
+
 `;
 
 const A = styled.a`
-    color: #fff;
     text-decoration: none;
+    color: #fff;
 
     &:focus, &:hover, &:visited, &:link, &:active {
         text-decoration: none;
+        color: #fff;
     }
 `;
 
 const StyledLink = styled(Link)`
-    color: #fff;
     text-decoration: none;
+    color: #fff;
 
     &:focus, &:hover, &:visited, &:link, &:active {
         text-decoration: none;
+        color: #fff;
     }
 `; 
 

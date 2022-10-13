@@ -46,11 +46,12 @@ function Grid(props){
 
 Grid.defaultProps = {
     row: "1fr 1fr",
-    margin: "30px auto",
+    margin: "0",
 };
 
 const GridBox = styled.div`
     display: grid;
+    box-sizing: border-box;
     position: ${(props)=>props.position};
     top: ${(props)=>props.top};
     bottom: ${(props)=>props.bottom};

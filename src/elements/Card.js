@@ -1,44 +1,86 @@
 import styled from "styled-components";
 import { IoIosHeartEmpty,IoIosHeart, IoIosPeople } from "react-icons/io";
 import { BsTextLeft } from "react-icons/bs";
+import {MdUpdate} from "react-icons/md"
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 
 function Card(props){
-    const { pk, title, desc, desc2, date, status, personnel, src, width, height, cheight, margin, is_scrap, no_img, is_etc, textalign, fontsize, titlesize, _onClick } = props;
-    const [scrap, setScrap] = useState(true);
-    function changeState(){
+    const { 
+        pk,
+        is_scrap, 
+        no_img, 
+        is_etc, 
+        title, 
+        desc, 
+        desc2,
+        company,
+        period,
+        date, 
+        status, 
+        personnel, 
+        src, 
+        width, 
+        height, 
+        cheight, 
+        margin, 
+        textalign, 
+        fontsize, 
+        titlesize, 
+        _onClick, 
+        like,
+    } = props;
+
+    //스크랩 기능(등록,해제 원클릭)==========================================================================
+    const handleLike =(like)=> {
+        axios.get(`http://ec2-15-164-212-79.ap-northeast-2.compute.amazonaws.com:8080/activity/like/${like}`,
+        { headers : { Authorization: `Token ${localStorage.getItem('token')}`}}
+        );
         setScrap(!scrap);
+        
+        alert("등록되었습니다.");
     }
 
-    // id=parseInt(id);
+    const [scrap, setScrap] = useState(false);
+    function changeState(){
+        handleLike(like);
+    }
 
-    // 스크랩버튼이 있는 카드(검색,활동조회)
+    //스크랩 카드=======================================================
     if(is_scrap){
         return(
             <CardFrame width={width} height={height} margin={margin} pk={pk}>
-                <Image src={src} cheight={"70%"}></Image>
-                <Content style={{height:"25%"}}>
-                    <P fontsize={fontsize} style={{display:"inline"}}>
-                        {desc.length> 10 ? `${desc.slice(0,10)}`: desc}
+                <Image src={src} cheight={"60%"}></Image>
+                <Content style={{height:"40%"}}>
+                    <P fontsize={fontsize} className="scrap_company">
+                        {/* {desc.length> 10 ? `${desc.slice(0,10)}`: desc} */}
+                        {company}
                     </P>
-                    <SpanIcon onClick={changeState}>
-                        { scrap ? 
-                            <IoIosHeartEmpty size="22px" style={{cursor:"pointer"}}/> 
-                            : 
-                            <IoIosHeart size="22px" color="red" style={{cursor:"pointer"}}/> }
+                    { scrap ?
+                    <SpanIcon onClick={()=>{changeState(like)}}>
+                            <IoIosHeart size="22px" color="red" style={{cursor:"pointer"}}/> 
                     </SpanIcon>
+                    : 
+                    <SpanIcon onClick={()=>{changeState(like)}}>
+                            <IoIosHeartEmpty size="22px" style={{cursor:"pointer"}}/>
+                    </SpanIcon>
+                     }
                     <StyledLink to={`/activity/${pk}`}>
-                        <Title titlesize={titlesize}>
+                        <Title titlesize={titlesize} className="scrap_title">
                                 {title.length> 22 ? `${title.slice(0,22)}`: title}
                         </Title>
                     </StyledLink>
+                    <span className="apply_period">
+                        <MdUpdate size="13px" style={{marginRight:"5px"}}/>
+                        {period}
+                    </span>
                 </Content>
             </CardFrame>
         );
     }
-    // 이미지 없는 텍스트 카드
+    //이력서 카드=======================================================
     if(no_img){
         return(
             <CardFrame width={width} height={height} margin={margin}>
@@ -59,27 +101,21 @@ function Card(props){
         );
     }
 
-    //동아리,봉사활동 카드
+    //동아리,봉사활동 카드=======================================================
     if(is_etc){
         return(
             <CardFrame width={width} height={height} margin={margin}>
-                <Content style={{height:"85%"}}>
+                <ClubContent>
                     <Title titlesize={titlesize}>
                         {title.length> 20 ? `${title.slice(0,20)}`: title}
                     </Title>
-                    <span onClick={changeState}>
-                        { scrap ? 
-                            <IoIosHeartEmpty size="22px" style={{display:"inline",position:"relative", top:"-20px", float: "right", cursor:"pointer"}}/> 
-                            :
-                            <IoIosHeart size="22px" color="red" style={{display:"inline",position:"relative", top:"-20px", float: "right"}}/> }
-                    </span>
-                    
                     <P fontsize={fontsize} style={{marginTop:"5px"}}>
                         {desc> 12 ? `${desc.slice(0,12)} ...`: desc}
                     </P>
                     <P2 fontsize={fontsize}>
                         {desc2.length> 65 ? `${desc2.slice(0,65)} ...`: desc2}
                     </P2>
+                </ClubContent>
                     <InfoBox>
                         <Info>
                             <Span>등록일</Span>
@@ -94,22 +130,21 @@ function Card(props){
                             <P>{status}</P>
                         </Info>
                     </InfoBox>
-                </Content>
             </CardFrame>
         );
     }
 
 
 
-    // 일반 카드(마이페이지)
+    // 일반 카드(마이페이지)=======================================================
     return(
         <CardFrame width={width} height={height} margin={margin} textalign={textalign} pk={pk}>
             <Image src={src} cheight={cheight}></Image>
             <Content>
                 <StyledLink to={`/mypage/portfolio/${pk}`}>
                     <Title titlesize={titlesize} onClick={_onClick}>
-                            {/* {title.length> 17 ? `${title.slice(0,17)}`: title} */}
-                            {title}
+                        {/* {title.length> 17 ? `${title.slice(0,17)}`: title} */}
+                        {title}
                     </Title>
                 </StyledLink>
                 <Date>{date}</Date>
@@ -143,7 +178,6 @@ const StyledLink = styled(Link)`
 `; 
 
 const CardFrame = styled.div`
-    border: 1px solid rgba(169,169,169,0.2);
     width: ${(props)=>props.width};
     height: ${(props)=>props.height};
     margin: ${(props)=>props.margin};
@@ -158,9 +192,25 @@ const CardFrame = styled.div`
 `;
 
 const Content = styled.div`
-    width: 90%;
-    height: 45%;
-    margin: 10px auto 0 auto;
+    height: 40%;
+    box-sizing: border-box;
+    padding: 10px;
+
+    .scrap_company{ display: inline; }
+    .scrap_title{ height: 55%; }
+    .apply_period{
+        color: #adb5bd;
+        font-size: 13px;
+        margin-bottom: auto;
+    }
+`;
+
+const ClubContent = styled.div`
+    height: 40%;
+    box-sizing: border-box;
+    padding: 15px;
+    height: 60%;
+    overflow: hidden;
 `;
 
 const Date = styled.p`
@@ -174,6 +224,7 @@ const Title = styled.h4`
     margin: 0;
     font-size: ${(props)=>props.titlesize};
     cursor: pointer;
+    
 `;
 
 const InfoBox = styled.div`
@@ -181,8 +232,9 @@ const InfoBox = styled.div`
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
     column-gap: 10px;
-    padding-top: 5px;
-    border-top: 1px solid rgba(169,169,169,0.8);
+    box-sizing: border-box;
+    padding: 10px;
+    border-top: 1px solid #e6e6e6;
 `;
 
 const Info = styled.div`

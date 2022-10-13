@@ -2,31 +2,32 @@ import styled from "styled-components";
 
 function Input(props){
     const {
-        name,
-        type, 
-        placeholder,
         accept,
-        onChange,
-        value,
-        text,
         color,
+        cols,
+        fontsize,
+        height,
         margin,
         padding,
-        fontsize,
-        border,
-        width,
-        height,
         multi_line,
         multiple,
-        required,
-        cols,
+        file,
+        must,
+        name,
+        onChange,
+        placeholder,
         rows,
-        borderRadius
+        type, 
+        text,
+        value,
+        width,
+        twidth,
+        theight
     } = props;
 
     if(multi_line){ //textarea
         return(
-            <Div margin={margin} padding={padding} multi_line>
+            <InputContainer margin={margin} multi_line>
                 <Label htmlFor={name} color={color} fontsize={fontsize}>{text}</Label>
                 <Tarea
                     name={name}
@@ -36,22 +37,21 @@ function Input(props){
                     value={value}
                     onChange={onChange}
                     color={color}
-                    padding={padding}
-                    width={width}
-                    height={height}
-                    border={border}
+                    twidth={twidth}
+                    theight={theight}
                     multiple={multiple}
-                    borderRadius={borderRadius}
+                    padding={padding}
                 />
-            </Div>
+            </InputContainer>
         )
     };
 
-    if(required){ //input - required (auth)
+    if(must){ 
         return(
-            <Div margin={margin} padding={padding}>
+            <InputContainer margin={margin}>
                 <Label htmlFor={name} color={color} fontsize={fontsize}>{text}</Label>
                 <InputField
+                    must
                     name={name}
                     cols={cols}
                     rows={rows}
@@ -59,21 +59,43 @@ function Input(props){
                     onChange={onChange}
                     value={value}
                     color={color}
-                    padding={padding}
                     width={width}
                     height={height}
-                    border={border}
                     multiple={multiple}
+                    padding={padding}
                     required
                     autocomplete="off"
-                    borderRadius={borderRadius}
                     />
-            </Div>
+            </InputContainer>
+        )
+    };
+
+    if(file){ 
+        return(
+            <InputContainer margin={margin} file>
+                <Label htmlFor={name} color={color} fontsize={fontsize}>{text}</Label>
+                <InputField2
+                    name={name}
+                    type={type}
+                    id={name}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    value={value}
+                    autoComplete="off"
+                    accept={accept}
+                    multiple={multiple}
+                    color={color}
+                    required
+                    width={width}
+                    height={height}
+                    padding={padding}
+                />
+            </InputContainer>
         )
     };
 
     return(
-        <Div margin={margin} padding={padding}>
+        <InputContainer margin={margin}>
             <Label htmlFor={name} color={color} fontsize={fontsize}>{text}</Label>
             <InputField
                 name={name}
@@ -87,72 +109,71 @@ function Input(props){
                 multiple={multiple}
                 color={color}
                 required
-                padding={padding}
                 width={width}
                 height={height}
-                border={border}
-                borderRadius={borderRadius}
+                padding={padding}
             />
-        </Div>
+        </InputContainer>
         );
 
 }
 
 Input.defaultProps = {
-    fontSize : "18px",
-    width: "400px",
+    fontsize : "14px",
+    width: "100%",
     height : "30px",
-    color : "#000",
-    margin: "5px 0",
-    padding: "5px 15px",
-    border: "1px solid #adb5bd",
     color: "#2e4057",
 };
 
-const Div = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
+const InputContainer = styled.div`
     margin: ${(props)=>props.margin};
+    box-sizing: border-box;
+    padding: 5px;
 `;
 
 const Tarea = styled.textarea`
-    outline: 0;
-    margin-right: 10px;
-    padding: 10px 10px;
     width: ${(props)=>props.width};
-    border: ${(props)=>props.border};
-    border-radius: ${(props)=>props.borderRadius};
+    padding: 10px 10px;
+    outline: 0;
+    border: 1px solid #e6e6e6;
+    border-radius: 15px;
 
-    &:focus{
-        border: 2px solid rgb(113,136,208);
-    }
+    &:hover{ border: 1px solid #868e96; }
+    &:focus{ border: 1px solid rgb(113,136,208); }
 `;
 
 const Label = styled.label`
-    margin-left: 10px;
-    margin-right: 10px;
+    display: block;
+    margin: 10px 5px;
     font-weight: 600;
-    text-align: left;
-    padding: 5px 0; 
     font-size: ${(props)=>props.fontsize};
     color: ${(props)=>props.color};
 `;
+
 const InputField = styled.input.attrs({
     placeholderTextColor : "#000"
 })`
    width: ${(props)=>props.width};
    height: ${(props)=>props.height};
-   padding-left: 5px;
-   padding: ${(props)=>props.padding};
    color: ${(props)=>props.color};
    outline: 0;
-   border: ${(props)=>props.border};
-   border-radius: ${(props)=>props.borderRadius};
-   margin-right: 10px;
+   border: 1px solid #e6e6e6;
+   border-radius: 5px;
+   box-sizing: border-box;
+   padding: 10px;
 
-   &:focus{
-        border: 2px solid rgb(113,136,208);
-    }
+   &:hover{ border: 1px solid #868e96; }
+   &:focus{ border: 1px solid rgb(113,136,208); }
+`;
+
+const InputField2 = styled.input.attrs({
+    placeholderTextColor : "#000"
+})`
+   width: ${(props)=>props.width};
+   outline: 0;
+   border: 0;
+   box-sizing: border-box;
+   padding: 10px;
 `;
 
 export default Input;

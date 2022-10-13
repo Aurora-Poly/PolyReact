@@ -1,0 +1,99 @@
+@font-face {
+    font-family: 'NanumGothicBold';
+    src: url("../../public/fonts/NanumGothicBold.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NanumGothic';
+    src: url("../../public/fonts/NanumGothic.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.container{
+    position: relative;
+    max-width: 100%;
+    min-width: 300px;
+    height: 40px;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom: 1px solid #e6e6e6;
+    font-family: "NanumGothic";
+}
+
+.logo{
+    color:#526acc;
+    height: 40px;
+    line-height: 40px;
+    font-family: "NanumGothicBold";
+    font-size: 30px;
+    font-weight: 700;
+    box-sizing: border-box;
+    padding: 0px 20px 0px 20px;
+    float: left;
+    text-align: center;
+    text-decoration: none;
+}
+
+.toggle{
+    display: none;
+}
+
+.clearfix{
+    clear: both;
+}
+
+nav{
+    float: right;
+    display: flex;
+    margin: auto 0;
+}
+
+nav ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li{
+    list-style-type: none;
+    margin: 12px 0;
+}
+.auth{
+    margin: 10px;
+}
+
+@media (max-width:1200px){
+    .container{
+        z-index: 3;
+    }
+}
+
+@media (max-width:900px){
+    .toggle{
+        display: block;
+        width:40px;
+        height:40px;
+        float: right;
+        cursor: pointer;
+        text-align: center;
+    }
+    .toggle::before{
+        content: '';
+        line-height: 40px;
+    }
+    nav{
+        display: none;
+    }
+    nav.active{
+        display: block;
+        width: 100%;
+        background-color: #fff;
+        z-index: 3;
+    }
+    nav.active ul{
+        display: block;
+    }
+}

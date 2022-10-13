@@ -9,9 +9,6 @@
 
 
 
-메인 텍스트 컬러 > color: #2e4057;
-메인 그레디언트 컬러 > linear-gradient(118deg, rgba(113,136,208,1) 0%, rgba(135,118,176,1) 100%);
-
 
 1. 컬러감,디자인 참고할 사이트 
 https://dribbble.com/shots/14181670-Online-Educational-Mobile-App-Prototyping

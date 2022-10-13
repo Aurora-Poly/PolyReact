@@ -1,23 +1,22 @@
+import React from "react";
+import styled from "styled-components";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Splash from "./components/Splash.js";
 import Navbar from "./components/Navbar.js";
 import Footer from "./components/Footer.js";
-import Splash from "./components/Splash.js";
-import React from "react";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Activity from "./pages/Activity";
-import Mypage from "./pages/Mypage";
-
-import Settings from "./pages/Settings";
-import Circles from "./pages/Circles";
+import UserLogin from "./pages/auth/UserLogin.js";
+import UserRegister from "./pages/auth/UserRegister.js";
+import UserSettings from "./pages/auth/UserSettings.js";
+import Activity from "./pages/activity/Activity";
+import ActivityDetail from "./pages/activity/ActivityDetail.js";
+import PortfolioPreview from "./pages/portfolio/PortfolioPreview.js";
+import PortfolioManage from "./pages/portfolio/PortfolioManage.js";
+import PortfolioDetail from "./pages/portfolio/PortfolioDetail.js";
 import Volunteer from "./pages/Volunteer";
-import Found404 from "./pages/Found404";
-import Main from "./pages/Main";
-import Modal from "./components/Modal";
+import VolunteerDetail from "./pages/VolunteerDetail.js";
 import Recommend from "./pages/Recommend";
-import Detail from "./pages/Detail.js";
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import styled from "styled-components";
-import DetailContent from "./pages/DetailContent.js";
+import Clubs from "./pages/Clubs";
+import Found404 from "./pages/Found404";
 
 function App() {
     const insertedToken = localStorage.getItem('token');
@@ -27,62 +26,50 @@ function App() {
             <BrowserRouter>
                 <Navbar/>
 
+            <ContentContainer>
                 <Routes>
-                    
-                    {insertedToken ? (
-                        <Route path='/' element={<Main/>}></Route>
-                    ) : (
-                        <Route path="/" element={<Splash/>}></Route>
-                    )}
-                    
-                    <Route path='/mypage' element={<Mypage/>}></Route>
-                    <Route path="/mypage/portfolio/:pk" element={<DetailContent/>}></Route>
-                    {/* <Route path="/mypage/portfolio/:pk" element={<Modal/>}></Route> */}
-                    <Route path="/mypage/:user" element={<Settings/>}></Route>
+                {insertedToken ? 
+                    <Route path='/' element={<PortfolioPreview/>}/>
+                    :
+                    <Route path='/' element={<Splash/>}/>
+                }
+                    <Route path='/main' element={<PortfolioPreview/>}/>
+                    <Route path='/mypage' element={<PortfolioManage/>}/>
+                    <Route path="/mypage/portfolio/:pk" element={<PortfolioDetail/>}/>
+                    <Route path="/mypage/:user" element={<UserSettings/>}/>
+                    <Route path='/activity' element={<Activity/>}/>
+                    <Route path="/activity/:pk" element={<ActivityDetail/>}/>
+                    <Route path='/volunteer' element={<Volunteer/>}/>
+                    <Route path='/volunteer/:pk' element={<VolunteerDetail/>}/>
+                    <Route path='/clubs' element={<Clubs/>}/>
+                    <Route path="/recommend" element={<Recommend/>}/>
+                    <Route path="/detail" element={<PortfolioDetail/>}/>
+                    <Route path='/user/signup' element={<UserRegister/>}/>
+                    <Route path='/user/login' element={<UserLogin/>}/>
+                    <Route path='*' element={<Found404/>}/>
 
-
-                    <Route path='/activity' element={<Activity/>}></Route>
-                    <Route path='/volunteer' element={<Volunteer/>}></Route>
-                    <Route path='club' element={<Circles/>}></Route>
-
-                
-                    <Route path="/recommend" element={<Recommend/>}></Route>
-
-
-                    <Route path="/detail" element={<Detail/>}></Route>
-                    <Route path="/activity/:pk" element={<Detail/>}></Route>
-
-
-                    <Route path='/user/signup' element={<Register/>}></Route>
-                    <Route path='/user/login' element={<Login/>}></Route>
-
-
-                    <Route path='*' element={<Found404/>}></Route>
                 </Routes>
                 
                 {/* <Footer/>  */}
+            </ContentContainer>
             </BrowserRouter>
         </Container>
     );
 }
 
 const Container = styled.div`
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    /* background: linear-gradient(
-      to right,
-      rgba(20, 20, 20, 0.4) 0%,
-      rgba(20, 20, 20, 0.4) 70%,
-      rgba(20, 20, 20, 0.4)
-    ),
-    /* url(https://source.unsplash.com/random/1920x1080); */
-    /* url("img/purple_night2.jpg"); */ 
-    /* background-size: cover; */
-    /* background: linear-gradient(80deg, rgba(113,136,208,0.8) 0%, rgba(135,118,176,0.9) 100%); */
-    
+    height: 100vh;
+`;
+const ContentContainer = styled.div`
+    position: absolute;
+    top: 63px;
+    left: 0;
+    width: 100%;
+    height: 100vh;
 `;
 
 export default App;
