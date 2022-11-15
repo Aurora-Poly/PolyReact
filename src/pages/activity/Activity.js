@@ -102,8 +102,6 @@ function Activity(){
         let total = [finalField, finalTarget, finalOffice, finalPrize];
         let duplRemoveTotal = total.filter(data => data !== '');
         let removed_total = String(duplRemoveTotal).replaceAll(',','&');
-        console.log(removed_total);
-        // getFilteredList(final);
         submitKeyword(removed_total);
     }
 
@@ -129,8 +127,7 @@ function Activity(){
     }
     const submitKeyword =async(str)=>{
             // if(event && event.preventDefault){event.preventDefault();}
-            const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/?search=${searchword}&${str}&page_size=${searchPage}`);
-                console.log(response.data);    
+            const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/?search=${searchword}&${str}&page_size=${searchPage}`);   
                 setSearchitems(response.data.results);
                 setSearchCount(response.data.count);
     }
@@ -155,91 +152,112 @@ function Activity(){
 
 
     return(
-        <div className={styles.parentContainer}>
-            <form onSubmit={submitKeyword} className={styles.searchContainer}>
-                <Search type="text" placeholder="검색어를 입력하세요." onChange={debounce(handleKeyword, 1000)}/>
-            </form>
-            <div style={{textAlign:"center", margin: "20px 0"}}>
-                <h4 style={{display:"inline"}}>총 {searchCount} 개의 검색결과가 있습니다.</h4>
-                <BsFilterCircle onClick={()=>setFilter(!filter)} size="18" color="#777" style={{cursor:"pointer", position:"relative", top:"3px", marginLeft:"20px"}}/>
-            </div>
-        <div className={filter ? `${styles.filterBlockContainer}` : `${styles.filterBlockClosed}`}>
-            <ul id="styles.isField">
-                {Array.from(fieldsObjArr).map((item,index) => (
-                    <>
-                        <input type="checkbox" name="field" value={item.value} key={index} id={`f_${item.name}`} onChange={(e)=>{onCheckedField(e.target.checked, e.target.value)}}/>
-                        <label htmlFor={`f_${item.name}`}>{item.name}</label>
-                    </>
-                ))}
-            </ul>
-            <ul id="isCompany">
-                {Array.from(officesObjArr).map((item,index) => (
-                    <>
-                        <input type="checkbox" name="office" value={item.value} key={index} id={`o_${item.name}`} onChange={(e)=>{onCheckedOffice(e.target.checked, e.target.value)}}/>
-                        <label htmlFor={`o_${item.name}`}>{item.name}</label>
-                    </>
-                ))}
-            </ul>
-            <ul id="isTarget">
-                {Array.from(targetsObjArr).map((item,index) => (
-                    <>
-                        <input type="checkbox" name="target" value={item.value} key={index} id={`t_${item.name}`} onChange={(e)=>{onCheckedTarget(e.target.checked, e.target.value)}}/>
-                        <label htmlFor={`t_${item.name}`}>{item.name}</label>
-                    </>
-                ))}
-            </ul>
-            <ul id="isReward">
-                {Array.from(prizesObjArr).map((item,index) => (
-                    <>
-                        <input type="checkbox" name="prize" value={item.value} key={index} id={`p_${item.name}`} onChange={(e)=>{onCheckedPrize(e.target.checked, e.target.value)}}/>
-                        <label htmlFor={`p_${item.name}`}>{item.name}</label>
-                    </>
-                ))}
-            </ul>
-        </div>
-        { searchword || searchitems?
-                    //검색어 혹은 검색결과가 있으면
-                        (<>
-                        <Grid width="1260px" col="5" colgap="15px" rowgap="20px" margin="0 auto">
-                            {Array.from(searchitems).map((item,index) => (
-                                <Card key={index}
-                                    is_scrap
-                                    pk={item.id}
-                                    width="248px" 
-                                    height="276px"
-                                    title={item.title}
-                                    company={item.jukwan}
-                                    period={item.apply_period}
-                                    src={item.image_url}
-                                    like={item.id}/>
-                            ))}
-                        </Grid>
-                        <Paginator count={searchCount} page={searchPage} setPage={setSearchPage}/>
-                    </>)
-                        :
-                    //검색어 없으면
-                    (<>
-                        <Grid width="1260px" col="5" colgap="15px" rowgap="20px" margin="0 auto">
-                            {Array.from(activities).map((activity,index) => (
-                                <Card key={index}
-                                    pk={activity.id}
-                                    is_scrap
-                                    width="240px" 
-                                    height="276px"
-                                    title={activity.title}
-                                    company={activity.jukwan}
-                                    period={activity.apply_period}
-                                    src={activity.image_url}
-                                    like={activity.id}/>
+        <Background>
+            <div className={styles.parentContainer}>
+                <ActivityBackground>
+                    <form onSubmit={submitKeyword} className={styles.searchContainer}>
+                        <Search type="text" placeholder="검색어를 입력하세요." onChange={debounce(handleKeyword, 1000)}/>
+                    </form>
+                
+                    <div style={{textAlign:"center", margin: "20px 0"}}>
+                        <h4 style={{display:"inline"}}>총 {searchCount} 개의 검색결과가 있습니다.</h4>
+                        <BsFilterCircle onClick={()=>setFilter(!filter)} size="18" color="#777" style={{cursor:"pointer", position:"relative", top:"3px", marginLeft:"20px"}}/>
+                    </div>
+                <div className={filter ? `${styles.filterBlockContainer}` : `${styles.filterBlockClosed}`}>
+                    <ul id="styles.isField">
+                        {Array.from(fieldsObjArr).map((item,index) => (
+                            <>
+                                <input type="checkbox" name="field" value={item.value} key={index} id={`f_${item.name}`} onChange={(e)=>{onCheckedField(e.target.checked, e.target.value)}}/>
+                                <label htmlFor={`f_${item.name}`}>{item.name}</label>
+                            </>
                         ))}
-                        </Grid>
-                        <Paginator count={count} page={page} setPage={setPage}/>
-                    </>)
-        }
-        </div>
+                    </ul>
+                    <ul id="isCompany">
+                        {Array.from(officesObjArr).map((item,index) => (
+                            <>
+                                <input type="checkbox" name="office" value={item.value} key={index} id={`o_${item.name}`} onChange={(e)=>{onCheckedOffice(e.target.checked, e.target.value)}}/>
+                                <label htmlFor={`o_${item.name}`}>{item.name}</label>
+                            </>
+                        ))}
+                    </ul>
+                    <ul id="isTarget">
+                        {Array.from(targetsObjArr).map((item,index) => (
+                            <>
+                                <input type="checkbox" name="target" value={item.value} key={index} id={`t_${item.name}`} onChange={(e)=>{onCheckedTarget(e.target.checked, e.target.value)}}/>
+                                <label htmlFor={`t_${item.name}`}>{item.name}</label>
+                            </>
+                        ))}
+                    </ul>
+                    <ul id="isReward">
+                        {Array.from(prizesObjArr).map((item,index) => (
+                            <>
+                                <input type="checkbox" name="prize" value={item.value} key={index} id={`p_${item.name}`} onChange={(e)=>{onCheckedPrize(e.target.checked, e.target.value)}}/>
+                                <label htmlFor={`p_${item.name}`}>{item.name}</label>
+                            </>
+                        ))}
+                    </ul>
+                </div>
+                { searchword || searchitems?
+                            //검색어 혹은 검색결과가 있으면
+                                (<>
+                                <Grid width="1300px" col="5" colgap="15px" rowgap="20px" margin="0 auto">
+                                    {Array.from(searchitems).map((item,index) => (
+                                        <Card key={index}
+                                            is_scrap
+                                            pk={item.id}
+                                            width="248px" 
+                                            height="276px"
+                                            title={item.title}
+                                            company={item.jukwan}
+                                            period={item.apply_period}
+                                            src={item.image_url}
+                                            like={item.id}/>
+                                    ))}
+                                </Grid>
+                                <Paginator count={searchCount} page={searchPage} setPage={setSearchPage}/>
+                            </>)
+                                :
+                            //검색어 없으면
+                            (<>
+                                <Grid width="1300px" col="5" colgap="15px" rowgap="20px" margin="0 auto">
+                                    {Array.from(activities).map((activity,index) => (
+                                        <Card key={index}
+                                            pk={activity.id}
+                                            is_scrap
+                                            width="240px" 
+                                            height="276px"
+                                            title={activity.title}
+                                            company={activity.jukwan}
+                                            period={activity.apply_period}
+                                            src={activity.image_url}
+                                            like={activity.id}/>
+                                ))}
+                                </Grid>
+                                <Paginator count={count} page={page} setPage={setPage}/>
+                            </>)
+                }
+                </ActivityBackground>   
+            </div>
+        </Background>
         )
 }
 
+const Background = styled.div`
+    height: 1000px;
+    background-blend-mode: multiply;
+    background: url('/img/blur_buildings.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);
+`;
+
+const ActivityBackground = styled.div`
+    width: 72%;
+    height: auto;
+    background-color: #fff;
+    margin: 0 auto;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px;
+`;
 
 const Search = styled.input`
     display: inline-block;
@@ -247,7 +265,6 @@ const Search = styled.input`
     height: 56px;
     padding: 3px 35px 0px 35px;
     font-size: 18px;
-    background: transparent;
     outline: none;
     border: 1px solid rgba(169,169,169,0.1);
     border-radius: 50px;

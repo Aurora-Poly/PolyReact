@@ -151,7 +151,7 @@ const Container = styled.div`
     width: 100%;
     height: 1100px;
     background-blend-mode: multiply;
-    background: url('/img/meeting2.jpg') repeat center center/cover, rgba(0, 0, 0, 0.6);
+    background: url('/img/meeting2.jpg') repeat center center/cover, rgba(0, 0, 0, 0.3);
 
     .titleBox{
         position: relative;

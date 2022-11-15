@@ -23,21 +23,42 @@ function BookmarkList(){
     },[]);
 
     return(
-        <Grid col="3" colgap="20px" rowgap="30px">
-            {Array.from(bookmarks).map((r,index) => (
-                <Card key={index}
-                    is_scrap
-                    pk={r.id}
-                    width="100%" 
-                    height="276px"
-                    title={r.title}
-                    company={r.jukwan}
-                    period={r.apply_period}
-                    src={r.image_url}
-                    like={r.id}/>
-                ))}
-        </Grid>
+        <>
+            {bookmarks.length ?
+                <Grid col="3" colgap="20px" rowgap="30px">
+                    {Array.from(bookmarks).map((r,index) => (
+                        <Card key={index}
+                            is_scrap
+                            pk={r.id}
+                            width="100%" 
+                            height="276px"
+                            title={r.title}
+                            company={r.jukwan}
+                            period={r.apply_period}
+                            src={r.image_url}
+                            like={r.id}/>
+                        ))}
+                </Grid>
+                :
+                <CannotShow>
+                    <p>스크랩한 활동이 없습니다.</p>
+                </CannotShow>
+            }
+        </>
     )
 }
+
+const CannotShow = styled.div`
+    height: 250px;
+    background-color: #f1f3f5;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 15px;
+
+    p{
+        font-size: small;
+        margin: 0;
+    }
+`;
 
 export default BookmarkList;

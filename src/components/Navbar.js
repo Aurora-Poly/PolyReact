@@ -30,7 +30,7 @@ function Navbar(){
             <div className={styles.toggle} onClick={()=>clickToggle()}><HiOutlineMenuAlt3 size="30px" color="#54d498"/></div>
             <nav className={isClick ? `${styles.active}`:`${styles.nav}`}>
                 <ul>
-                    {insertedToken ? (<li><StyledLink to='/mypage'>포트폴리오관리</StyledLink></li>) : null}
+                    {insertedToken ? (<li><StyledLink to='/mypage/home'>포트폴리오관리</StyledLink></li>) : null}
                     <li><StyledLink to='/activity'>대외활동/공모전</StyledLink></li>
                     <li><StyledLink to='/volunteer'>봉사활동</StyledLink></li>
                     <li><StyledLink to='/clubs'>동아리</StyledLink></li>

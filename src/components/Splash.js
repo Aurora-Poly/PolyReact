@@ -47,7 +47,7 @@ function Splash(){
                     width="200px" 
                     height="40px" 
                     text="포트폴리오 관리하기" 
-                    href={insertedToken? "/mypage" : "/user/login"}  
+                    href={insertedToken? "/mypage/home" : "/user/login"}  
                     fontsize="14px"
                     />
                 </Service>
@@ -73,7 +73,7 @@ function Splash(){
                         width="180px" 
                         height="40px" 
                         text="활동 추천받기" 
-                        href={insertedToken? "/mypage" : "/user/login"} 
+                        href={insertedToken? "/mypage/home" : "/user/login"} 
                         fontsize="14px"
                         />
                 </Service>

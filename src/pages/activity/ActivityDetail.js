@@ -59,90 +59,97 @@ function ActivityDetail(){
     },[])
     
     return(
-        <Container>
-            <Image src={image_url}></Image> 
-            <div>
-                <Title>
-                    <h2>{title}</h2>
-                    <IoIosHeartEmpty size="30" className="icon"/>
-                </Title>
-                <InfoBox>
-                    <div>
-                        <h3>주최기관</h3>
-                        <div>{juchae}</div>
-                    </div>
-                    <div>
-                        <h3>주관기관</h3>
-                        <div>{jukwan}</div>
-                    </div>
-                    <div>
-                        <h3>기업형태</h3>
-                        <div>{offices[office]}</div>
-                    </div>
-                    <div>
-                        <h3>모집분야</h3>
+        <Background>
+            <Container>
+                <Image src={image_url}></Image> 
+                <InfoContainer>
+                    <Title>
+                        <h2>{title}</h2>
+                        <IoIosHeartEmpty size="30" className="icon"/>
+                    </Title>
+                    <InfoBox>
                         <div>
-                            {Array.from(field).map((f,index) => (
-                                <span key={index}>{fields[f]}&nbsp;</span>
-                            ))}
+                            <h3>주최기관</h3>
+                            <div>{juchae}</div>
                         </div>
-                    </div> 
-                    <div>
-                        <h3>모집대상</h3>
                         <div>
-                            {target.map((r,index) => (
-                                <span key={index}>{targets[r]}&nbsp;</span>
-                            ))}
+                            <h3>주관기관</h3>
+                            <div>{jukwan}</div>
                         </div>
-                    </div>
-                    <div>
-                        <h3>접수기간</h3>
-                        <div>{apply_period}</div>
-                    </div>
-                    <div>
-                        <h3>수상</h3>
-                        <div>{prizes[prize]},{prize_1st}</div>    
-                    </div>
-                    <div>
-                        <h3>홈페이지</h3>
-                        <Info>{apply_url}</Info>
-                    </div> 
-                </InfoBox>
-                <Button
-                    outside
-                    width="100%"
-                    position="relative"
-                    left="0px"
-                    top="20px"
-                    text="홈페이지에서 지원하기" 
-                    href={`${apply_url}`}
-                />
-            </div>
-                 {/* <Category title="카테고리"/> */}
+                        <div>
+                            <h3>기업형태</h3>
+                            <div>{offices[office]}</div>
+                        </div>
+                        <div>
+                            <h3>모집분야</h3>
+                            <div>
+                                {Array.from(field).map((f,index) => (
+                                    <span key={index}>{fields[f]}&nbsp;</span>
+                                ))}
+                            </div>
+                        </div> 
+                        <div>
+                            <h3>모집대상</h3>
+                            <div>
+                                {target.map((r,index) => (
+                                    <span key={index}>{targets[r]}&nbsp;</span>
+                                ))}
+                            </div>
+                        </div>
+                        <div>
+                            <h3>접수기간</h3>
+                            <div>{apply_period}</div>
+                        </div>
+                        <div>
+                            <h3>수상</h3>
+                            <div>{prizes[prize]},{prize_1st}</div>    
+                        </div>
+                        <div>
+                            <h3>홈페이지</h3>
+                            <Info>{apply_url}</Info>
+                        </div> 
+                    </InfoBox>
+                    <Button
+                        outside
+                        width="100%"
+                        position="relative"
+                        left="0px"
+                        top="20px"
+                        text="홈페이지에서 지원하기" 
+                        href={`${apply_url}`}
+                    />
+                </InfoContainer>
+                    {/* <Category title="카테고리"/> */}
 
-                 
-                     {/* <H>{title}</H>
-                     <span onClick={changeState} style={{cursor:"pointer"}}>
-                         { scrap ? <IoIosHeart size="24" color="red"/> : <IoIosHeartEmpty size="24"/> }
-                     </span> */}
-                 
+                    
+                        {/* <H>{title}</H>
+                        <span onClick={changeState} style={{cursor:"pointer"}}>
+                            { scrap ? <IoIosHeart size="24" color="red"/> : <IoIosHeartEmpty size="24"/> }
+                        </span> */}
+                    
 
-        </Container>
+            </Container>
+        </Background>
 
     );
 }
 
 
+const Background = styled.div`
+    height: 950px;
+    background-blend-mode: multiply;
+    background: url('/img/blur_buildings.jpg') no-repeat center center/cover, rgba(0,0,0,0.2);
+`;
 
 
 const Container = styled.div`
-    width: 70%;
+    width: 1060px;
     height: 600px;
     color: #363636;
     display: flex;
-    column-gap: 20px;
+    column-gap: 40px;
     position: relative;
-    top: 100px;
+    top: 170px;
     margin: 0 auto;
 
    >div:nth-child(3){
@@ -158,6 +165,15 @@ const Container = styled.div`
         }
    }
 
+`;
+
+const InfoContainer = styled.div`
+    background-color: #fff;
+    width: 70%;
+    height: 420px;
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
 `;
 
 const Image = styled.div`
@@ -203,6 +219,8 @@ const InfoBox = styled.div`
     border-top: 1px solid #e6e6e6;
     width: 700px;
     border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    background-color: #fff;
 
     h3{
         margin: 0;

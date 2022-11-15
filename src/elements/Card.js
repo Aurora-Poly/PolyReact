@@ -170,7 +170,7 @@ Card.defaultProps ={
     fontsize: "14px",
     titlesize: "16px",
     desc2: " ",
-    src: "/img/blank-profile.png",
+    src: "/img/no_image_50px.png",
     _onClick: () => {}
 };
 

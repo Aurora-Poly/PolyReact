@@ -194,85 +194,92 @@ function PortfolioDetail(){
     // }
 
     return(
-        <Div>
-            {updateMode ? 
-                (
-                    <>
-                    {/* 수정 */}
-                        <Form position="relative" top="50px" height="650px" padding="20px">
-                            <Input name="title" type="text" text="제목" placeholder="제목" value={detail.title} onChange={changeContent}/>
-                            <Input multi_line cols="99" rows="20"name="content" text="내용" placeholder="내용" value={detail.content} onChange={changeContent}/>
-                            <Input name="date" type="date" text="날짜" placeholder="날짜" value={detail.date} onChange={changeContent}/>
-                            
-                            <div class="flex_container">
-                                <Input file name="image" type="file" text="이미지" placeholder="이미지" accept={"image/png,image/jpeg,image/gif"} onChange={editImage}/>
-                                <button type="button" onClick={handleImage}  className="btns"><IoIosAdd size="20px"/></button>
-                                <button type="button" onClick={onClearImage}  className="btns"><AiOutlineMinus size="16px"/></button>
-                            </div>
-                            {/* <span id="head_img_name">{imgname}</span><button type="button" onClick={onClearImg}>x</button> */}
+        <Background>
+            <Container>
+                {updateMode ? 
+                    (
+                        <>
+                        {/* 수정 */}
+                            <Form position="relative" top="80px" height="650px" padding="15px" background="#fff">
+                                <Input name="title" type="text" text="제목" placeholder="제목" value={detail.title} onChange={changeContent}/>
+                                <Input multi_line cols="99" rows="20"name="content" text="내용" placeholder="내용" value={detail.content} onChange={changeContent}/>
+                                <Input name="date" type="date" text="날짜" placeholder="날짜" value={detail.date} onChange={changeContent}/>
+                                
+                                <div class="flex_container">
+                                    <Input file name="image" type="file" text="이미지" placeholder="이미지" accept={"image/png,image/jpeg,image/gif"} onChange={editImage}/>
+                                    <button type="button" onClick={handleImage}  className="btns"><IoIosAdd size="20px"/></button>
+                                    <button type="button" onClick={onClearImage}  className="btns"><AiOutlineMinus size="16px"/></button>
+                                </div>
+                                {/* <span id="head_img_name">{imgname}</span><button type="button" onClick={onClearImg}>x</button> */}
 
-                            <div class="flex_container">
-                                <Input file name="file" type="file" text="첨부파일" placeholder="첨부파일" onChange={editFile}/>
-                                <button type="button" onClick={handleFile}  className="btns"><IoIosAdd size="20px"/></button>
-                                <button type="button" onClick={onClearFile}  className="btns"><AiOutlineMinus size="16px"/></button>     
+                                <div class="flex_container">
+                                    <Input file name="file" type="file" text="첨부파일" placeholder="첨부파일" onChange={editFile}/>
+                                    <button type="button" onClick={handleFile}  className="btns"><IoIosAdd size="20px"/></button>
+                                    <button type="button" onClick={onClearFile}  className="btns"><AiOutlineMinus size="16px"/></button>     
+                                </div>
+                                {/* <span id="file_upload_name">{filename}</span><button type="button" onClick={onClearFile}>x</button> */}
+                                
+                                <BtnEditBox>
+                                    <Button just onClick={changeUpdate} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
+                                    <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
+                                </BtnEditBox>
+                            </Form> 
+                        </> 
+                        
+                    )
+                    : 
+                    (
+                        <>
+                        <Form position="relative" top="80px" padding="20px" background="#fff">
+                            <div style={{display:"inline-block", width:"70%"}}>
+                                <h2 style={{margin:0,marginBottom:"30px"}}>{detail.title}</h2>
                             </div>
-                            {/* <span id="file_upload_name">{filename}</span><button type="button" onClick={onClearFile}>x</button> */}
-                              
-                            <BtnEditBox>
+                            <span style={{float:"right",color:"#adb5bd", fontSize:"14px"}}>
+                                등록일: {detail.date}
+                            </span>
+                            <div className="e_content">
+                                <h3>내용</h3>
+                                <div>{detail.content}</div>
+                            </div>
+                            <div>
+                                <h3>이미지</h3>
+                                {detail.image !== null ? 
+                                    <div style={{background:`url(${detail.image.image})`,width:"100%", height:"500px", backgroundSize:"contain",backgroundPosition:"center",backgroundRepeat:"no-repeat"}}></div>
+                                : 
+                                    "등록된 이미지 없음"
+                                }
+                                {/* <p><a href="/">{imgname}</a></p> */}
+                            </div>
+                            <div>
+                                <h3>첨부파일</h3>
+                                <p>{filename}</p>
+                            </div>
+                            <BtnBox2>
                                 <Button just onClick={changeUpdate} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
                                 <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
-                            </BtnEditBox>
-                        </Form> 
-                    </> 
-                    
-                )
-                : 
-                (
-                    <>
-                    <Form position="relative" top="50px" padding="20px">
-                        <div style={{display:"inline-block", width:"70%"}}>
-                            <h2 style={{margin:0,marginBottom:"30px"}}>{detail.title}</h2>
-                        </div>
-                        <span style={{float:"right",color:"#adb5bd"}}>
-                            등록일: {detail.date}
-                        </span>
-                        <div className="e_content">
-                            <h3>내용</h3>
-                            <div>{detail.content}</div>
-                        </div>
-                        <div>
-                            <h3>이미지</h3>
-                            {detail.image !== null ? 
-                                <div style={{background:`url(${detail.image.image})`,width:"100%", height:"500px", backgroundSize:"contain",backgroundPosition:"center",backgroundRepeat:"no-repeat"}}></div>
-                            : 
-                                "등록된 이미지 없음"
-                            }
-                            {/* <p><a href="/">{imgname}</a></p> */}
-                        </div>
-                        <div>
-                            <h3>첨부파일</h3>
-                            <p><a href="/">{filename}</a></p>
-                        </div>
-                        <BtnBox2>
-                            <Button just onClick={changeUpdate} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
-                            <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
-                        </BtnBox2>
-                    </Form>
-                    </>
-                )
-                }
-        </Div>
+                            </BtnBox2>
+                        </Form>
+                        </>
+                    )
+                    }
+            </Container>
+        </Background>
     );
 
 }
 
-const Div = styled.div`
+const Background = styled.div`
+    height: 1000px;
+    background-blend-mode: multiply;
+    background: url('/img/blur_desk3.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);
+`;
+
+const Container = styled.div`
     width: 800px;
-    height: 160vh;
+    height: auto;
     margin: 0 auto 50px auto;
-    background-color: #fff;
     box-sizing: border-box;
-    color: #000;
+    color: #363636;
 
     h3{
         font-size: 15px;
@@ -290,7 +297,7 @@ const Div = styled.div`
     }
     .btns{
         position: relative;
-        top: 20px;
+        top: 10px;
         outline: 0;
         border: 0;
         background-color: transparent;
@@ -302,7 +309,7 @@ const BtnEditBox = styled.div`
     text-align: center;
     float: right;
     position: relative;
-    top: 0px;
+    top: -10px;
 `;
 
 const BtnBox2 = styled.div`

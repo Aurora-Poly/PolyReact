@@ -22,7 +22,7 @@ function Preview(){
         titlesize="16px"
         date={post.date}
         desc={post.content}
-        src={post.image==null||""? "/img/blank-profile.png" : post.image.image}/>
+        src={post.image==null||""? "/img/no_image_50px.png" : post.image.image}/>
     )).slice(0,3);
 
     useEffect(()=>{

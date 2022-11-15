@@ -54,45 +54,54 @@ function VolunteerDetail(){
     },[])
 
     return(
-        <VolunteerContainer>
-            <p>{office}</p>
-            <h2>{title}</h2>
-            <Grid col="2" row="3" colgap="10px">
-                <div>
-                    <h4>활동기간</h4>
-                    <p>{act_period}</p>
+        <Background>
+            <VolunteerContainer>
+                <p>{office}</p>
+                <h2>{title}</h2>
+                <Grid col="2" row="3" colgap="10px">
+                    <div>
+                        <h4>활동기간</h4>
+                        <p>{act_period}</p>
+                    </div>
+                    <div>
+                        <h4>지역</h4>
+                        <p>{areaList[area-1]}</p>
+                    </div>
+                    <div>
+                        <h4>활동장소</h4>
+                        <p>{place}</p>
+                    </div>
+                    <div>
+                        <h4>형태</h4>
+                        <p>{type==1? '정기':'비정기'}</p>
+                    </div>
+                    <div>
+                        <h4>봉사분류</h4>
+                        <p>{fieldList[field-1]}</p>
+                    </div>
+                    <div>
+                        <h4>대면여부</h4>
+                        <p>{meetList[meet-1]}</p>
+                    </div>
+                </Grid>
+                <div className='btn_box'>
+                    <Button
+                        outside
+                        width="100%"
+                        text="지원하기" 
+                        href={`${volunteer.apply_url}`}/>
                 </div>
-                <div>
-                    <h4>지역</h4>
-                    <p>{areaList[area-1]}</p>
-                </div>
-                <div>
-                    <h4>활동장소</h4>
-                    <p>{place}</p>
-                </div>
-                <div>
-                    <h4>형태</h4>
-                    <p>{type==1? '정기':'비정기'}</p>
-                </div>
-                <div>
-                    <h4>봉사분류</h4>
-                    <p>{fieldList[field-1]}</p>
-                </div>
-                <div>
-                    <h4>대면여부</h4>
-                    <p>{meetList[meet-1]}</p>
-                </div>
-            </Grid>
-            <div className='btn_box'>
-                <Button
-                    outside
-                    width="100%"
-                    text="지원하기" 
-                    href={`${volunteer.apply_url}`}/>
-            </div>
-        </VolunteerContainer>
+            </VolunteerContainer>
+        </Background>
     )
 }
+
+const Background = styled.div`
+    width: 100%;
+    height: 935px;
+    background-blend-mode: multiply;
+    background: url('/img/blur_room1.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);
+`;
 
 const VolunteerContainer = styled.div`
     width: 50%;
@@ -103,8 +112,9 @@ const VolunteerContainer = styled.div`
     margin: 0 auto;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
+    background-color: #fff;
     position:relative;
-    top: 80px;
+    top: 150px;
 
     >h2{
         margin: 0;

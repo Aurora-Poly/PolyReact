@@ -101,7 +101,7 @@ function PortfolioList(){
                     titlesize="17px"
                     date={portfolio.date}
                     desc={portfolio.content}
-                    src={portfolio.image==null||""? "/img/blank-profile.png" : portfolio.image.image}
+                    src={portfolio.image==null||""? "/img/no_image_50px.png" : portfolio.image.image}
                     _onClick={openModal}/>
             ))}     
         </Grid>

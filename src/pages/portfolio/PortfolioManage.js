@@ -41,17 +41,17 @@ function PortfolioManage(){
 
 const PortfolioManageContainer = styled.div`
     width: 100%;
-    height: 1080px;
+    height: 1100px;
     overflow-x: hidden;
     background-blend-mode: multiply;
-    background: url('/img/buildings.jpg') no-repeat center center/cover, rgba(0,0,0,0.4);
+    background: url('/img/blur_desk3.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);
 `;
 
 const ContentContainer = styled.div`    
     width: 800px;
     height: auto;
     box-sizing: border-box;
-    padding: 30px;
+    padding: 50px;
     margin: 0 auto;
     border: 1px solid #e6e6e6;
     border-radius: 10px;

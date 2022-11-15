@@ -19,7 +19,6 @@ function UserSettings(){
         const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profile/${user}/`,
             { headers : { Authorization: `Token ${localStorage.getItem('token')}` }}
             );
-        console.log(response);
         setProfile({
             user: response.data.user,
             univ: response.data.univ,
@@ -32,7 +31,6 @@ function UserSettings(){
         const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profileimg/`,
             { headers : { Authorization: `Token ${localStorage.getItem('token')}` }}
             );
-            console.log(response.data[0]);
             if(response.data[0] !== undefined){
                 let splitName = response.data[0].image.split('/');
                 setImagename(splitName[splitName.length-1]);
@@ -53,7 +51,6 @@ function UserSettings(){
 			[event.target.name]: event.target.value
 		    }
         );
-        console.log([event.target.name], event.target.value);
 	};
 
 
@@ -100,8 +97,6 @@ function UserSettings(){
             { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
             })
             ]).then(axios.spread((res1, res2)=>{
-                console.log(res1.data);
-                console.log(res2.data);
                 alert("정상적으로 수정되었습니다.");
                 window.location.reload();
             })).catch(function(error) {
