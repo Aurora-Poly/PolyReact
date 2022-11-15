@@ -71,6 +71,7 @@ function UserSettings(){
     const onClearImage=(e)=>{
         e.preventDefault();
         axios.delete(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profileimg/${user}/`,
+        { headers: { Authorization: `Token ${localStorage.getItem('token')}` }}
         ).then(function(response) {
             console.log('프로필 삭제됨');
             setIsExist(false);
