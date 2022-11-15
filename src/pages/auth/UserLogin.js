@@ -34,7 +34,7 @@ function UserLogin(){
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('username', username);
                     alert("로그인 성공");
-                    navigate("/main");
+                    navigate("/mypage");
                 }
             })
             .catch(function(error) {
@@ -44,7 +44,7 @@ function UserLogin(){
 
     return(
                 <Form width="300px" height="350px" margin="0 auto" padding="20px" position="relative" top="130px">
-                    <H1>로그인</H1>
+                    <H>로그인</H>
                     <AuthContainer>
                         <Input name="username" type="text" placeholder="username" text="유저명" onChange={handleUsername} />
                         <Input name="password" type="password" placeholder="password" text="비밀번호" onChange={handlePassword} />
@@ -72,11 +72,9 @@ const AuthContainer = styled.div`
     margin: 0 auto;
 `;
 
-const H1 = styled.h1`
-    margin-top: 0;
-    margin-bottom: 20px;
+const H = styled.h2`
+    margin: 18px 0;
     text-align: center;
-    color: #2e4057;
 `;
 
 const Holder = styled.div`

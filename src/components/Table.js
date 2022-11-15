@@ -61,8 +61,9 @@ function Table(){
 const TableBoard = styled.div`
     background-color: #fff;
     width: 1000px;
-    height: 650px;
-    margin: 50px auto;
+    height: 620px;
+    margin: 10px auto;
+    margin-bottom: 0px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 `;
 
@@ -95,19 +96,19 @@ const Th4 = styled.th`
 `;
 
 const Trbox = styled.tr`
-    height: 98px;
+    height: 70px;
     background-color: #fff;
     border-top: 1px solid rgba(169,169,169,0.2);
     border-bottom: 1px solid rgba(169,169,169,0.2);
     font-size: 14px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.1s;
     
-    &:hover{
-        box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 4px;
+    /* &:hover{
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 4px 4px;
         background-color: #E9E8FF;
-    }
+    } */
 `;
 
 const StyledLink = styled(Link)`

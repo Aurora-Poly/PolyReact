@@ -12,16 +12,24 @@ import ActivityDetail from "./pages/activity/ActivityDetail.js";
 import PortfolioPreview from "./pages/portfolio/PortfolioPreview.js";
 import PortfolioManage from "./pages/portfolio/PortfolioManage.js";
 import PortfolioDetail from "./pages/portfolio/PortfolioDetail.js";
+import PortfolioResumeDetail from "./pages/portfolio/PortfolioResumeDetail.js";
+import Home from './components/Home.js';
+import PortfolioList from "./components/PortfolioList.js";
+import ResumeList from "./components/ResumeList.js";
+import BookmarkList from "./components/BookmarkList.js";
 import Volunteer from "./pages/Volunteer";
 import VolunteerDetail from "./pages/VolunteerDetail.js";
 import Recommend from "./pages/Recommend";
 import Clubs from "./pages/Clubs";
 import Found404 from "./pages/Found404";
+import Global from "./Global";
 
 function App() {
     const insertedToken = localStorage.getItem('token');
 
     return(
+        <>
+        <Global/>
         <Container>
             <BrowserRouter>
                 <Navbar/>
@@ -29,14 +37,13 @@ function App() {
             <ContentContainer>
                 <Routes>
                 {insertedToken ? 
-                    <Route path='/' element={<PortfolioPreview/>}/>
+                    // <Route path='/' element={<PortfolioPreview/>}/>
+                    <Route path='/mypage' element={<PortfolioManage/>}/>
                     :
                     <Route path='/' element={<Splash/>}/>
                 }
+                    <Route path='/' element={<Splash/>}/>
                     <Route path='/main' element={<PortfolioPreview/>}/>
-                    <Route path='/mypage' element={<PortfolioManage/>}/>
-                    <Route path="/mypage/portfolio/:pk" element={<PortfolioDetail/>}/>
-                    <Route path="/mypage/:user" element={<UserSettings/>}/>
                     <Route path='/activity' element={<Activity/>}/>
                     <Route path="/activity/:pk" element={<ActivityDetail/>}/>
                     <Route path='/volunteer' element={<Volunteer/>}/>
@@ -48,12 +55,22 @@ function App() {
                     <Route path='/user/login' element={<UserLogin/>}/>
                     <Route path='*' element={<Found404/>}/>
 
+                    <Route path='/mypage' element={<PortfolioManage/>}>
+                        <Route path="home" element={<Home/>}/>
+                        <Route path="portfolio" element={<PortfolioList/>}/>
+                        <Route path="resume" element={<ResumeList/>}/>
+                        <Route path="bookmark" element={<BookmarkList/>}/>
+                    </Route>
+                    <Route path="/mypage/portfolio/:pk" element={<PortfolioDetail/>}/>
+                    <Route path="/mypage/resume/:pk" element={<PortfolioResumeDetail/>}/>
+                    <Route path="/mypage/:user" element={<UserSettings/>}/>
                 </Routes>
                 
                 {/* <Footer/>  */}
             </ContentContainer>
             </BrowserRouter>
         </Container>
+        </>
     );
 }
 
@@ -69,7 +86,7 @@ const ContentContainer = styled.div`
     top: 63px;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
 `;
 
 export default App;

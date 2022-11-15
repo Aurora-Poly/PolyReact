@@ -6,7 +6,7 @@ function Input(props){
         color,
         cols,
         fontsize,
-        height,
+        lineheight,
         margin,
         padding,
         multi_line,
@@ -60,7 +60,7 @@ function Input(props){
                     value={value}
                     color={color}
                     width={width}
-                    height={height}
+                    lineheight={lineheight}
                     multiple={multiple}
                     padding={padding}
                     required
@@ -87,7 +87,7 @@ function Input(props){
                     color={color}
                     required
                     width={width}
-                    height={height}
+                    lineheight={lineheight}
                     padding={padding}
                 />
             </InputContainer>
@@ -110,7 +110,7 @@ function Input(props){
                 color={color}
                 required
                 width={width}
-                height={height}
+                lineheight={lineheight}
                 padding={padding}
             />
         </InputContainer>
@@ -121,8 +121,7 @@ function Input(props){
 Input.defaultProps = {
     fontsize : "14px",
     width: "100%",
-    height : "30px",
-    color: "#2e4057",
+    lineheight : "50px",
 };
 
 const InputContainer = styled.div`
@@ -154,7 +153,7 @@ const InputField = styled.input.attrs({
     placeholderTextColor : "#000"
 })`
    width: ${(props)=>props.width};
-   height: ${(props)=>props.height};
+   lineheight: ${(props)=>props.lineheight};
    color: ${(props)=>props.color};
    outline: 0;
    border: 1px solid #e6e6e6;

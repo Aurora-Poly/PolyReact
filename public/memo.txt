@@ -31,3 +31,87 @@ https://dribbble.com/shots/14181670-Online-Educational-Mobile-App-Prototyping
     //     event.preventDefault();
     //     fileInputFile.current.click();
     // }
+
+
+
+
+//라디오
+{/* <div className={styles.filterToggleContainer}>
+                <input type="radio" name="toggle" id="field" className={styles.filterToggle}/>
+                <label htmlFor="field">분야</label>
+                <input type="radio" name="toggle" id="company" className={styles.filterToggle}/>
+                <label htmlFor="company">주최기관</label>
+                <input type="radio" name="toggle" id="target" className={styles.filterToggle}/>
+                <label htmlFor="target">대상</label>
+                <input type="radio" name="toggle" id="reward" className={styles.filterToggle}/>
+                <label htmlFor="reward">상금</label>
+            </div> */}
+
+
+     //검색 필터 탭메뉴=================b===================================================
+    const [activeIndex, setActiveIndex]=useState(0);
+    const tabClickHandler=(index)=>{ 
+        setActiveIndex(index);
+    };
+    const tabContArr=[
+        {
+            tabTitle:(
+                <li className={activeIndex===0 ? "is-active" : ""} onClick={()=>tabClickHandler(0)}>분야</li>
+            ),
+            tabCont:(
+                <ul id={styles.isField} className={styles.content}>
+                    {Array.from(fieldsObjArr).map((item,index) => (
+                        <>
+                            <input type="checkbox" name="field" value={item.value} key={index} id={`f_${item.name}`} onChange={(e)=>{onCheckedField(e.target.checked, e.target.value)}}/>
+                            <label htmlFor={`f_${item.name}`}>{item.name}</label>
+                        </>
+                    ))}
+                </ul>
+            )
+        },
+        {
+            tabTitle:(
+                <li className={activeIndex===1 ? "is-active" : ""} onClick={()=>tabClickHandler(1)}>주최기관</li>
+            ),
+            tabCont:(
+                <ul id="isCompany" className={styles.content}>
+                    {Array.from(officesObjArr).map((item,index) => (
+                        <>
+                            <input type="checkbox" name="office" value={item.value} key={index} id={`o_${item.name}`} onChange={(e)=>{onCheckedOffice(e.target.checked, e.target.value)}}/>
+                            <label htmlFor={`o_${item.name}`}>{item.name}</label>
+                        </>
+                    ))}
+                </ul>
+            )
+        },
+        {
+            tabTitle:(
+                <li className={activeIndex===2 ? "is-active" : ""} onClick={()=>tabClickHandler(2)}>대상</li>
+            ),
+            tabCont:(
+                <ul id="isTarget" className={styles.content}>
+                    {Array.from(targetsObjArr).map((item,index) => (
+                        <>
+                            <input type="checkbox" name="target" value={item.value} key={index} id={`t_${item.name}`} onChange={(e)=>{onCheckedTarget(e.target.checked, e.target.value)}}/>
+                            <label htmlFor={`t_${item.name}`}>{item.name}</label>
+                        </>
+                    ))}
+                </ul>
+            )
+        },
+        {
+            tabTitle:(
+                <li className={activeIndex===3 ? "is-active" : ""} onClick={()=>tabClickHandler(3)}>상금</li>            
+        ),
+            tabCont:(
+                <ul id="isReward" className={styles.content}>
+                    {Array.from(prizesObjArr).map((item,index) => (
+                        <>
+                            <input type="checkbox" name="prize" value={item.value} key={index} id={`p_${item.name}`} onChange={(e)=>{onCheckedPrize(e.target.checked, e.target.value)}}/>
+                            <label htmlFor={`p_${item.name}`}>{item.name}</label>
+                        </>
+                    ))}
+                </ul>
+            )
+        }
+    ];

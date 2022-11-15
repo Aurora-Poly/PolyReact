@@ -1,3 +1,8 @@
+.parentContainer{
+    position: relative;
+    top: 20px;
+}
+
 .searchContainer{
     text-align: center;
 }
@@ -15,3 +20,57 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 1px;
     transition: all 0.5s;
 }
+
+.filterBlockContainer{
+    display: grid;
+    width: 80%;
+    margin: 10px auto;
+    margin-bottom: 20px;
+    position: relative;
+    left: 130px;
+}
+
+.filterBlockContainer ul{
+    margin: 3px;
+}
+
+.filterBlockContainer ul span{
+    display: block;
+}
+
+
+.filterBlockContainer ul label:hover{
+    cursor: pointer;
+    border-color: #e6e6e6;
+}
+
+.filterBlockContainer ul input[type=checkbox]{
+    display: none;
+}
+
+.filterBlockContainer ul input[type=checkbox] + label{
+    display: inline-block;
+    border: 1px solid #e6e6e6;
+    border-radius: 15px;
+    box-sizing: border-box;
+    padding: 3px;
+    margin: 1px;
+    font-size: small;
+}
+
+.filterBlockContainer ul input[type=checkbox]:checked + label{
+    background-color: #526acc;
+    color: #fff;
+}
+
+.btnContainer div{
+    display: inline;
+    cursor: pointer;
+    font-size: 20px;
+    color: #526acc;
+}
+
+.filterBlockClosed{
+    display: none;
+}
+

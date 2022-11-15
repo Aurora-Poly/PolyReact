@@ -110,7 +110,7 @@ const boxAnimation = keyframes`
 const StyledButton = styled.button`
     font-size: ${(props)=>props.fontsize};
     background: #54d498;
-    border: 1px solid #e6e6e6;
+    border: 0;
     border-radius: 5px;
     width: ${(props)=>props.width};
     height: ${(props)=>props.height};
@@ -130,7 +130,7 @@ const StyledButton = styled.button`
 const AnimationButton = styled.button`
     font-size: ${(props)=>props.fontsize};
     background: #54d498;
-    border: 1px solid #e6e6e6;
+    border: 0;
     border-radius: 5px;
     width: ${(props)=>props.width};
     height: ${(props)=>props.height};

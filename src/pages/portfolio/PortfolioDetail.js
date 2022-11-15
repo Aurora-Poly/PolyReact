@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 import Input from '../../elements/Input';
 import Form from '../../elements/Form';
 import Button from "../../elements/Button";
@@ -46,9 +46,9 @@ function PortfolioDetail(){
 
         // setImgname(`${response.data.image}`==null ? "선택된 파일 없음" : `${response.data.image.image}`);
         // setFilename(`${response.data.file}`==null ? "선택된 파일 없음" : `${response.data.file.file}`);
-        setImgname(detail.image !== null ? detail.image.image : "none");
+        setImgname(detail.image !== null ? detail.image.image : "첨부 이미지 없음");
         console.log(imgname);
-        setFilename(detail.file !== null ? detail.file.file : "none");
+        setFilename(detail.file !== null ? detail.file.file : "첨부 파일 없음");
         console.log(filename);
     };
 
@@ -122,7 +122,6 @@ function PortfolioDetail(){
         axios.patch(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/portfolio/${pk}/`,fd,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            // console.log(response);
             console.log(response.data);
             alert("수정되었습니다.");
             window.location.reload(); //새로고침
@@ -200,7 +199,7 @@ function PortfolioDetail(){
                 (
                     <>
                     {/* 수정 */}
-                        <Form position="relative" top="50px" padding="20px">
+                        <Form position="relative" top="50px" height="650px" padding="20px">
                             <Input name="title" type="text" text="제목" placeholder="제목" value={detail.title} onChange={changeContent}/>
                             <Input multi_line cols="99" rows="20"name="content" text="내용" placeholder="내용" value={detail.content} onChange={changeContent}/>
                             <Input name="date" type="date" text="날짜" placeholder="날짜" value={detail.date} onChange={changeContent}/>
@@ -219,10 +218,10 @@ function PortfolioDetail(){
                             </div>
                             {/* <span id="file_upload_name">{filename}</span><button type="button" onClick={onClearFile}>x</button> */}
                               
-                            <BtnBox>
-                                <Button just onClick={handlePut} text="저장" width="200px" margin="0 10px 0 0"/>
-                                <Button just onClick={changeUpdate} text="취소" width="200px"/>
-                            </BtnBox>
+                            <BtnEditBox>
+                                <Button just onClick={changeUpdate} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
+                                <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
+                            </BtnEditBox>
                         </Form> 
                     </> 
                     
@@ -254,10 +253,10 @@ function PortfolioDetail(){
                             <h3>첨부파일</h3>
                             <p><a href="/">{filename}</a></p>
                         </div>
-                        <BtnBox>
-                            <Button just onClick={changeUpdate} text="수정" width="200px" margin="0 10px 0 0"/>
-                            <Button href="/mypage" onClick={handleDelete} text="삭제" width="200px"/>
-                        </BtnBox>
+                        <BtnBox2>
+                            <Button just onClick={changeUpdate} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
+                            <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
+                        </BtnBox2>
                     </Form>
                     </>
                 )
@@ -298,10 +297,19 @@ const Div = styled.div`
         cursor: pointer;
     }
 `;
-const BtnBox = styled.div`
+
+const BtnEditBox = styled.div`
     text-align: center;
+    float: right;
     position: relative;
-    top: 10px;
+    top: 0px;
+`;
+
+const BtnBox2 = styled.div`
+    text-align: center;
+    float: right;
+    position: relative;
+    bottom: 30px;
 `;
 
 export default PortfolioDetail;

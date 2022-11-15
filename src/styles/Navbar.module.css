@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: 'NanumGothicBold';
     src: url("../../public/fonts/NanumGothicBold.ttf");
     font-weight: normal;
@@ -10,7 +10,7 @@
     src: url("../../public/fonts/NanumGothic.ttf");
     font-weight: normal;
     font-style: normal;
-}
+} */
 
 .container{
     position: relative;
@@ -20,14 +20,14 @@
     padding: 10px;
     background-color: #fff;
     border-bottom: 1px solid #e6e6e6;
-    font-family: "NanumGothic";
+    /* font-family: "NanumGothic"; */
 }
 
 .logo{
     color:#526acc;
     height: 40px;
     line-height: 40px;
-    font-family: "NanumGothicBold";
+    /* font-family: "NanumGothicBold"; */
     font-size: 30px;
     font-weight: 700;
     box-sizing: border-box;

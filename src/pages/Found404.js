@@ -44,7 +44,7 @@ const Div = styled.div`
     margin-left: -350px;
     margin-top: -180px;
     animation: ${boxAnimation} 1s ease-in-out both ;
-    color: #2e4057;
+    color: #363636;
 
     .common { margin: 0 }
     > h1 { font-size: 100px; }

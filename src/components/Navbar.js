@@ -25,7 +25,7 @@ function Navbar(){
         //2022.10.06
         <div className={styles.container}>
             <div className={styles.logo}>
-                POLY
+                <LogoLink to="/">POLY</LogoLink>
             </div>
             <div className={styles.toggle} onClick={()=>clickToggle()}><HiOutlineMenuAlt3 size="30px" color="#54d498"/></div>
             <nav className={isClick ? `${styles.active}`:`${styles.nav}`}>
@@ -55,6 +55,16 @@ function Navbar(){
         </div>
     );
 }
+
+const LogoLink = styled(Link)`
+    text-decoration: none;
+    color: #526acc;
+
+    &:visited{
+        color: #526acc;
+    }
+
+`;
 
 const StyledLink = styled(Link)`
     text-decoration: none;

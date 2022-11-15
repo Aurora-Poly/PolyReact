@@ -3,11 +3,12 @@ import { IoIosHeartEmpty,IoIosHeart, IoIosPeople } from "react-icons/io";
 import { BsTextLeft } from "react-icons/bs";
 import {MdUpdate} from "react-icons/md"
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
 function Card(props){
+    const navigate = useNavigate();
     const { 
         pk,
         is_scrap, 
@@ -35,16 +36,22 @@ function Card(props){
 
     //스크랩 기능(등록,해제 원클릭)==========================================================================
     const handleLike =(like)=> {
-        axios.get(`http://ec2-15-164-212-79.ap-northeast-2.compute.amazonaws.com:8080/activity/like/${like}`,
-        { headers : { Authorization: `Token ${localStorage.getItem('token')}`}}
-        );
-        setScrap(!scrap);
-        
-        alert("등록되었습니다.");
+        axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/like/${like}/`,{},
+        { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
+        }).then(function(response) {
+            console.log(response.data);
+            setScrap(!scrap);
+        }).catch(function(error) {
+            console.log(error);
+            const error_code = error.response.status;
+            if(error_code == 401){
+                navigate('/user/login');
+            } 
+        });
     }
 
     const [scrap, setScrap] = useState(false);
-    function changeState(){
+    function changeState(like){
         handleLike(like);
     }
 
@@ -55,8 +62,7 @@ function Card(props){
                 <Image src={src} cheight={"60%"}></Image>
                 <Content style={{height:"40%"}}>
                     <P fontsize={fontsize} className="scrap_company">
-                        {/* {desc.length> 10 ? `${desc.slice(0,10)}`: desc} */}
-                        {company}
+                        {company.length> 15 ? `${company.slice(0,15)}..`: company}
                     </P>
                     { scrap ?
                     <SpanIcon onClick={()=>{changeState(like)}}>
@@ -69,7 +75,7 @@ function Card(props){
                      }
                     <StyledLink to={`/activity/${pk}`}>
                         <Title titlesize={titlesize} className="scrap_title">
-                                {title.length> 22 ? `${title.slice(0,22)}`: title}
+                                {title.length> 26 ? `${title.slice(0,26)}`: title}
                         </Title>
                     </StyledLink>
                     <span className="apply_period">
@@ -210,6 +216,7 @@ const ClubContent = styled.div`
     box-sizing: border-box;
     padding: 15px;
     height: 60%;
+    line-height: 20px;
     overflow: hidden;
 `;
 
@@ -220,8 +227,10 @@ const Date = styled.p`
 `;
 
 const Title = styled.h4`
-    color: #343a40;
+    color: #363636;
+    line-height: 22px;
     margin: 0;
+    margin-top: 5px;
     font-size: ${(props)=>props.titlesize};
     cursor: pointer;
     

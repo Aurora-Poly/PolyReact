@@ -86,7 +86,7 @@ function VolunteerDetail(){
             <div className='btn_box'>
                 <Button
                     outside
-                    width="300px"
+                    width="100%"
                     text="지원하기" 
                     href={`${volunteer.apply_url}`}/>
             </div>
@@ -97,7 +97,7 @@ function VolunteerDetail(){
 const VolunteerContainer = styled.div`
     width: 50%;
     min-width: 500px;
-    height: 550px;
+    height: 493px;
     box-sizing: border-box;
     padding: 20px;
     margin: 0 auto;

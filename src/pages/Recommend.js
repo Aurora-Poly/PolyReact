@@ -1,13 +1,31 @@
 import styled, {keyframes} from "styled-components";
-import Rcard from "../elements/Rcard";
+import axios from 'axios';
+import {useState,useEffect} from "react";
+import {POLY_SERVER} from "../API.js";
 
 
 function Recommend(){
-    const bgColor = [
-        "rgba(225, 219, 240, 0.8)",
-        "rgba(196, 191, 227, 0.8)",
-        "rgba(155, 166, 202, 0.8)"
-    ];
+    const [recommends,setRecommends] = useState([]);
+    const [isRecommeded,setIsRecommeded] = useState(false);
+    const getRecommends =()=>{
+        axios.get(`${POLY_SERVER}/recommend/`,
+        { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
+        }).then(function(response) {
+            console.log(response.data);
+            setRecommends(response.data);
+            if(response.data == []){
+                setIsRecommeded(false);
+            }else{
+                setIsRecommeded(true);
+            }
+        }).catch(function(error) {
+            console.log(error);
+        });
+    };
+
+    useEffect(()=>{
+        getRecommends();
+    },[]);
 
     return(
        <>
@@ -16,33 +34,25 @@ function Recommend(){
             <p style={{fontSize:"18px"}}>회원님의 정보와 관심분야를 통해 다양한 활동을 추천해드려요</p>
         </Expl>
 
+    {isRecommeded === false ?
+        <h4>
+            활동추천을 받으려면 활동들을 스크랩 해야합니다.
+        </h4>
+        :
         <CardBox>
-            <Rcard 
-                title="카드 제목입니다. 높이 테스트를 위해서.." 
-                agency="덕성여자대학교" 
-                desc="거선의 이것이야말로 이상의 철환하였는가? 
-                    보배를 이상의 뜨거운지라, 안고, 
-                    모래뿐일 불어 눈이 이것이다. 
-                    보배를 인생에 풀밭에 가치를 끓는 피다.
-                    우리 목숨을 무엇이 낙원을 풀이 그들의 봄바람이다. 
-                    천하를 넣는 꽃이 미인을 때문이다." 
-                background={`${bgColor[0]}`}
-                src={require("../components/img/poster.jpg")}/>
-            <Rcard 
-                title="카드 제목입니다." 
-                agency="덕성여자대학교" 
-                desc="청춘을 이상을 위하여, 얼마나 사람은 보라. 
-                    열락의 찾아다녀도, 얼음이 곧 약동하다." 
-                background={`${bgColor[1]}`}
-                src={require("../components/img/poster.jpg")}/>
-            <Rcard 
-                title="카드 제목입니다." 
-                agency="덕성여자대학교" 
-                desc="청춘을 이상을 위하여, 얼마나 사람은 보라.
-                    청춘을 이상을 위하여 테스트 테스트" 
-                background={`${bgColor[2]}`}
-                src={require("../components/img/poster.jpg")}/>
+            {Array.from(recommends).map((r,index) => (
+                <CardFrame key={index}>
+                    {r.title}
+                    {r.image_url}
+                    {r.apply_period}
+                    {r.field}
+                    {r.jukwan}
+                    {r.target}
+                    {r.views}
+                </CardFrame>
+            ))}
         </CardBox>
+    }   
        </>
     );
 }
@@ -74,6 +84,17 @@ const CardBox = styled.div`
     align-items: center;
     margin-top: 20px;
 `;
+
+const CardFrame = styled.div`
+    width: 300px;
+    height: 400px;
+    border: 1px solid #e6e6e6;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #777;
+`;
+
+
 
 
 export default Recommend;

@@ -6,12 +6,13 @@ import Card from "../../elements/Card";
 import Grid from "../../elements/Grid";
 import Paginator from "../../elements/Paginator";
 import styles from "./Activity.module.css";
+import {BsFilterCircle} from "react-icons/bs";
 
 function Activity(){
     //카테고리==========================================================================
     const fields = ['기획/아이디어','광고/마케팅','학술','사진/영상/UCC','디자인','문학/시나리오','건축/건설/인테리어','브랜드/네이밍','예체능','대외활동','취업/창업','IT/SW/게임','기타'];
     const targets = ['누구나','일반인','대학생','대학원생','청소년','어린이','기타'];
-    const prizes = ['5000만원','일반인','대학생','대학원생',];
+    const prizes = ['5000만원이상','3000만원-5000만원','1000만원이하','기타',];
     const offices = ['중앙정부/기관','공기업','대기업','신문/방송/언론','외국계기업','지방자치단체','학교/재단/협회','중소/벤처기업','학회/비영리단체','해외','기타'];
 
     const fieldsObjArr = [];
@@ -31,18 +32,109 @@ function Activity(){
         officesObjArr.push({name:offices[i],value:(i+1)});
     };
 
-    const [field, setField] = useState('');
-    const getFilteredList =async(event,name)=>{
-        if(event && event.preventDefault){event.preventDefault();}
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/?${strings}`);
-            console.log(response.data.results);
-            setSearchitems(response.data.results);
-            setSearchCount(response.data.count);
-    
+     //필터링 기능==========================================================================
+    const [checkedFieldList, setCheckedFieldList] = useState([]);
+    const onCheckedField = (checked, item) => {
+        if (checked) {
+          setCheckedFieldList([...checkedFieldList, `field=${item}`])
+        } else if (!checked) {
+            if(item){
+                setCheckedFieldList(checkedFieldList.filter(el => el !== `field=${item}`));
+            }else{
+                setCheckedFieldList([]);
+            }
+        }
+    };
+    const [checkedTargetList, setCheckedTargetList] = useState([]);
+    const onCheckedTarget = (checked, item) => {
+        if (checked) {
+          setCheckedTargetList([...checkedTargetList, `target=${item}`])
+        } else if (!checked) {
+            if(item){
+                setCheckedTargetList(checkedTargetList.filter(el => el !== `target=${item}`));
+            }else{
+                setCheckedTargetList([]);
+            }
+        }
+    };
+    const [checkedPrizeList, setCheckedPrizeList] = useState([]);
+    const onCheckedPrize = (checked, item) => {
+        if (checked) {
+          setCheckedPrizeList([...checkedPrizeList, `prize=${item}`])
+        } else if (!checked) {
+            if(item){
+                setCheckedPrizeList(checkedPrizeList.filter(el => el !== `prize=${item}`));
+            }else{
+                setCheckedPrizeList([]);
+            }
+        }
+    };
+    const [checkedOfficeList, setCheckedOfficeList] = useState([]);
+    const onCheckedOffice = (checked, item) => {
+        if(checked) {
+          setCheckedOfficeList([...checkedOfficeList, `office=${item}`])
+        } else if (!checked) {
+            if(item){
+                setCheckedOfficeList(checkedOfficeList.filter(el => el !== `office=${item}`));
+            }else{
+                setCheckedOfficeList([]);
+            }
+        }
+    };
+
+    //필터블록 조합해 문자열로 변환해 파라미터로 전달
+    const makeQueryString =()=>{
+        let field = checkedFieldList;
+        let target = checkedTargetList;
+        let office = checkedOfficeList;
+        let prize = checkedPrizeList;
+
+        let duplRemoveField = field.filter(data => data !== undefined);
+        let duplRemoveTarget = target.filter(data => data !== undefined);
+        let duplRemoveOffice = office.filter(data => data !== undefined);
+        let duplRemovePrize = prize.filter(data => data !== undefined);
+
+        let finalField = String(duplRemoveField).replaceAll(',','&');
+        let finalTarget = String(duplRemoveTarget).replaceAll(',','&');
+        let finalOffice = String(duplRemoveOffice).replaceAll(',','&');
+        let finalPrize = String(duplRemovePrize).replaceAll(',','&');
+
+        let total = [finalField, finalTarget, finalOffice, finalPrize];
+        let duplRemoveTotal = total.filter(data => data !== '');
+        let removed_total = String(duplRemoveTotal).replaceAll(',','&');
+        console.log(removed_total);
+        // getFilteredList(final);
+        submitKeyword(removed_total);
     }
-    const makeFiltering =(str)=>{
-        setField(`field=${str}`);
+
+    //필터 리셋
+    const resetAllFilter =()=>{
+        onCheckedField(false);
+        onCheckedTarget(false);
+        onCheckedOffice(false);
+        onCheckedPrize(false);
+
     }
+
+    //키워드+필터 검색================================================================================
+    const [searchword, setSearchword] = useState('');
+    const [searchitems, setSearchitems] = useState([]);
+    const [searchPage, setSearchPage] = useState(1);
+    const [searchCount, setSearchCount] = useState();
+
+    const handleKeyword =(event)=>{
+        setSearchword(event.target.value);
+        setPage(1);
+        setSearchPage(1);
+    }
+    const submitKeyword =async(str)=>{
+            // if(event && event.preventDefault){event.preventDefault();}
+            const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/?search=${searchword}&${str}&page_size=${searchPage}`);
+                console.log(response.data);    
+                setSearchitems(response.data.results);
+                setSearchCount(response.data.count);
+    }
+
 
     //전체 목록 조회(페이지네이션 적용)==========================================================================
     const [page, setPage] = useState(1);
@@ -54,70 +146,59 @@ function Activity(){
         setCount(response.data.count);
     }
 
-    //키워드 검색==========================================================================
-    const [searchword, setSearchword] = useState('');
-    const [searchitems, setSearchitems] = useState([]);
-    const [searchPage, setSearchPage] = useState(1);
-    const [searchCount, setSearchCount] = useState();
-
-    const handleKeyword =(event)=>{
-        setSearchword(event.target.value);
-        setPage(1);
-        setSearchPage(1);
-    }
-    const submitKeyword =async(event)=>{
-            if(event && event.preventDefault){event.preventDefault();}
-
-            const response = await axios.get
-            (`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/?search=${searchword}&page_size=${searchPage}`);
-                console.log(response.data.results);
-                setSearchitems(response.data.results);
-                setSearchCount(response.data.count);
-        
-    }
-
-    //useEffect==========================================================================
+    const [filter, setFilter] = useState(false);
+    //useEffect=================b=========================================================
     useEffect(()=>{
         getPageActivityList();
-        submitKeyword();
-    }, [searchword,page,searchPage]);
+        makeQueryString();
+    }, [searchword,page,searchPage,checkedFieldList,checkedTargetList,checkedPrizeList,checkedOfficeList]);
 
 
     return(
-        <>
-        <form onSubmit={submitKeyword} className={styles.searchContainer}>
-            <Search type="text" placeholder="검색어를 입력하세요." onChange={debounce(handleKeyword, 1000)}/>
-        </form>
-
-        <div style={{border:"1px solid #e6e6e6", textAlign:"center"}}>
-            <div style={{display:"inline-block"}}>
+        <div className={styles.parentContainer}>
+            <form onSubmit={submitKeyword} className={styles.searchContainer}>
+                <Search type="text" placeholder="검색어를 입력하세요." onChange={debounce(handleKeyword, 1000)}/>
+            </form>
+            <div style={{textAlign:"center", margin: "20px 0"}}>
+                <h4 style={{display:"inline"}}>총 {searchCount} 개의 검색결과가 있습니다.</h4>
+                <BsFilterCircle onClick={()=>setFilter(!filter)} size="18" color="#777" style={{cursor:"pointer", position:"relative", top:"3px", marginLeft:"20px"}}/>
+            </div>
+        <div className={filter ? `${styles.filterBlockContainer}` : `${styles.filterBlockClosed}`}>
+            <ul id="styles.isField">
                 {Array.from(fieldsObjArr).map((item,index) => (
-                        <li key={index}onClick={()=>{makeFiltering(index+1)}}>{item.name}</li>
+                    <>
+                        <input type="checkbox" name="field" value={item.value} key={index} id={`f_${item.name}`} onChange={(e)=>{onCheckedField(e.target.checked, e.target.value)}}/>
+                        <label htmlFor={`f_${item.name}`}>{item.name}</label>
+                    </>
                 ))}
-            </div>
-            <div style={{display:"inline-block"}}>
-                {Array.from(targetsObjArr).map((item,index) => (
-                        <li key={index}>{item.name}</li>
-                ))}
-            </div>
-            <div style={{display:"inline-block"}}>
-                {Array.from(prizesObjArr).map((item,index) => (
-                        <li key={index}>{item.name}</li>
-                ))}
-            </div>
-            <div style={{display:"inline-block"}}>
-                {Array.from(prizesObjArr).map((item,index) => (
-                        <li key={index}>{item.name}</li>
-                ))}
-            </div>
-            <div style={{display:"inline-block"}}>
+            </ul>
+            <ul id="isCompany">
                 {Array.from(officesObjArr).map((item,index) => (
-                        <li key={index}>{item.name}</li>
+                    <>
+                        <input type="checkbox" name="office" value={item.value} key={index} id={`o_${item.name}`} onChange={(e)=>{onCheckedOffice(e.target.checked, e.target.value)}}/>
+                        <label htmlFor={`o_${item.name}`}>{item.name}</label>
+                    </>
                 ))}
-            </div>
+            </ul>
+            <ul id="isTarget">
+                {Array.from(targetsObjArr).map((item,index) => (
+                    <>
+                        <input type="checkbox" name="target" value={item.value} key={index} id={`t_${item.name}`} onChange={(e)=>{onCheckedTarget(e.target.checked, e.target.value)}}/>
+                        <label htmlFor={`t_${item.name}`}>{item.name}</label>
+                    </>
+                ))}
+            </ul>
+            <ul id="isReward">
+                {Array.from(prizesObjArr).map((item,index) => (
+                    <>
+                        <input type="checkbox" name="prize" value={item.value} key={index} id={`p_${item.name}`} onChange={(e)=>{onCheckedPrize(e.target.checked, e.target.value)}}/>
+                        <label htmlFor={`p_${item.name}`}>{item.name}</label>
+                    </>
+                ))}
+            </ul>
         </div>
-        { searchword ?
-                    //검색어 있으면
+        { searchword || searchitems?
+                    //검색어 혹은 검색결과가 있으면
                         (<>
                         <Grid width="1260px" col="5" colgap="15px" rowgap="20px" margin="0 auto">
                             {Array.from(searchitems).map((item,index) => (
@@ -128,6 +209,7 @@ function Activity(){
                                     height="276px"
                                     title={item.title}
                                     company={item.jukwan}
+                                    period={item.apply_period}
                                     src={item.image_url}
                                     like={item.id}/>
                             ))}
@@ -154,7 +236,7 @@ function Activity(){
                         <Paginator count={count} page={page} setPage={setPage}/>
                     </>)
         }
-        </>
+        </div>
         )
 }
 

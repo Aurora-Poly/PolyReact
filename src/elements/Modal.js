@@ -120,12 +120,12 @@ const CloseButton = styled.button`
 `;
 
 const ModalButton = styled.button`
-    width: 200px;
+    width: 90%;
     height: 45px;
     outline: 0;
     border: 0;
-    border-radius: 50px;
-    background: linear-gradient(118deg, rgba(113,136,208,1) 0%, rgba(135,118,176,1) 100%);
+    border-radius: 10px;
+    background: #54d498; 
     color: #fff;
     cursor: pointer;
 `;
