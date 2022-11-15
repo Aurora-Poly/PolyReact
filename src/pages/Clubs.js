@@ -62,7 +62,7 @@ function Clubs(){
     //동아리 불러오기(GET)========================================================================
     const getClubsList = async ()=> {
         const response = await axios.get('http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/club/');
-        console.log(response.data.results);
+        console.log(response.data);
         setClubs(response.data.results);
     }
     
@@ -89,47 +89,51 @@ function Clubs(){
     return(
         <>
         <Container>
-            <h2>동아리</h2>
-                {insertedToken ? (
-                    <Button
-                        just
-                        width="170px"
-                        height="38px"
-                        text="동아리 개설하기"
-                        onClick={openModal}
-                    />
-                ) : (
-                    <>
-                    <Button
-                        width="170px"
-                        height="38px"
-                        text="로그인하기"
-                        href="/user/login"
-                    />
-                    </>
-                )}
+            <ClubContainer>
+                <div className="titleBox">
+                    <h2>동아리</h2>
+                        {insertedToken ? (
+                            <Button
+                                just
+                                width="170px"
+                                height="38px"
+                                text="동아리 개설하기"
+                                onClick={openModal}
+                            />
+                        ) : (
+                            <>
+                            <Button
+                                width="170px"
+                                height="38px"
+                                text="로그인하기"
+                                href="/user/login"
+                            />
+                            </>
+                        )}
+                </div>
 
 
-            <Grid width="1020px" col="3" colgap="15px" rowgap="15px" padding="15px" margin="0 auto" position="relative" top="50px">
-                {clubs && clubs.map((club,index) => (
-                    <Card 
-                        is_etc
-                        key={index}
-                        id={club.id}
-                        width="320px"
-                        height="220px"
-                        title={club.title}
-                        desc={club.name}
-                        desc2={club.content}
-                        date={club.date}
-                        personnel={club.personnel}
-                    />
-                ))}
-            </Grid>
+                <Grid width="1200px" col="4" row="1" colgap="15px" rowgap="15px" padding="15px" margin="0 auto" position="relative" top="50px">
+                    {clubs && clubs.map((club,index) => (
+                        <ClubCard key={index}>
+                            <h3>{club.title}</h3>
+                            <ClubContent>
+                                {club.content}
+                            </ClubContent>
+                            <ClubInfo>
+                                <p>등록일: {club.date}</p>
+                                <p>모집인원: {club.personnel}</p>
+                                <p>지원연락처: {club.contact}</p>
+                                <p>지원이메일: {club.apply_email}</p>
+                            </ClubInfo>
+                        </ClubCard>
+                    ))}
+                </Grid>
+            </ClubContainer>
         </Container>
 
         {/* 동아리 생성 모달============================================================================================== */}
-        <Modal open={modalOpen} close={closeModal} submit={submitModal} header="동아리 개설" height="683px" margin="auto">
+        <Modal open={modalOpen} close={closeModal} submit={submitModal} header="동아리 개설" height="770px" margin="auto">
             <form>
                <Input type="text" name="title" text="제목" placeholder="제목" onChange={handleTitle}/>
                <Input multi_line name="content" text="설명" cols="60" rows="10" placeholder="동아리를 소개해주세요." onChange={handleContent}/>
@@ -144,20 +148,53 @@ function Clubs(){
 }
 
 const Container = styled.div`
+    width: 100%;
+    height: 1100px;
+    background-blend-mode: multiply;
+    background: url('/img/meeting2.jpg') repeat center center/cover, rgba(0, 0, 0, 0.6);
 
-    h2{ 
-        display: inline-block;
-        margin: 0;
-        position: relative; 
-        top: 50px; 
-        left: 270px;
-    }
+    .titleBox{
+        position: relative;
+        top: 50px;
+        padding: 0 20px;
 
-    button{
-        position: relative; 
-        top: 50px; 
-        left: 1010px;
-    }
+        h2{ display: inline-block; width: 85%; margin: 0; color: #fff;}
+    }  
+`;
+
+const ClubContainer = styled.div`
+    width: 1240px;
+    height: auto;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 0 auto;
+`;
+
+const ClubCard = styled.div`
+    height: 400px;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    background-color: #fff;
+
+    h3{ margin: 0; height: 15%; }
+`;
+
+const ClubContent = styled.div`
+    height: 45%;
+    line-height: 22px;
+    overflow-y: auto;
+`;
+
+const ClubInfo = styled.div`
+    display: grid;
+    height: 30%;
+    border-top: 1px solid #e6e6e6;
+    padding-top: 20px;
+    margin-top: 20px;
+
+    p{ margin: 0; font-size: 14px; }
 `;
 
 const StyledLink = styled(Link)`
