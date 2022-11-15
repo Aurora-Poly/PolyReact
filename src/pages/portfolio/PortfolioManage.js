@@ -43,7 +43,8 @@ const PortfolioManageContainer = styled.div`
     width: 100%;
     height: 1080px;
     overflow-x: hidden;
-    background-image: url('/img/buildings.jpg');
+    background-blend-mode: multiply;
+    background: url('/img/buildings.jpg') no-repeat center center/cover, rgba(0,0,0,0.4);
 `;
 
 const ContentContainer = styled.div`    
