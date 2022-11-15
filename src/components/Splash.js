@@ -21,24 +21,22 @@ function Splash(){
                     <p>나만의 작업공간을 만들어 편리하게 관리하세요.</p>
                 </div>
             </TextContainer>
-            <Button animation
-                width="180px" 
-                height="45px" 
-                text="Join" 
-                href={insertedToken? "/mypage" : "/user/login"}
-                fontsize="18px"
-                delay="0.5s"
-                />
+            <div className="btnBox">
+                <Button animation
+                    width="180px" 
+                    height="45px" 
+                    text="Join" 
+                    href={insertedToken? "/mypage" : "/user/login"}
+                    fontsize="18px"
+                    delay="0.5s"
+                    />
+            </div>
         </WelcomeContainer>
         <IntroContainer>
             <h2>대학생들을 위한 포트폴리오 관리 & 대외활동 추천 서비스, 폴리</h2>
             <p>폴리는 사용자님의 스펙관리에 필요한 다양한 정보들을 제공하고 추천해드립니다. 활동탐색과 기록을 한 곳에서 해결하세요.</p>
         </IntroContainer>
         <ServiceContainer>
-            {/* <div className="explain">
-                <h2>서비스</h2>
-                <h4>폴리가 제공하는 서비스를 소개합니다.</h4>
-            </div> */}
             <FlexContainer>
                 <Service>
                     <div>
@@ -71,13 +69,13 @@ function Splash(){
                         <h3>맞춤 활동 추천</h3>
                         <p>어떤 활동을 해야할지 모르겠다구요? <br/> 걱정마세요. 폴리가 개인의 관심분야와 작업물을 기반으로 적절한 활동을 추천해드립니다.</p>
                     </div>
-                    <Button
-                    width="180px" 
-                    height="40px" 
-                    text="활동 추천받기" 
-                    href={insertedToken? "/mypage" : "/user/login"} 
-                    fontsize="14px"
-                    />
+                        <Button
+                        width="180px" 
+                        height="40px" 
+                        text="활동 추천받기" 
+                        href={insertedToken? "/mypage" : "/user/login"} 
+                        fontsize="14px"
+                        />
                 </Service>
             </FlexContainer>
         </ServiceContainer>
@@ -118,11 +116,11 @@ const WelcomeContainer = styled.div`
     background-blend-mode: multiply;
     background: url('/img/meetings.jpg') no-repeat center center/cover, rgba(0, 0, 0, 0.4);
 
-    button{
+    .btnBox{
+        width: 100%;
+        text-align: center;
         position: relative;
         top: 200px;
-        left: 660px;
-        text-align: center;
     }
 
     @media (max-width: 900px) {
