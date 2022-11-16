@@ -12,6 +12,7 @@ function BookmarkList(){
         axios.get(`${POLY_SERVER}/likelist/`,
         { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
+            console.log(response.data);
             setBookmarks(response.data.results);
         }).catch(function(error) {
             console.log(error);

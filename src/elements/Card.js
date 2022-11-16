@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import { IoIosHeartEmpty,IoIosHeart, IoIosPeople } from "react-icons/io";
+import { IoIosHeartEmpty,IoIosHeart } from "react-icons/io";
 import { BsTextLeft } from "react-icons/bs";
 import {MdUpdate} from "react-icons/md"
-import { useState } from "react";
+import HeartButton from "./HeartButton";
+import { useState,useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
+import {POLY_SERVER} from '../API.js';
 
 
 function Card(props){
@@ -32,11 +34,12 @@ function Card(props){
         titlesize, 
         _onClick, 
         like,
+        is_like
     } = props;
 
     //스크랩 기능(등록,해제 원클릭)==========================================================================
-    const handleLike =(like)=> {
-        axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/like/${like}/`,{},
+    const handleLike =async(like)=> {
+        await axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/like/${like}/`,{},
         { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
@@ -51,9 +54,24 @@ function Card(props){
     }
 
     const [scrap, setScrap] = useState(false);
+    const [alreadylike, setAlreadylike] = useState(false);
     function changeState(like){
         handleLike(like);
     }
+
+
+    useEffect(async () => {
+        const fetchData = async () => {
+            axios.get(`${POLY_SERVER}/likelist/`,
+            { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
+            }).then(function(response) {
+                setAlreadylike(true);
+            }).catch(function(error) {
+                console.log(error);
+            });
+        }
+        fetchData()
+      }, []);
 
     //스크랩 카드=======================================================
     if(is_scrap){
@@ -64,15 +82,18 @@ function Card(props){
                     <P fontsize={fontsize} className="scrap_company">
                         {company.length> 15 ? `${company.slice(0,15)}..`: company}
                     </P>
-                    { scrap ?
+                    { scrap ? 
                     <SpanIcon onClick={()=>{changeState(like)}}>
-                            <IoIosHeart size="22px" color="red" style={{cursor:"pointer"}}/> 
+                        {/* 스크랩 했을때 */}
+                        <IoIosHeart size="22px" color="red" style={{cursor:"pointer"}}/> 
                     </SpanIcon>
                     : 
                     <SpanIcon onClick={()=>{changeState(like)}}>
-                            <IoIosHeartEmpty size="22px" style={{cursor:"pointer"}}/>
+                        {/* 스크랩 풀었을때 */}
+                        <IoIosHeartEmpty size="22px" style={{cursor:"pointer"}}/>
                     </SpanIcon>
-                     }
+                    }
+
                     <StyledLink to={`/activity/${pk}`}>
                         <Title titlesize={titlesize} className="scrap_title">
                                 {title.length> 26 ? `${title.slice(0,26)}`: title}

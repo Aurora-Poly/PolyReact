@@ -2,6 +2,7 @@ import axios from 'axios';
 import { POLY_SERVER } from "../API.js";
 import styled from "styled-components";
 import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router';
 import Grid from "../elements/Grid";
 import Input from "../elements/Input";
 import Card from "../elements/Card";
@@ -12,8 +13,9 @@ import { VscAdd } from "react-icons/vsc";
 function ResumeList(){
     const [title, setTitle] = React.useState('');
     const [comments, setComments] = React.useState('');
-    const [date, setDate] = React.useState('');
+    // const [date, setDate] = React.useState('');
     const [resume, setResume] = React.useState(null);
+    const navigate = useNavigate();
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
@@ -21,9 +23,9 @@ function ResumeList(){
     const handleComments = (e) => {
         setComments(e.target.value);
     }
-    const handleDate = (e) => {
-        setDate(e.target.value);
-    }
+    // const handleDate = (e) => {
+    //     setDate(e.target.value);
+    // }
     const handleResume = (e) => {
         setResume(e.target.files[0]);
     }
@@ -42,14 +44,16 @@ function ResumeList(){
         const formData = new FormData();
         formData.append("title", title);
         formData.append("comments", comments);
-        formData.append("date", date);
+        // formData.append("date", date);
         formData.append('resume', resume);
         axios.post("http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/resume/",formData,
         { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
+            navigate("/");
         }).catch(function(error) {
             console.log(error);
+            navigate("/");
         });
     };
 
@@ -98,11 +102,11 @@ function ResumeList(){
 
 
         {/* 이력서 post 모달============================================================================= */}
-        <Modal open={modalResOpen} close={closeResModal} submit={submitResModal} header="이력서/자기소개서 등록" height="623px" margin="auto">
+        <Modal open={modalResOpen} close={closeResModal} submit={submitResModal} header="이력서/자기소개서 등록" height="525px" margin="auto">
             <form>
                 <Input name="title" type="text" text="제목" placeholder="제목" onChange={handleTitle}/>
                 <Input multi_line name="comments" cols="60" rows="10" text="코멘트" placeholder="간단한 설명을 추가해주세요." onChange={handleComments}/>
-                <Input name="date" type="date" text="날짜" onChange={handleDate}/>
+                {/* <Input name="date" type="date" text="날짜" onChange={handleDate}/> */}
                 <Input file name="resume" type="file" text="이력서첨부" multiple="multiple" border="none" padding="20px" onChange={handleResume}/>
             </form>
         </Modal>

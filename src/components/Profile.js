@@ -22,6 +22,7 @@ function Profile(){
             univ: response.data.univ,
             dept: response.data.dept,
         });
+        window.localStorage.setItem('user',response.data.user);
     }
     //프로필 이미지 불러오기====================================================================
     const username = localStorage.getItem('username');

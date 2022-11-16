@@ -249,7 +249,7 @@ const Background = styled.div`
 `;
 
 const ActivityBackground = styled.div`
-    width: 72%;
+    width: 1340px;
     height: auto;
     background-color: #fff;
     margin: 0 auto;
