@@ -65,7 +65,7 @@ function ActivityDetail(){
                 <InfoContainer>
                     <Title>
                         <h2>{title}</h2>
-                        <IoIosHeartEmpty size="30" className="icon"/>
+                        {/* <IoIosHeartEmpty size="30" className="icon"/> */}
                     </Title>
                     <InfoBox>
                         <div>
