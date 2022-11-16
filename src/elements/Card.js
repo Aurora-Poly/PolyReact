@@ -160,7 +160,7 @@ function Card(props){
                         {desc> 12 ? `${desc.slice(0,12)} ...`: desc}
                     </P>
                     <P2 fontsize={fontsize}>
-                        {desc2.length> 65 ? `${desc2.slice(0,65)} ...`: desc2}
+                        {desc2.length> 30 ? `${desc2.slice(0,30)} ...`: desc2}
                     </P2>
                 </ClubContent>
                     <InfoBox>
@@ -196,8 +196,7 @@ function Card(props){
                 </StyledLink>
                 <Date>{date}</Date>
                 <P fontsize={fontsize}>
-                    {desc}
-                    {/* {desc.length> 26 ? `${desc.slice(0,26)} ...`: desc} */}
+                    {desc.length> 33 ? `${desc.slice(0,33)} ...`: desc}
                 </P>
             </Content>
         </CardFrame>
@@ -295,6 +294,7 @@ const P = styled.p`
     color: rgb(125,125,125);
     margin: 0;
     font-size: ${(props)=>props.fontsize};
+    line-height: 18px;
 `;
 const P2 = styled.p`
     display: block;
