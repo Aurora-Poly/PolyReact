@@ -29,7 +29,7 @@ function BookmarkList(){
                 <Grid col="3" colgap="20px" rowgap="30px">
                     {Array.from(bookmarks).map((r,index) => (
                         <Card key={index}
-                            is_scrap
+                            alreadylike
                             pk={r.id}
                             width="100%" 
                             height="276px"

@@ -34,7 +34,7 @@ function Card(props){
         titlesize, 
         _onClick, 
         like,
-        is_like
+        alreadylike
     } = props;
 
     //스크랩 기능(등록,해제 원클릭)==========================================================================
@@ -54,24 +54,11 @@ function Card(props){
     }
 
     const [scrap, setScrap] = useState(false);
-    const [alreadylike, setAlreadylike] = useState(false);
+    const [islike, setIslike] = useState(false);
     function changeState(like){
         handleLike(like);
     }
 
-
-    useEffect(async () => {
-        const fetchData = async () => {
-            axios.get(`${POLY_SERVER}/likelist/`,
-            { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
-            }).then(function(response) {
-                setAlreadylike(true);
-            }).catch(function(error) {
-                console.log(error);
-            });
-        }
-        fetchData()
-      }, []);
 
     //스크랩 카드=======================================================
     if(is_scrap){
@@ -107,6 +94,39 @@ function Card(props){
             </CardFrame>
         );
     }
+    //스크랩 카드=======================================================
+    if(alreadylike){
+        return(
+            <CardFrame width={width} height={height} margin={margin} pk={pk}>
+                <Image src={src} cheight={"60%"}></Image>
+                <Content style={{height:"40%"}}>
+                    <P fontsize={fontsize} className="scrap_company">
+                        {company.length> 15 ? `${company.slice(0,15)}..`: company}
+                    </P>
+                    { scrap ? 
+                    <SpanIcon onClick={()=>{changeState(like)}}>
+                        <IoIosHeartEmpty size="22px" style={{cursor:"pointer"}}/>
+                    </SpanIcon>
+                    : 
+                    <SpanIcon onClick={()=>{changeState(like)}}>
+                        <IoIosHeart size="22px" color="red" style={{cursor:"pointer"}}/> 
+                    </SpanIcon>
+                    }
+
+                    <StyledLink to={`/activity/${pk}`}>
+                        <Title titlesize={titlesize} className="scrap_title">
+                                {title.length> 26 ? `${title.slice(0,26)}`: title}
+                        </Title>
+                    </StyledLink>
+                    <span className="apply_period">
+                        <MdUpdate size="13px" style={{marginRight:"5px"}}/>
+                        {period}
+                    </span>
+                </Content>
+            </CardFrame>
+        );
+    }
+
     //이력서 카드=======================================================
     if(no_img){
         return(
