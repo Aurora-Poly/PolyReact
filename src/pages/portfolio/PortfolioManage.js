@@ -41,7 +41,7 @@ function PortfolioManage(){
 
 const PortfolioManageContainer = styled.div`
     width: 100%;
-    height: 1100px;
+    height: 100vh;
     overflow-x: hidden;
     background-blend-mode: multiply;
     background: url('/img/blur_desk3.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);

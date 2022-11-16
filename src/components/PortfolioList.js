@@ -2,6 +2,7 @@ import axios from 'axios';
 import { POLY_SERVER } from "../API.js";
 import styled from "styled-components";
 import React, {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router';
 import Grid from "../elements/Grid";
 import Card from "../elements/Card";
 import Input from "../elements/Input";
@@ -10,6 +11,7 @@ import { VscAdd } from "react-icons/vsc";
 
 //portfolioManage페이지의 포트폴리오를 관리하는 컴포넌트
 function PortfolioList(){
+    const navigate = useNavigate();
     const [title, setTitle] = React.useState('');
     const [content, setContent] = React.useState('');
     const [image, setImage] = React.useState(null);
@@ -47,10 +49,11 @@ function PortfolioList(){
         }),
     ]).then(function(response) {
             console.log(response.data);
-            window.location.reload('mypage/portfolio'); //새로고침
-            
+            navigate('/mypage/portfolio'); 
+            window.location.reload();
         }).catch(function(error) {
             console.log(error);
+            navigate('/mypage/portfolio');
             window.location.reload();
         });
     };

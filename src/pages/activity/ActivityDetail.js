@@ -136,9 +136,9 @@ function ActivityDetail(){
 
 
 const Background = styled.div`
-    height: 950px;
     background-blend-mode: multiply;
     background: url('/img/blur_buildings.jpg') no-repeat center center/cover, rgba(0,0,0,0.2);
+    height: 120vh;
 `;
 
 
@@ -149,7 +149,7 @@ const Container = styled.div`
     display: flex;
     column-gap: 40px;
     position: relative;
-    top: 170px;
+    top: 30vh;
     margin: 0 auto;
 
    >div:nth-child(3){

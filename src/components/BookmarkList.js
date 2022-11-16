@@ -8,6 +8,7 @@ import Card from "../elements/Card";
 //portfolioManage페이지의 북마크를 관리하는 컴포넌트
 function BookmarkList(){
     const [bookmarks, setBookmarks] = useState([]);
+    
     const getBookmarksList =()=>{
         axios.get(`${POLY_SERVER}/likelist/`,
         { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
@@ -18,16 +19,17 @@ function BookmarkList(){
             console.log(error);
         });
     };
+    let bookmarkarr = bookmarks;
 
     useEffect(()=>{
         getBookmarksList();
-    },[]);
+    },[bookmarks]);
 
     return(
         <>
             {bookmarks.length ?
                 <Grid col="3" colgap="20px" rowgap="30px">
-                    {Array.from(bookmarks).map((r,index) => (
+                    {Array.from(bookmarkarr).map((r,index) => (
                         <Card key={index}
                             alreadylike
                             pk={r.id}

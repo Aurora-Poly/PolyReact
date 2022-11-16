@@ -14,7 +14,7 @@ function Volunteer(){
 
 const Background = styled.div`
     width: 100%;
-    height: 950px;
+    height: 120vh;
     background-blend-mode: multiply;
     background: url('/img/blur_room1.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);
 

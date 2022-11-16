@@ -21,11 +21,34 @@ function PortfolioDetail(){
         file: null
     });
     const [image, setImage] = useState(null);
-    const [file, setFile] = useState(null);
     const [imgname, setImgname] = useState(''); //이미지명
-    const [filename, setFilename] = useState(''); //파일명
+    const [isImgExist, setIsImgExist] = useState(false);
 
-    
+    const [file, setFile] = useState(null);
+    const [filename, setFilename] = useState(''); //파일명
+    const [isFileExist, setIsFileExist] = useState(false);
+
+    //이미지 존재 유무 확인
+    const checkImgExist =(img)=>{
+        if(img !== null){
+            setIsImgExist(true);
+            setImgname(img.image);
+        }else{
+            setIsImgExist(false);
+            setImgname(null);
+        }
+    }
+
+    //파일 존재 유무 확인 
+    const checkFileExist =(img)=>{
+        if(img !== null){
+            setIsFileExist(true);
+            setFilename(file.file);
+        }else{
+            setIsFileExist(false);
+            setFilename(null);
+        }
+    }
     //데이터 불러오기=============================================================================
     const getDetail = async() =>{
         const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/portfolio/${pk}/`, 
@@ -38,18 +61,9 @@ function PortfolioDetail(){
             image: response.data.image,
             file: response.data.file
         });
-        console.log(detail.image);
-        console.log(detail.file);
 
-        // setImgname(response.data.image.image); //이미지명 출력
-        // setFilename(response.data.file.file); //파일명 출력
-
-        // setImgname(`${response.data.image}`==null ? "선택된 파일 없음" : `${response.data.image.image}`);
-        // setFilename(`${response.data.file}`==null ? "선택된 파일 없음" : `${response.data.file.file}`);
-        setImgname(detail.image !== null ? detail.image.image : "첨부 이미지 없음");
-        console.log(imgname);
-        setFilename(detail.file !== null ? detail.file.file : "첨부 파일 없음");
-        console.log(filename);
+        checkImgExist(detail.image);
+        checkFileExist(detail.file);
     };
 
     //게시글 삭제하기=============================================================================
@@ -57,21 +71,16 @@ function PortfolioDetail(){
         return await axios.delete(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/portfolio/${pk}`, 
         { headers : { Authorization: `Token ${localStorage.getItem('token')}`}})
         .then(response => {
-            // handle success
             console.log(response);
-            navigate('/mypage');
+            navigate('/mypage/home');
         })
         .catch(error => {
-            // handle error
             console.log(error);
-            navigate('/mypage');
-            window.location.reload();
+            navigate('/mypage/home');
             
         })
         .then(() => {
-            // always executed
-            navigate('/mypage');
-            window.location.reload();
+            navigate('/mypage/portfolio');
         });
        
     }
@@ -104,11 +113,15 @@ function PortfolioDetail(){
     const editImage =(event)=>{
         console.log(event.target.files[0]);
         setImage(event.target.files[0]);
+        setImgname(event.target.files[0].name);
+        setIsImgExist(true);
     }
     //파일 변경 감지
     const editFile =(event)=>{
         console.log(event.target.files[0]);
         setFile(event.target.files[0]);
+        setFilename(event.target.files[0].name);
+        setIsFileExist(true);
     }
 
 
@@ -119,32 +132,48 @@ function PortfolioDetail(){
         fd.append("title", detail.title);
         fd.append("content", detail.content);
         fd.append("date", detail.date);
-        axios.patch(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/portfolio/${pk}/`,fd,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
-            console.log(response.data);
-            alert("수정되었습니다.");
-            window.location.reload(); //새로고침
+        const fdi= new FormData();
+        fdi.append("image", image);
+        fdi.append("post", pk);
+        // axios.patch(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/portfolio/${pk}/`,fd,
+        // { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
+        // }).then(function(response) {
+        //     console.log(response.data);
+        //     alert("수정되었습니다.");
+        //     window.location.reload(); //새로고침
         
-        }).catch(function(error) {
-            console.log(error);
-        });
+        // }).catch(function(error) {
+        //     console.log(error);
+        // });
+        axios.all([
+            axios.patch(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/portfolio/${pk}/`,fd,
+            { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
+            }),
+            axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/postimage/`,fdi,
+            { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
+            })
+            ]).then(axios.spread((res1, res2)=>{
+                alert("정상적으로 수정되었습니다.");
+                window.location.reload();
+            })).catch(function(error) {
+                console.log(error);
+            });
     };
-    //이미지 post(등록,수정) =============================================================================
-    const handleImage =(e)=>{
-        e.preventDefault();
-        const fd= new FormData();
-        fd.append("image", image);
-        fd.append("post", pk);
-        axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/postimage/`,fd,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
-            console.log(response.data);
-        }).catch(function(error) {
-            console.log(error);
-        });
-    }
-    //파일 post(등록,수정)
+    // //이미지 post(등록,수정) =============================================================================
+    // const handleImage =(e)=>{
+    //     e.preventDefault();
+    //     const fd= new FormData();
+    //     fd.append("image", image);
+    //     fd.append("post", pk);
+    //     axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/postimage/`,fd,
+    //     { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
+    //     }).then(function(response) {
+    //         console.log(response.data);
+    //     }).catch(function(error) {
+    //         console.log(error);
+    //     });
+    // }
+    //파일 post(등록,수정) =============================================================================
     const handleFile =(e)=>{
         e.preventDefault();
         const fd= new FormData();
@@ -166,32 +195,24 @@ function PortfolioDetail(){
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
+            setIsImgExist(false);
         }).catch(function(error) {
             console.log(error);
         });
     };
-    //기존 파일 삭제
+    //기존 파일 삭제 =============================================================================
     const onClearFile=(e)=>{
         e.preventDefault();
         axios.delete(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/postfile/${pk}/`,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
+            setIsFileExist(false);
         }).catch(function(error) {
             console.log(error);
         });
     };
-    
-    //이미지 미리보기====================================================================================
-    // const reader = new FileReader();
-    // const showImage =()=>{
-    //     reader.onload=()=>{
-    //         document.querySelector('#image_show').style.backgroundImage = `url(${reader.result})`
-    //         document.querySelector('#image_show').style.backgroundSize = `cover`;
-    //         document.querySelector('#image_show').style.backgroundPosition = `center`;
-    //     }
-    //     reader.readAsDataURL();
-    // }
+
 
     return(
         <Background>
@@ -205,22 +226,41 @@ function PortfolioDetail(){
                                 <Input multi_line cols="99" rows="20"name="content" text="내용" placeholder="내용" value={detail.content} onChange={changeContent}/>
                                 <Input name="date" type="date" text="날짜" placeholder="날짜" value={detail.date} onChange={changeContent}/>
                                 
-                                <div class="flex_container">
-                                    <Input file name="image" type="file" text="이미지" placeholder="이미지" accept={"image/png,image/jpeg,image/gif"} onChange={editImage}/>
-                                    <button type="button" onClick={handleImage}  className="btns"><IoIosAdd size="20px"/></button>
-                                    <button type="button" onClick={onClearImage}  className="btns"><AiOutlineMinus size="16px"/></button>
+                                <div className="flex_container">
+                                {isImgExist ? 
+                                    <div>
+                                        <span>{imgname}</span>
+                                        <button type="button" onClick={onClearImage}  className="btns"><AiOutlineMinus size="16px"/></button>
+                                    </div>
+                                : 
+                                    <div>
+                                        <Input file name="image" type="file" text="이미지" placeholder="이미지" accept={"image/png,image/jpeg,image/gif"} onChange={editImage}/>
+                                        {/* <button type="button" onClick={handleImage}  className="btns"><IoIosAdd size="20px"/></button> */}
+                                    </div>
+                                }
+                                
+
                                 </div>
                                 {/* <span id="head_img_name">{imgname}</span><button type="button" onClick={onClearImg}>x</button> */}
 
-                                <div class="flex_container">
-                                    <Input file name="file" type="file" text="첨부파일" placeholder="첨부파일" onChange={editFile}/>
-                                    <button type="button" onClick={handleFile}  className="btns"><IoIosAdd size="20px"/></button>
-                                    <button type="button" onClick={onClearFile}  className="btns"><AiOutlineMinus size="16px"/></button>     
+                                <div className="flex_container">
+                                    {isFileExist ? 
+                                        <div>
+                                            <span>{filename}</span>
+                                            <button type="button" onClick={onClearFile}  className="btns"><AiOutlineMinus size="16px"/></button>     
+                                        </div>
+                                    :
+                                        <div>
+                                            <Input file name="file" type="file" text="첨부파일" placeholder="첨부파일" onChange={editFile}/>
+                                            <button type="button" onClick={handleFile}  className="btns"><IoIosAdd size="20px"/></button>
+                                        </div>
+                                    }
+
                                 </div>
                                 {/* <span id="file_upload_name">{filename}</span><button type="button" onClick={onClearFile}>x</button> */}
                                 
                                 <BtnEditBox>
-                                    <Button just onClick={changeUpdate} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
+                                    <Button just onClick={handlePut} text="저장" width="60px" height="35px" margin="0 10px 0 0"/>
                                     <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
                                 </BtnEditBox>
                             </Form> 
@@ -256,7 +296,7 @@ function PortfolioDetail(){
                             </div>
                             <BtnBox2>
                                 <Button just onClick={changeUpdate} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
-                                <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
+                                <Button href="/mypage/home" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
                             </BtnBox2>
                         </Form>
                         </>
@@ -269,7 +309,7 @@ function PortfolioDetail(){
 }
 
 const Background = styled.div`
-    height: 1000px;
+    height: 100vh;
     background-blend-mode: multiply;
     background: url('/img/blur_desk3.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);
 `;
@@ -309,7 +349,7 @@ const BtnEditBox = styled.div`
     text-align: center;
     float: right;
     position: relative;
-    top: -10px;
+    top: 50px;
 `;
 
 const BtnBox2 = styled.div`
