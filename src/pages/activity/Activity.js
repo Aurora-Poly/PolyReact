@@ -243,7 +243,7 @@ function Activity(){
 }
 
 const Background = styled.div`
-    height: 1000px;
+    height: 120vh;
     background-blend-mode: multiply;
     background: url('/img/blur_buildings.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);
 `;
