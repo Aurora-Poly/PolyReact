@@ -214,7 +214,7 @@ function Activity(){
                                             like={item.id}/>
                                     ))}
                                 </Grid>
-                                <Paginator count={searchCount} page={searchPage} setPage={setSearchPage}/>
+                                <Paginator count={searchCount} pcount="10" page={searchPage} setPage={setSearchPage}/>
                             </>)
                                 :
                             //검색어 없으면
@@ -233,7 +233,7 @@ function Activity(){
                                             like={activity.id}/>
                                 ))}
                                 </Grid>
-                                <Paginator count={count} page={page} setPage={setPage}/>
+                                <Paginator count={count} pcount="10" page={page} setPage={setPage}/>
                             </>)
                 }
                 </ActivityBackground>   

@@ -2,11 +2,11 @@ import styled from "styled-components";
 import React,{useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Card from "../elements/Card";
 import Grid from "../elements/Grid";
 import Button from "../elements/Button";
 import Modal from "../elements/Modal";
 import Input from "../elements/Input";
+import Paginator from "../elements/Paginator";
 
 function Clubs(){
     //임시방편
@@ -18,6 +18,8 @@ function Clubs(){
     const [date, setDate] = React.useState('');
     const [contact, setContact] = React.useState('');
     const [applyEmail, setApplyEmail] = React.useState('');
+    const [listPage, setListPage] = useState(1);
+    const [listCount, setListCount] = useState();
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
@@ -41,7 +43,7 @@ function Clubs(){
 
     //동아리 등록하기(POST)========================================================================
     const makeClubs =(e)=>{
-        axios.post("http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/club/",{
+        axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/club/`,{
             title: title,
             content: content,
             personnel: personnel,
@@ -61,9 +63,10 @@ function Clubs(){
 
     //동아리 불러오기(GET)========================================================================
     const getClubsList = async ()=> {
-        const response = await axios.get('http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/club/');
+        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/club/?page_size=${listPage}`);
         console.log(response.data);
         setClubs(response.data.results);
+        setListCount(response.data.count);
     }
     
     //모달==============================================================================
@@ -84,7 +87,7 @@ function Clubs(){
     //useEffect========================================================================
     useEffect(()=>{
         getClubsList();
-    }, []);
+    }, [listPage]);
 
     return(
         <>
@@ -113,7 +116,7 @@ function Clubs(){
                 </div>
 
 
-                <Grid width="1200px" col="4" row="1" colgap="15px" rowgap="15px" padding="15px" margin="0 auto" position="relative" top="50px">
+                <Grid width="1200px" col="4" row="1" colgap="15px" rowgap="15px" padding="15px" margin="0 auto 40px auto" position="relative" top="50px">
                     {clubs && clubs.map((club,index) => (
                         <ClubCard key={index}>
                             <h3>{club.title}</h3>
@@ -129,6 +132,7 @@ function Clubs(){
                         </ClubCard>
                     ))}
                 </Grid>
+                <Paginator count={listCount} pcount="8" page={listPage} setPage={setListPage}/>
             </ClubContainer>
         </Container>
 

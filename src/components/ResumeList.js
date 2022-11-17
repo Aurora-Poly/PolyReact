@@ -8,13 +8,15 @@ import Input from "../elements/Input";
 import Card from "../elements/Card";
 import Modal from "../elements/Modal";
 import { VscAdd } from "react-icons/vsc";
+import Paginator from "../elements/Paginator";
 
 //portfolioManage페이지의 이력서,자소서를 관리하는 컴포넌트
 function ResumeList(){
     const [title, setTitle] = React.useState('');
     const [comments, setComments] = React.useState('');
-    // const [date, setDate] = React.useState('');
     const [resume, setResume] = React.useState(null);
+    const [listPage, setListPage] = useState(1);
+    const [listCount, setListCount] = useState();
     const navigate = useNavigate();
 
     const handleTitle = (e) => {
@@ -23,9 +25,6 @@ function ResumeList(){
     const handleComments = (e) => {
         setComments(e.target.value);
     }
-    // const handleDate = (e) => {
-    //     setDate(e.target.value);
-    // }
     const handleResume = (e) => {
         setResume(e.target.files[0]);
     }
@@ -33,10 +32,11 @@ function ResumeList(){
     //이력서 불러오기==============================================
     const [cvs, setCvs] = useState([]);
     const getCvList = async () => {
-        const response = await axios.get(`${POLY_SERVER}/resume/`,
+        const response = await axios.get(`${POLY_SERVER}/resume/?page_size=${listPage}`,
             { headers : { Authorization: `Token ${localStorage.getItem('token')}`}}
         );
         setCvs(response.data.results);
+        setListCount(response.data.count);
     }
 
     //이력서 등록하기=============================================================================
@@ -77,7 +77,7 @@ function ResumeList(){
 
     useEffect(()=>{
         getCvList();
-    },[]);
+    },[listPage]);
 
     return(
         <>
@@ -102,6 +102,7 @@ function ResumeList(){
                     _onClick={openResModal}/>
             ))}
         </Grid>
+        <Paginator count={listCount} page={listPage} setPage={setListPage}/>
 
 
 

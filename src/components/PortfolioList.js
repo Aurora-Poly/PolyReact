@@ -8,6 +8,7 @@ import Card from "../elements/Card";
 import Input from "../elements/Input";
 import Modal from "../elements/Modal";
 import { VscAdd } from "react-icons/vsc";
+import Paginator from "../elements/Paginator";
 
 //portfolioManage페이지의 포트폴리오를 관리하는 컴포넌트
 function PortfolioList(){
@@ -16,6 +17,8 @@ function PortfolioList(){
     const [content, setContent] = React.useState('');
     const [image, setImage] = React.useState(null);
     const [file, setFile] = React.useState(null);
+    const [listPage, setListPage] = useState(1);
+    const [listCount, setListCount] = useState();
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
@@ -62,10 +65,11 @@ function PortfolioList(){
     //포트폴리오 불러오기=============================================================================
     const [items, setItems] = useState([]);
     const getItemsList = async () => {
-        const response = await axios.get(`${POLY_SERVER}/portfolio/`,
+        const response = await axios.get(`${POLY_SERVER}/portfolio/?page_size=${listPage}`,
             { headers : { Authorization: `Token ${localStorage.getItem('token')}`}}
         );
         setItems(response.data.results);
+        setListCount(response.data.count);
     }
 
     //포트폴리오 모달=============================================================================
@@ -84,7 +88,7 @@ function PortfolioList(){
 
     useEffect(()=>{
         getItemsList();
-    },[]);
+    },[listPage]);
 
     return(
         <>
@@ -108,6 +112,7 @@ function PortfolioList(){
                     _onClick={openModal}/>
             ))}     
         </Grid>
+        <Paginator count={listCount} pcount="8" page={listPage} setPage={setListPage}/>
 
         {/* 포트폴리오 post 모달=============================================================================*/}
         <Modal open={modalOpen} close={closeModal} submit={submitModal} header="포트폴리오 등록" height="670px" margin="auto">
