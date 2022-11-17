@@ -115,3 +115,51 @@ https://dribbble.com/shots/14181670-Online-Educational-Mobile-App-Prototyping
             )
         }
     ];
+
+
+
+    var results = [{
+    "id" : 1140, 
+    "title"   : "비대면봉사1",
+    "likes" : [1,2,3],
+  },
+  {
+    "id" : 1141, 
+    "title"   : "비대면봉사2",
+    "likes" : [5,9],
+  }];
+
+  console.log("내가 이걸 좋아요 했냐:" + do_i_like_this_activity(results, 5);
+
+  function do_i_like_this_activity(results, myId){
+    var retVal = false;
+
+    for(var i = 0; i < results.length; i++) {
+      var res = results[i];
+      var arrayLikes = res.likes;
+  
+      for(var j = 0; j < arrayLikes.length; j++) {
+        if(myId == arrayLikes[j]){
+          retVal = true;
+        }
+      }
+    }
+    return retVal;
+
+    const doIbookmarked =(list, userid)=>{
+        var retVal = false;
+
+        for(var i = 0; i < list.length; i++) {
+            var res = list[i];
+            var arrayLikes = res.likes;
+                for(var j = 0; j < arrayLikes.length; j++) {
+                    if(userid == arrayLikes[j]){
+                        console.log(arrayLikes[j]);
+                        retVal = true;
+                    }
+                }
+        }
+        return retVal;
+    }
+    console.log("내가 이걸 좋아요 했냐:" + doIbookmarked(bookmarks, localStorage.getItem('user')));
+  }

@@ -44,16 +44,20 @@ function ResumeList(){
         const formData = new FormData();
         formData.append("title", title);
         formData.append("comments", comments);
-        // formData.append("date", date);
         formData.append('resume', resume);
         axios.post("http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/resume/",formData,
         { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
-            navigate("/");
+            navigate('/mypage/resume');
+            window.location.reload();
         }).catch(function(error) {
             console.log(error);
-            navigate("/");
+            navigate('/mypage/resume');
+            window.location.reload();
+        }).then(() => {
+            navigate('/mypage/resume');
+            window.location.reload();
         });
     };
 
@@ -65,7 +69,7 @@ function ResumeList(){
     };
     const submitResModal = () => {
         setResModalOpen(false);
-        handleResumes(); 
+        handleResumes();
     };
     const closeResModal = () => {
         setResModalOpen(false);

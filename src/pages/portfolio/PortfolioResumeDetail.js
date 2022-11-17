@@ -58,8 +58,7 @@ function PortfolioResumeDetail(){
         })
         .then(() => {
             // always executed
-            navigate('/mypage');
-            window.location.reload();
+            navigate('/mypage/resume');
         });
        
     }
@@ -120,8 +119,7 @@ function PortfolioResumeDetail(){
         e.preventDefault();
         const fd= new FormData();
         fd.append("title", detail.title);
-        fd.append("content", detail.content);
-        fd.append("date", detail.date);
+        fd.append("comments", detail.content);
         axios.patch(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/resume/${pk}/`,fd,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {

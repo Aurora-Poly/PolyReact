@@ -4,11 +4,14 @@ import styled from "styled-components";
 import React, {useState, useEffect} from 'react';
 import Grid from "../elements/Grid";
 import Card from "../elements/Card";
+import LikeCard from '../elements/LikeCard.js';
+import { useNavigate } from 'react-router';
 
 //portfolioManage페이지의 북마크를 관리하는 컴포넌트
 function BookmarkList(){
     const [bookmarks, setBookmarks] = useState([]);
-    
+
+    //스크랩 리스트 조회
     const getBookmarksList =()=>{
         axios.get(`${POLY_SERVER}/likelist/`,
         { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
@@ -19,7 +22,7 @@ function BookmarkList(){
             console.log(error);
         });
     };
-    let bookmarkarr = bookmarks;
+    
 
     useEffect(()=>{
         getBookmarksList();
@@ -29,7 +32,7 @@ function BookmarkList(){
         <>
             {bookmarks.length ?
                 <Grid col="3" colgap="20px" rowgap="30px">
-                    {Array.from(bookmarkarr).map((r,index) => (
+                    {Array.from(bookmarks).map((r,index) => (
                         <Card key={index}
                             alreadylike
                             pk={r.id}
