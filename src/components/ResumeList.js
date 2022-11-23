@@ -17,7 +17,9 @@ function ResumeList(){
     const [resume, setResume] = React.useState(null);
     const [listPage, setListPage] = useState(1);
     const [listCount, setListCount] = useState();
+    const P_PAGE = 8;
     const navigate = useNavigate();
+
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
@@ -45,7 +47,7 @@ function ResumeList(){
         formData.append("title", title);
         formData.append("comments", comments);
         formData.append('resume', resume);
-        axios.post("http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/resume/",formData,
+        axios.post(`${POLY_SERVER}/resume/`,formData,
         { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
@@ -102,7 +104,7 @@ function ResumeList(){
                     _onClick={openResModal}/>
             ))}
         </Grid>
-        <Paginator count={listCount} page={listPage} setPage={setListPage}/>
+        <Paginator count={listCount} pcount={P_PAGE} page={listPage} setPage={setListPage}/>
 
 
 

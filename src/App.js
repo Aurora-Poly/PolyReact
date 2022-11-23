@@ -9,9 +9,9 @@ import UserRegister from "./pages/auth/UserRegister.js";
 import UserSettings from "./pages/auth/UserSettings.js";
 import Activity from "./pages/activity/Activity";
 import ActivityDetail from "./pages/activity/ActivityDetail.js";
-import PortfolioPreview from "./pages/portfolio/PortfolioPreview.js";
 import PortfolioManage from "./pages/portfolio/PortfolioManage.js";
 import PortfolioDetail from "./pages/portfolio/PortfolioDetail.js";
+import PortfoiloEdit from "./pages/portfolio/PortfolioEdit.js";
 import PortfolioResumeDetail from "./pages/portfolio/PortfolioResumeDetail.js";
 import Home from './components/Home.js';
 import PortfolioList from "./components/PortfolioList.js";
@@ -37,13 +37,11 @@ function App() {
             <ContentContainer>
                 <Routes>
                 {insertedToken ? 
-                    // <Route path='/' element={<PortfolioPreview/>}/>
                     <Route path='/mypage' element={<PortfolioManage/>}/>
                     :
                     <Route path='/' element={<Splash/>}/>
                 }
                     <Route path='/' element={<Splash/>}/>
-                    <Route path='/main' element={<PortfolioPreview/>}/>
                     <Route path='/activity' element={<Activity/>}/>
                     <Route path="/activity/:pk" element={<ActivityDetail/>}/>
                     <Route path='/volunteer' element={<Volunteer/>}/>
@@ -62,6 +60,7 @@ function App() {
                         <Route path="bookmark" element={<BookmarkList/>}/>
                     </Route>
                     <Route path="/mypage/portfolio/:pk" element={<PortfolioDetail/>}/>
+                    <Route path="/mypage/portfolio/edit/:pk" element={<PortfoiloEdit/>}/>
                     <Route path="/mypage/resume/:pk" element={<PortfolioResumeDetail/>}/>
                     <Route path="/mypage/:user" element={<UserSettings/>}/>
                 </Routes>

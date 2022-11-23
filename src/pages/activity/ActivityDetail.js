@@ -2,13 +2,14 @@ import axios from "axios";
 import styled from "styled-components";
 import Button from "../../elements/Button";
 import { IoIosHeartEmpty,IoIosHeart } from "react-icons/io"
-import Category from "../../elements/Category";
+import { POLY_SERVER } from "../../API";
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import Grid from "../../elements/Grid";
+import { useParams,useNavigate } from 'react-router-dom';
+import Heart from "../../elements/Heart";
 
 function ActivityDetail(){
     const {pk} = useParams();
+    const navigate = useNavigate();
     const [data, setData] = useState({
         title: '',
         target: [],
@@ -21,9 +22,10 @@ function ActivityDetail(){
         apply_period: '',
         apply_url: '',
         image_url: '',
+        likes: []
     });
 
-    const { title,office,target,jukwan,juchae,apply_period,apply_url,image_url,prize_1st,prize,field } = data;
+    const { title,office,target,jukwan,juchae,apply_period,apply_url,image_url,prize_1st,prize,field, likes } = data;
 
     const fields = ['','기획/아이디어','광고/마케팅','학술','사진/영상/UCC','디자인','문학/시나리오','건축/건설/인테리어','브랜드/네이밍','예체능','대외활동','취업/창업','IT/SW/게임','기타'];
     const targets = ['','누구나','일반인','대학생','대학원생','청소년','어린이','기타'];
@@ -31,9 +33,20 @@ function ActivityDetail(){
     const offices = ['','중앙정부/기관','공기업','대기업','신문/방송/언론','외국계기업','지방자치단체','학교/재단/협회','중소/벤처기업','학회/비영리단체','해외','기타'];
 
 
+    //좋아요 색상 유지위한 상태 확인
+    const [isLike, setIsLike] = useState(false);
+    const checkIsLike =(list)=>{
+        var user = Number(localStorage.getItem('user'));
+        if(list.includes(user)){
+            setIsLike(true);
+        }
+        console.log(isLike);
+    }
+
+    //데이터 가져오기
     const getDetail = async()=>{
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/${pk}/`);
-            console.log(response.data);
+        const response = await axios.get(`${POLY_SERVER}/activity/${pk}/`);
+            checkIsLike(response.data.likes);
             setData({
                 title: response.data.title,
                 office: response.data.office,
@@ -45,18 +58,31 @@ function ActivityDetail(){
                 field: response.data.field,
                 apply_period: response.data.apply_period,
                 apply_url: response.data.apply_url,
-                image_url: response.data.image_url
+                image_url: response.data.image_url,
+                likes: response.data.likes,
             });
     }
 
-    const [scrap, setScrap] = useState(false);
-    function changeState(){
-        setScrap(!scrap);
+    //스크랩 기능(등록,해제 원클릭)==========================================================================
+    const handleLike =async()=> {
+        await axios.post(`${POLY_SERVER}/activity/like/${pk}/`,{},
+        { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
+        }).then(function(response) {
+            console.log(response.data);
+            setIsLike(!isLike);
+        }).catch(function(error) {
+            console.log(error);
+            const error_code = error.response.status;
+            if(error_code == 401){
+                navigate('/user/login');
+            } 
+        });
     }
+
 
     useEffect(()=>{
         getDetail();
-    },[])
+    },[isLike])
     
     return(
         <Background>
@@ -65,7 +91,7 @@ function ActivityDetail(){
                 <InfoContainer>
                     <Title>
                         <h2>{title}</h2>
-                        {/* <IoIosHeartEmpty size="30" className="icon"/> */}
+                        <Heart like={isLike} onClick={handleLike}/>
                     </Title>
                     <InfoBox>
                         <div>
@@ -144,10 +170,12 @@ const Background = styled.div`
 
 const Container = styled.div`
     width: 1060px;
-    height: 600px;
+    height: 462px;
     color: #363636;
-    display: flex;
-    column-gap: 40px;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    border-radius: 5px;
+    background-color: #e6e6e6;
     position: relative;
     top: 30vh;
     margin: 0 auto;
@@ -169,11 +197,10 @@ const Container = styled.div`
 
 const InfoContainer = styled.div`
     background-color: #fff;
-    width: 70%;
+    width: 700px;
     height: 420px;
     padding: 20px;
     border: 1px solid #e6e6e6;
-    border-radius: 5px;
 `;
 
 const Image = styled.div`
@@ -181,13 +208,11 @@ const Image = styled.div`
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    border: 1px solid #e6e6e6; 
     width: 300px;
     height: 380px;
     margin: 0 auto;
     position: relative;
-    top: 30px;
-    left: 30px;
+    top: 40px;
     overflow: hidden;
 `;
 

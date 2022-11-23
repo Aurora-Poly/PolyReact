@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import Input from "../../elements/Input";
-import Modal from "../../elements/Modal";
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
 import Profile from "../../components/Profile";
 import { Outlet,useNavigate } from "react-router";
 import {Link} from "react-router-dom";

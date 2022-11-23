@@ -7,6 +7,8 @@ import Grid from "../../elements/Grid";
 import Paginator from "../../elements/Paginator";
 import styles from "./Activity.module.css";
 import {BsFilterCircle} from "react-icons/bs";
+import {POLY_SERVER} from "../../API.js";
+
 
 function Activity(){
     //카테고리==========================================================================
@@ -105,15 +107,6 @@ function Activity(){
         submitKeyword(removed_total);
     }
 
-    //필터 리셋
-    const resetAllFilter =()=>{
-        onCheckedField(false);
-        onCheckedTarget(false);
-        onCheckedOffice(false);
-        onCheckedPrize(false);
-
-    }
-
     //키워드+필터 검색================================================================================
     const [searchword, setSearchword] = useState('');
     const [searchitems, setSearchitems] = useState([]);
@@ -127,21 +120,24 @@ function Activity(){
     }
     const submitKeyword =async(str)=>{
             // if(event && event.preventDefault){event.preventDefault();}
-            const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/?search=${searchword}&${str}&page_size=${searchPage}`);   
+            const response = await axios.get(`${POLY_SERVER}/activity/?search=${searchword}&${str}&page_size=${searchPage}`);   
                 setSearchitems(response.data.results);
                 setSearchCount(response.data.count);
     }
 
 
     //전체 목록 조회(페이지네이션 적용)==========================================================================
+    const P_PAGE = 10;
     const [page, setPage] = useState(1);
     const [count, setCount] = useState(); 
     const [activities, setActivities] = useState([]);
+    
     const getPageActivityList = async()=> {
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/activity/?page_size=${page}`);
+        const response = await axios.get(`${POLY_SERVER}/activity/?page_size=${page}`);
         setActivities(response.data.results);
         setCount(response.data.count);
     }
+
 
     const [filter, setFilter] = useState(false);
     //useEffect=================b=========================================================
@@ -211,10 +207,10 @@ function Activity(){
                                             company={item.jukwan}
                                             period={item.apply_period}
                                             src={item.image_url}
-                                            like={item.id}/>
+                                            likecount={item.id}/>
                                     ))}
                                 </Grid>
-                                <Paginator count={searchCount} pcount="10" page={searchPage} setPage={setSearchPage}/>
+                                <Paginator count={searchCount} pcount={P_PAGE} page={searchPage} setPage={setSearchPage}/>
                             </>)
                                 :
                             //검색어 없으면
@@ -230,10 +226,10 @@ function Activity(){
                                             company={activity.jukwan}
                                             period={activity.apply_period}
                                             src={activity.image_url}
-                                            like={activity.id}/>
+                                            likecount={activity.id}/>
                                 ))}
                                 </Grid>
-                                <Paginator count={count} pcount="10" page={page} setPage={setPage}/>
+                                <Paginator count={count} pcount={P_PAGE} page={page} setPage={setPage}/>
                             </>)
                 }
                 </ActivityBackground>   

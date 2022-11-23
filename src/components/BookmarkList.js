@@ -11,6 +11,7 @@ function BookmarkList(){
     const [bookmarks, setBookmarks] = useState([]);
     const [bookmarkPage, setBookmarkPage] = useState(1);
     const [bookmarkCount, setBookmarkCount] = useState();
+    const P_PAGE = 10;
 
     //스크랩 리스트 조회
     const getBookmarksList =()=>{
@@ -28,7 +29,7 @@ function BookmarkList(){
 
     useEffect(()=>{
         getBookmarksList();
-    },[bookmarks,bookmarkPage]);
+    },[]);
 
     return(
         <>
@@ -37,18 +38,17 @@ function BookmarkList(){
                     <Grid col="3" colgap="20px" rowgap="30px">
                         {Array.from(bookmarks).map((r,index) => (
                             <Card key={index}
-                                alreadylike
+                                is_scrap
                                 pk={r.id}
                                 width="100%" 
                                 height="276px"
                                 title={r.title}
                                 company={r.jukwan}
                                 period={r.apply_period}
-                                src={r.image_url}
-                                like={r.id}/>
+                                src={r.image_url}/>
                             ))}
                     </Grid>
-                    <Paginator count={bookmarkCount} pcount="8" page={bookmarkPage} setPage={setBookmarkPage}/>
+                    <Paginator count={bookmarkCount} pcount={P_PAGE} page={bookmarkPage} setPage={setBookmarkPage}/>
                 </>
                 :
                 <CannotShow>

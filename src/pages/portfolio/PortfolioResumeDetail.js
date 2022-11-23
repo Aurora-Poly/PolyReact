@@ -7,6 +7,7 @@ import Form from '../../elements/Form';
 import Button from "../../elements/Button";
 import {IoIosAdd} from "react-icons/io";
 import {AiOutlineMinus} from "react-icons/ai";
+import {POLY_SERVER} from "../../API.js";
 
 function PortfolioResumeDetail(){
     const {pk} = useParams();
@@ -24,7 +25,7 @@ function PortfolioResumeDetail(){
 
     //이력서,자소서 불러오기=============================================================================
     const getCvList = async () => {
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/resume/${pk}/`,
+        const response = await axios.get(`${POLY_SERVER}/resume/${pk}/`,
             { headers : { Authorization: `Token ${localStorage.getItem('token')}`}}
         );
         console.log(response);
@@ -43,7 +44,7 @@ function PortfolioResumeDetail(){
 
     //게시글 삭제하기=============================================================================
     const handleDelete =async()=>{
-        return await axios.delete(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/resume/${pk}`, 
+        return await axios.delete(`${POLY_SERVER}/resume/${pk}`, 
         { headers : { Authorization: `Token ${localStorage.getItem('token')}`}})
         .then(response => {
             // handle success
@@ -93,7 +94,7 @@ function PortfolioResumeDetail(){
         const fd= new FormData();
         fd.append("file", file);
         fd.append("post", pk);
-        axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/postfile/`,fd,
+        axios.post(`${POLY_SERVER}/postfile/`,fd,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
@@ -105,7 +106,7 @@ function PortfolioResumeDetail(){
     //기존 파일 삭제
     const onClearFile=(e)=>{
         e.preventDefault();
-        axios.delete(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/postfile/${pk}/`,
+        axios.delete(`${POLY_SERVER}/postfile/${pk}/`,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
@@ -120,7 +121,7 @@ function PortfolioResumeDetail(){
         const fd= new FormData();
         fd.append("title", detail.title);
         fd.append("comments", detail.content);
-        axios.patch(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/resume/${pk}/`,fd,
+        axios.patch(`${POLY_SERVER}/resume/${pk}/`,fd,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);

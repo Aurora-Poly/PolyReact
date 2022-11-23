@@ -10,8 +10,8 @@ const Heart = ({ like, onClick }) => {
 
 const HeartFrame = styled.img`
     // css
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 `;
 
 export default Heart;

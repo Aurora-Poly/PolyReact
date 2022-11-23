@@ -2,6 +2,7 @@ import styled from "styled-components";
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
+import { POLY_SERVER } from "../API";
 import Paginator from "../elements/Paginator";
 
 function Table(){
@@ -17,7 +18,7 @@ function Table(){
     const [count, setCount] = useState();
     const [volunteers, setVolunteers] = useState([]);
     const getPageVolunteerList = async()=> {
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/volunteer/?page_size=${page}`);
+        const response = await axios.get(`${POLY_SERVER}/volunteer/?page_size=${page}`);
         console.log(response.data.results);
         setVolunteers(response.data.results);
         setCount(response.data.count);

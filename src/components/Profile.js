@@ -28,7 +28,7 @@ function Profile(){
     const username = localStorage.getItem('username');
     const [image,setImage] = useState('');
     const getImage = async()=> {
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profileimg/`
+        const response = await axios.get(`${POLY_SERVER}/user/profileimg/`
             ,{ headers : { Authorization: `Token ${localStorage.getItem('token')}` }}
         );
         setImage(response.data[0].image);

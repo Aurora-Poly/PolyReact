@@ -7,6 +7,7 @@ import Button from "../elements/Button";
 import Modal from "../elements/Modal";
 import Input from "../elements/Input";
 import Paginator from "../elements/Paginator";
+import {POLY_SERVER} from "../API.js";
 
 function Clubs(){
     //임시방편
@@ -20,6 +21,7 @@ function Clubs(){
     const [applyEmail, setApplyEmail] = React.useState('');
     const [listPage, setListPage] = useState(1);
     const [listCount, setListCount] = useState();
+    const P_PAGE = 8;
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
@@ -43,7 +45,7 @@ function Clubs(){
 
     //동아리 등록하기(POST)========================================================================
     const makeClubs =(e)=>{
-        axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/club/`,{
+        axios.post(`${POLY_SERVER}/club/`,{
             title: title,
             content: content,
             personnel: personnel,
@@ -63,7 +65,7 @@ function Clubs(){
 
     //동아리 불러오기(GET)========================================================================
     const getClubsList = async ()=> {
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/club/?page_size=${listPage}`);
+        const response = await axios.get(`${POLY_SERVER}/club/?page_size=${listPage}`);
         console.log(response.data);
         setClubs(response.data.results);
         setListCount(response.data.count);
@@ -132,7 +134,7 @@ function Clubs(){
                         </ClubCard>
                     ))}
                 </Grid>
-                <Paginator count={listCount} pcount="8" page={listPage} setPage={setListPage}/>
+                <Paginator count={listCount} pcount={P_PAGE} page={listPage} setPage={setListPage}/>
             </ClubContainer>
         </Container>
 

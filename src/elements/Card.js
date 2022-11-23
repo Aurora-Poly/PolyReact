@@ -1,16 +1,11 @@
 import styled from "styled-components";
-import { IoIosHeartEmpty,IoIosHeart } from "react-icons/io";
+import { IoIosHeart } from "react-icons/io";
 import { BsTextLeft } from "react-icons/bs";
 import {MdUpdate} from "react-icons/md"
-import { useState,useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
-import axios from "axios";
-import {POLY_SERVER} from '../API.js';
-import Heart from "../elements/Heart";
 
 
 function Card(props){
-    const navigate = useNavigate();
     const { 
         pk,
         is_scrap, 
@@ -33,39 +28,28 @@ function Card(props){
         fontsize, 
         titlesize, 
         _onClick, 
-        like,
+        likecount,
         alreadylike
     } = props;
 
     //스크랩 기능(등록,해제 원클릭)==========================================================================
-    const handleLike =async(like)=> {
-        await axios.post(`${POLY_SERVER}/activity/like/${like}/`,{},
-        { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
-            console.log(response.data);
-            setScrap(!scrap);
+    // const handleLike =async(like)=> {
+    //     await axios.post(`${POLY_SERVER}/activity/like/${like}/`,{},
+    //     { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
+    //     }).then(function(response) {
+    //         console.log(response.data);
+    //         setScrap(!scrap);
 
-        }).catch(function(error) {
-            console.log(error);
-            const error_code = error.response.status;
-            if(error_code == 401){
-                navigate('/user/login');
-            } 
-        });
-    }
+    //     }).catch(function(error) {
+    //         console.log(error);
+    //         const error_code = error.response.status;
+    //         if(error_code == 401){
+    //             navigate('/user/login');
+    //         } 
+    //     });
+    // }
 
-    const [scrap, setScrap] = useState(false);
-    const [isLike, setIsLike] = useState(false);
-    function changeState(like){
-        handleLike(like);
-    }
-
-    useEffect(()=>{
-
-    },[]);
-
-
-    //스크랩 카드(원형)=======================================================
+    //액티비티 카드
     if(is_scrap){
         return(
             <CardFrame width={width} height={height} margin={margin} pk={pk}>
@@ -74,73 +58,10 @@ function Card(props){
                     <P fontsize={fontsize} className="scrap_company">
                         {company.length> 15 ? `${company.slice(0,15)}..`: company}
                     </P>
-                    { scrap ? 
-                    <SpanIcon onClick={()=>{changeState(like)}}>
-                        {/* 스크랩 했을때 */}
-                        <IoIosHeart size="22px" color="dd5851" style={{cursor:"pointer"}}/> 
-                    </SpanIcon>
-                    : 
-                    <SpanIcon onClick={()=>{changeState(like)}}>
-                        {/* 스크랩 풀었을때 */}
-                        <IoIosHeartEmpty size="22px" style={{cursor:"pointer"}}/>
-                    </SpanIcon>
-                    }
-
-                    <StyledLink to={`/activity/${pk}`}>
-                        <Title titlesize={titlesize} className="scrap_title">
-                                {title.length> 26 ? `${title.slice(0,26)}`: title}
-                        </Title>
-                    </StyledLink>
-                    <span className="apply_period">
-                        <MdUpdate size="13px" style={{marginRight:"5px"}}/>
-                        {period}
-                    </span>
-                </Content>
-            </CardFrame>
-        );
-    }
-
-    // //스크랩 카드(수정)=======================================================
-    // if(is_scrap){
-    //     return(
-    //         <CardFrame width={width} height={height} margin={margin} pk={pk}>
-    //             <Image src={src} cheight={"60%"}></Image>
-    //             <Content style={{height:"40%"}}>
-    //                 <P fontsize={fontsize} className="scrap_company">
-    //                     {company.length> 15 ? `${company.slice(0,15)}..`: company}
-    //                 </P>
-    //                 <Heart like={isLike} onClick={()=>{changeState(like_user)}}/>
-    //                 <StyledLink to={`/activity/${pk}`}>
-    //                     <Title titlesize={titlesize} className="scrap_title">
-    //                             {title.length> 26 ? `${title.slice(0,26)}`: title}
-    //                     </Title>
-    //                 </StyledLink>
-    //                 <span className="apply_period">
-    //                     <MdUpdate size="13px" style={{marginRight:"5px"}}/>
-    //                     {period}
-    //                 </span>
-    //             </Content>
-    //         </CardFrame>
-    //     );
-    // }
-    //스크랩 카드=======================================================
-    if(alreadylike){
-        return(
-            <CardFrame width={width} height={height} margin={margin} pk={pk}>
-                <Image src={src} cheight={"60%"}></Image>
-                <Content style={{height:"40%"}}>
-                    <P fontsize={fontsize} className="scrap_company">
-                        {company.length> 15 ? `${company.slice(0,15)}..`: company}
-                    </P>
-                    { scrap ? 
-                    <SpanIcon onClick={()=>{changeState(like)}}>
-                        <IoIosHeartEmpty size="22px" style={{cursor:"pointer"}}/>
-                    </SpanIcon>
-                    : 
-                    <SpanIcon onClick={()=>{changeState(like)}}>
-                        <IoIosHeart size="22px" color="dd5851" style={{cursor:"pointer"}}/> 
-                    </SpanIcon>
-                    }
+                    {/* <SpanIcon>
+                        <IoIosHeart size="20px" color="dd5851"/>&nbsp;&nbsp;
+                        {likecount}
+                    </SpanIcon> */}
 
                     <StyledLink to={`/activity/${pk}`}>
                         <Title titlesize={titlesize} className="scrap_title">

@@ -19,6 +19,7 @@ function PortfolioList(){
     const [file, setFile] = React.useState(null);
     const [listPage, setListPage] = useState(1);
     const [listCount, setListCount] = useState();
+    const P_PAGE = 8;
 
     const handleTitle = (e) => {
         setTitle(e.target.value);
@@ -112,7 +113,7 @@ function PortfolioList(){
                     _onClick={openModal}/>
             ))}     
         </Grid>
-        <Paginator count={listCount} pcount="8" page={listPage} setPage={setListPage}/>
+        <Paginator count={listCount} pcount={P_PAGE} page={listPage} setPage={setListPage}/>
 
         {/* 포트폴리오 post 모달=============================================================================*/}
         <Modal open={modalOpen} close={closeModal} submit={submitModal} header="포트폴리오 등록" height="670px" margin="auto">
