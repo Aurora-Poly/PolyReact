@@ -1,7 +1,6 @@
 import axios from "axios";
 import styled from "styled-components";
 import Button from "../../elements/Button";
-import { IoIosHeartEmpty,IoIosHeart } from "react-icons/io"
 import { POLY_SERVER } from "../../API";
 import { useState, useEffect } from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
@@ -40,7 +39,6 @@ function ActivityDetail(){
         if(list.includes(user)){
             setIsLike(true);
         }
-        console.log(isLike);
     }
 
     //데이터 가져오기
@@ -68,7 +66,6 @@ function ActivityDetail(){
         await axios.post(`${POLY_SERVER}/activity/like/${pk}/`,{},
         { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            console.log(response.data);
             setIsLike(!isLike);
         }).catch(function(error) {
             console.log(error);
@@ -145,15 +142,6 @@ function ActivityDetail(){
                         href={`${apply_url}`}
                     />
                 </InfoContainer>
-                    {/* <Category title="카테고리"/> */}
-
-                    
-                        {/* <H>{title}</H>
-                        <span onClick={changeState} style={{cursor:"pointer"}}>
-                            { scrap ? <IoIosHeart size="24" color="red"/> : <IoIosHeartEmpty size="24"/> }
-                        </span> */}
-                    
-
             </Container>
         </Background>
 

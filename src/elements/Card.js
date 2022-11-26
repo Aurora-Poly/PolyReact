@@ -32,23 +32,6 @@ function Card(props){
         alreadylike
     } = props;
 
-    //스크랩 기능(등록,해제 원클릭)==========================================================================
-    // const handleLike =async(like)=> {
-    //     await axios.post(`${POLY_SERVER}/activity/like/${like}/`,{},
-    //     { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
-    //     }).then(function(response) {
-    //         console.log(response.data);
-    //         setScrap(!scrap);
-
-    //     }).catch(function(error) {
-    //         console.log(error);
-    //         const error_code = error.response.status;
-    //         if(error_code == 401){
-    //             navigate('/user/login');
-    //         } 
-    //     });
-    // }
-
     //액티비티 카드
     if(is_scrap){
         return(
@@ -58,16 +41,13 @@ function Card(props){
                     <P fontsize={fontsize} className="scrap_company">
                         {company.length> 15 ? `${company.slice(0,15)}..`: company}
                     </P>
-                    {/* <SpanIcon>
-                        <IoIosHeart size="20px" color="dd5851"/>&nbsp;&nbsp;
-                        {likecount}
-                    </SpanIcon> */}
-
-                    <StyledLink to={`/activity/${pk}`}>
+                    {/* <StyledLink to={`/activity/${pk}`}></StyledLink> */}
+                    <a href={`/activity/${pk}`} target="blank">
                         <Title titlesize={titlesize} className="scrap_title">
                                 {title.length> 26 ? `${title.slice(0,26)}`: title}
                         </Title>
-                    </StyledLink>
+                    </a>
+                    
                     <span className="apply_period">
                         <MdUpdate size="13px" style={{marginRight:"5px"}}/>
                         {period}

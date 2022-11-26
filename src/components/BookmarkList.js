@@ -18,7 +18,6 @@ function BookmarkList(){
         axios.get(`${POLY_SERVER}/likelist/?page_size=${bookmarkPage}`,
         { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            console.log(response.data);
             setBookmarks(response.data.results);
             setBookmarkCount(response.data.count);
         }).catch(function(error) {

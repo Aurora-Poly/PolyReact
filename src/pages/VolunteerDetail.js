@@ -36,7 +36,6 @@ function VolunteerDetail(){
     const {pk} = useParams();
     const getVolunteer = async()=> {
         const response = await axios.get(`${POLY_SERVER}/volunteer/${pk}`);
-        console.log(response.data);
         setVolunteer({
             title: response.data.title,
             act_period: response.data.act_period,

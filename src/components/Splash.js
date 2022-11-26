@@ -1,15 +1,7 @@
 import styled, {keyframes} from "styled-components";
 import Button from "../elements/Button";
-import {GiNotebook,GiDiploma,GiSpyglass} from "react-icons/gi"
-import Grid from "../elements/Grid";
 
 function Splash(){
-    let info = [
-        {title:"서비스명1", explain: "설명1"},
-        {title:"서비스명2", explain: "설명2"},
-        {title:"서비스명3", explain: "설명3"},
-    ]
-
     const insertedToken = localStorage.getItem('token');
 
     return(

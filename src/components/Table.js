@@ -11,7 +11,6 @@ function Table(){
     for(let i=0; i<18; i++){
         areaObjArr.push({name:areaList[i],value:(i+1)});
     }
-    console.log(areaObjArr);
 
     //페이지네이션+활동 불러오기==========================================================================
     const [page, setPage] = useState(1);
@@ -19,7 +18,6 @@ function Table(){
     const [volunteers, setVolunteers] = useState([]);
     const getPageVolunteerList = async()=> {
         const response = await axios.get(`${POLY_SERVER}/volunteer/?page_size=${page}`);
-        console.log(response.data.results);
         setVolunteers(response.data.results);
         setCount(response.data.count);
     }

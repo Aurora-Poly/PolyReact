@@ -10,7 +10,6 @@ function Recommend(){
         axios.get(`${POLY_SERVER}/recommend/`,
         { headers: { Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            console.log(response.data);
             setRecommends(response.data);
         }).catch(function(error) {
             console.log(error);

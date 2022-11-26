@@ -46,7 +46,7 @@ function ResumeList(){
         const formData = new FormData();
         formData.append("title", title);
         formData.append("comments", comments);
-        formData.append('resume', resume);
+        formData.append('file_upload', resume);
         axios.post(`${POLY_SERVER}/resume/`,formData,
         { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
@@ -113,7 +113,6 @@ function ResumeList(){
             <form>
                 <Input name="title" type="text" text="제목" placeholder="제목" onChange={handleTitle}/>
                 <Input multi_line name="comments" cols="60" rows="10" text="코멘트" placeholder="간단한 설명을 추가해주세요." onChange={handleComments}/>
-                {/* <Input name="date" type="date" text="날짜" onChange={handleDate}/> */}
                 <Input file name="resume" type="file" text="이력서첨부" multiple="multiple" border="none" padding="20px" onChange={handleResume}/>
             </form>
         </Modal>

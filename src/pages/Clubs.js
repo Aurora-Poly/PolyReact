@@ -55,7 +55,6 @@ function Clubs(){
         },
         { headers : { Authorization: `Token ${localStorage.getItem('token')}`}
         }).then(function(response) {
-            console.log(response);
             window.location.reload();
         }).catch(function(error) {
             console.log(error);
@@ -66,7 +65,6 @@ function Clubs(){
     //동아리 불러오기(GET)========================================================================
     const getClubsList = async ()=> {
         const response = await axios.get(`${POLY_SERVER}/club/?page_size=${listPage}`);
-        console.log(response.data);
         setClubs(response.data.results);
         setListCount(response.data.count);
     }

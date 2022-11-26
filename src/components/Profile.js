@@ -17,7 +17,6 @@ function Profile(){
         const response = await axios.get(`${POLY_SERVER}/user/profile/${localStorage.getItem('username')}/`,
             { headers : { Authorization: `Token ${localStorage.getItem('token')}` }}
             );
-        console.log(response.data);
         setProfile({
             univ: response.data.univ,
             dept: response.data.dept,

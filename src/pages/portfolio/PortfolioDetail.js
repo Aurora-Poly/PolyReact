@@ -81,6 +81,8 @@ function PortfolioDetail(){
                             <div>
                                 <h3>이미지</h3>
                                 {detail.image !== null ? 
+                                <>
+                                    <a href={`${detail.image.image}`} download>다운로드</a>
                                     <div 
                                         style={{background:`url(${detail.image.image})`,
                                                 width:"100%", 
@@ -90,6 +92,7 @@ function PortfolioDetail(){
                                                 backgroundRepeat:"no-repeat"
                                                 }}>
                                     </div>
+                                </>
                                 : 
                                     "등록된 이미지 없음"
                                 }

@@ -35,23 +35,42 @@ function PortfolioList(){
     }
 
     //포트폴리오 등록하기=============================================================================
+    // const handleSubmit =()=>{
+    //     const formData = new FormData();
+    //     formData.append("title", title);
+    //     formData.append("content", content);
+    //     formData.append("image", image);
+    //     formData.append("file", file);
+    //     axios.
+    //     all([axios.post(`${POLY_SERVER}/portfolio/`,formData,
+    //     { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
+    //     }),
+    //     axios.post(`${POLY_SERVER}/postimage/`,formData,
+    //     { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
+    //     }),
+    //     axios.post(`${POLY_SERVER}/postfile/`,formData,
+    //     { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
+    //     }),
+    // ]).then(function(response) {
+    //         console.log(response.data);
+    //         navigate('/mypage/portfolio'); 
+    //         window.location.reload();
+    //     }).catch(function(error) {
+    //         console.log(error);
+    //         navigate('/mypage/portfolio');
+    //         window.location.reload();
+    //     });
+    // };
+
     const handleSubmit =()=>{
         const formData = new FormData();
         formData.append("title", title);
         formData.append("content", content);
         formData.append("image", image);
         formData.append("file", file);
-        axios.
-        all([axios.post(`${POLY_SERVER}/portfolio/`,formData,
+        axios.post(`${POLY_SERVER}/portfolio/`,formData,
         { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
-        }),
-        axios.post(`${POLY_SERVER}/postimage/`,formData,
-        { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
-        }),
-        axios.post(`${POLY_SERVER}/postfile/`,formData,
-        { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
-        }),
-    ]).then(function(response) {
+        }).then(function(response) {
             console.log(response.data);
             navigate('/mypage/portfolio'); 
             window.location.reload();

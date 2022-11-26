@@ -33,10 +33,10 @@ function PortfolioResumeDetail(){
             title: response.data.title,
             content: response.data.comments,
             date: response.data.date,
-            file: response.data.file
+            file: response.data.file_upload
         });
 
-        setFilename(detail.file !== null ? detail.file.file : "첨부파일 없음");
+        setFilename(detail.file !== undefined || null ? detail.file.file : "첨부파일 없음");
         console.log(filename);
     }
 
