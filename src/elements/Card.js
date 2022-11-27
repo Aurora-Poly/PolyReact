@@ -42,11 +42,11 @@ function Card(props){
                         {company.length> 15 ? `${company.slice(0,15)}..`: company}
                     </P>
                     {/* <StyledLink to={`/activity/${pk}`}></StyledLink> */}
-                    <a href={`/activity/${pk}`} target="blank">
+                    <A href={`/activity/${pk}`} target="blank">
                         <Title titlesize={titlesize} className="scrap_title">
-                                {title.length> 26 ? `${title.slice(0,26)}`: title}
+                                {title.length> 30 ? `${title.slice(0,30)}`: title}
                         </Title>
-                    </a>
+                    </A>
                     
                     <span className="apply_period">
                         <MdUpdate size="13px" style={{marginRight:"5px"}}/>
@@ -249,10 +249,8 @@ const Image = styled.div`
     background-position: center;
 `;
 
-const SpanIcon = styled.span`
-    display: inline-block;
-    margin: 0 0 0 10px;
-    float: right;
+const A = styled.a`
+    text-decoration: none;
 `;
 
 export default Card;

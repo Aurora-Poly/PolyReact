@@ -136,7 +136,7 @@ const Tarea = styled.textarea`
     padding: 10px 10px;
     outline: 0;
     border: 1px solid #e6e6e6;
-    border-radius: 15px;
+    border-radius: 5px;
 
     &:hover{ border: 1px solid #868e96; }
     &:focus{ border: 1px solid rgb(113,136,208); }

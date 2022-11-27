@@ -9,7 +9,7 @@ function PortfolioManage(){
     const navigate = useNavigate();
     
     useEffect(()=>{
-        navigate("home");
+        // navigate("home"); 이게 정삭적인 리다이렉션을 방해하는 원인이었다.
     },[]);
     return(
         <>

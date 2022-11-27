@@ -5,8 +5,6 @@ import {useState, useEffect} from 'react';
 import Input from '../../elements/Input';
 import Form from '../../elements/Form';
 import Button from "../../elements/Button";
-import {IoIosAdd} from "react-icons/io";
-import {AiOutlineMinus} from "react-icons/ai";
 import {POLY_SERVER} from "../../API.js";
 
 function PortfolioResumeDetail(){
@@ -41,79 +39,24 @@ function PortfolioResumeDetail(){
         }
     }
 
-    
-
     //게시글 삭제하기=============================================================================
     const handleDelete =async()=>{
         return await axios.delete(`${POLY_SERVER}/resume/${pk}`, 
         { headers : { Authorization: `Token ${localStorage.getItem('token')}`}})
         .then(response => {
-            // handle success
             console.log(response);
             navigate('/mypage/resume');
         })
         .catch(error => {
-            // handle error
             console.log(error);
             navigate('/mypage/resume');
             
         })
         .then(() => {
-            // always executed
             navigate('/mypage/resume');
         });
-       
     }
 
-    //파일 변경 감지
-    const editFile =(event)=>{
-        console.log(event.target.files[0]);
-        setFile(event.target.files[0]);
-    }
-
-    //파일 post(등록,수정)
-    const handleFile =(e)=>{
-        e.preventDefault();
-        const fd= new FormData();
-        fd.append("file", file);
-        fd.append("post", pk);
-        axios.post(`${POLY_SERVER}/postfile/`,fd,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
-            console.log(response.data);
-        }).catch(function(error) {
-            console.log(error);
-        });
-    }
-
-    //기존 파일 삭제
-    const onClearFile=(e)=>{
-        e.preventDefault();
-        axios.delete(`${POLY_SERVER}/postfile/${pk}/`,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
-            console.log(response.data);
-        }).catch(function(error) {
-            console.log(error);
-        });
-    };
-
-    //수정하기(제목,내용)=============================================================================
-    const handlePut =(e)=>{
-        e.preventDefault();
-        const fd= new FormData();
-        fd.append("title", detail.title);
-        fd.append("comments", detail.content);
-        axios.patch(`${POLY_SERVER}/resume/${pk}/`,fd,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
-            console.log(response.data);
-            alert("수정되었습니다.");
-            window.location.reload(); //새로고침
-        }).catch(function(error) {
-            console.log(error);
-        });
-    };
 
     useEffect(()=>{ 
         getCvList();
@@ -133,7 +76,13 @@ function PortfolioResumeDetail(){
                     </span>
                     <div className="e_content">
                         <h3>내용</h3>
-                        <div>{detail.content}</div>
+                        <div>
+                            {detail.content.split('\n').map((t,index)=>{
+                                return (
+                                    <span key={index}>{t}<br/></span>
+                                )
+                            })}
+                        </div>
                     </div>
                     <div>
                         <h3>첨부파일</h3>
@@ -167,13 +116,13 @@ const Div = styled.div`
     margin: 0 auto 50px auto;
     box-sizing: border-box;
     color: #363636;
+
+    .e_content{
+        height: auto;
+        min-height: 300px;
+    }
 `;
-const BtnEditBox = styled.div`
-    text-align: center;
-    float: right;
-    position: relative;
-    top: -30px;
-`;
+
 const BtnBox = styled.div`
     text-align: center;
     float: right;

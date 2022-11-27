@@ -105,7 +105,7 @@ function UserSettings(){
     };
 
     return(
-                    <Form width="400px" height="450px" padding="20px" margin="70px auto">
+                    <Form width="400px" height="450px" padding="20px" margin="70px auto" position="relative" top="60px">
                         <H3>유저정보</H3>
                         <Grid col="2" row="1">
                             <Username>

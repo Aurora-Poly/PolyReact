@@ -63,8 +63,11 @@ function PortfolioResumeEdit(){
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
+            navigate('/mypage/resume');
         }).catch(function(error) {
             console.log(error);
+        }).then(() => {
+            navigate('/mypage/resume');
         });
     }
 
@@ -86,25 +89,12 @@ function PortfolioResumeEdit(){
         ]).then(function(response) {
             console.log(response.data);
             navigate('/mypage/resume');
-            window.location.reload();
+            // window.location.reload();
         }).catch(function(error) {
             console.log(error);
             navigate('/mypage/resume');
-            window.location.reload();
-        });
-    }
-
-    //API(파일수정)======================================================================================
-    const postFile =()=>{
-        const fd= new FormData();
-        fd.append("file", file);
-        fd.append("post", pk);
-        axios.post(`${POLY_SERVER}/resumefile/${pk}/`,fd,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
-            console.log(response.data);
-        }).catch(function(error) {
-            console.log(error);
+        }).then(() => {
+            navigate('/mypage/resume');
         });
     }
 

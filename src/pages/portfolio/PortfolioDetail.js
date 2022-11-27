@@ -16,12 +16,13 @@ function PortfolioDetail(){
         image: null,
         file: null
     });
+    const [filename, setFilename] = useState('');
 
     //데이터 불러오기=============================================================================
     const getDetail = async() =>{
         const response = await axios.get(`${POLY_SERVER}/portfolio/${pk}/`, 
         { headers : { Authorization: `Token ${localStorage.getItem('token')}`}});
-        console.log(response);
+        console.log(response.data);
         setDetail({
             title: response.data.title,
             content: response.data.content,
@@ -29,6 +30,10 @@ function PortfolioDetail(){
             image: response.data.image,
             file: response.data.file
         });
+        if(response.data.file!==null){
+            let splitName = response.data.file.file.split('/');
+            setFilename(splitName[splitName.length-1]);
+        }
     };
 
     //게시글 삭제하기=============================================================================
@@ -64,9 +69,9 @@ function PortfolioDetail(){
                             <div className="e_content">
                                 <h3>내용</h3>
                                 <div>
-                                    {detail.content.split('\n').map((t)=>{
+                                    {detail.content.split('\n').map((t,index)=>{
                                         return (
-                                            <span>{t}<br/></span>
+                                            <span key={index}>{t}<br/></span>
                                         )
                                     })}
                                 </div>
@@ -95,7 +100,7 @@ function PortfolioDetail(){
                                 {detail.file !== null ? 
                                 <>
                                     <a href={`${detail.file.file}`} download target="_self">다운로드</a>
-                                    <p>{detail.file.file}</p>
+                                    <p>{filename}</p>
                                 </>
                                 : 
                                     "등록된 파일 없음"
@@ -132,7 +137,8 @@ const Container = styled.div`
         font-weight: 400;
     }
     .e_content{ 
-        height: 200px; 
+        height: auto;
+        min-height: 300px;
     }
     .flex_container{
         display: inline-flex;
