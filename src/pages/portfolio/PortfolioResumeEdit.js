@@ -145,7 +145,7 @@ function PortfolioResumeEdit(){
         <Background>
             <Form width="50%" position="relative" top="50px" margin="0 auto" padding="20px" background="#fff">
                     <Input name="title" type="text" text="제목" placeholder="제목" value={title} onChange={changeTitle}/>
-                    <Input multi_line cols="99" rows="20"name="content" text="내용" placeholder="내용" value={comments} onChange={changeComments}/>
+                    <Input multi_line twidth="97%" rows="20"name="content" text="내용" placeholder="내용" value={comments} onChange={changeComments}/>
 
                     {isExist ? 
                         <div className="file-info">

@@ -125,13 +125,14 @@ Input.defaultProps = {
 };
 
 const InputContainer = styled.div`
+    width: 100%;
     margin: ${(props)=>props.margin};
     box-sizing: border-box;
     padding: 5px;
 `;
 
 const Tarea = styled.textarea`
-    width: ${(props)=>props.width};
+    width: ${(props)=>props.twidth};
     padding: 10px 10px;
     outline: 0;
     border: 1px solid #e6e6e6;
