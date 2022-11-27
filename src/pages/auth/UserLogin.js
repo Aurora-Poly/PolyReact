@@ -34,7 +34,7 @@ function UserLogin(){
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('username', username);
                     alert("로그인 성공");
-                    navigate("/mypage");
+                    navigate("/mypage/home");
                 }
             })
             .catch(function(error) {
