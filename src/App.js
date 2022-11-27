@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Splash from "./components/Splash.js";
 import Navbar from "./components/Navbar.js";
-import Footer from "./components/Footer.js";
 import UserLogin from "./pages/auth/UserLogin.js";
 import UserRegister from "./pages/auth/UserRegister.js";
 import UserSettings from "./pages/auth/UserSettings.js";
@@ -23,6 +22,7 @@ import Recommend from "./pages/Recommend";
 import Clubs from "./pages/Clubs";
 import Found404 from "./pages/Found404";
 import Global from "./Global";
+import PortfolioResumeEdit from "./pages/portfolio/PortfolioResumeEdit.js";
 
 function App() {
     const insertedToken = localStorage.getItem('token');
@@ -59,13 +59,13 @@ function App() {
                         <Route path="resume" element={<ResumeList/>}/>
                         <Route path="bookmark" element={<BookmarkList/>}/>
                     </Route>
+
                     <Route path="/mypage/portfolio/:pk" element={<PortfolioDetail/>}/>
                     <Route path="/mypage/portfolio/edit/:pk" element={<PortfoiloEdit/>}/>
                     <Route path="/mypage/resume/:pk" element={<PortfolioResumeDetail/>}/>
+                    <Route path="/mypage/resume/edit/:pk" element={<PortfolioResumeEdit/>}/>
                     <Route path="/mypage/:user" element={<UserSettings/>}/>
                 </Routes>
-                
-                {/* <Footer/>  */}
             </ContentContainer>
             </BrowserRouter>
         </Container>

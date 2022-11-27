@@ -142,20 +142,7 @@ function PortfolioEdit(){
     //         console.log(error);
     //     });
     // }
-    //파일 post(등록,수정) =============================================================================
-    const handleFile =(e)=>{
-        e.preventDefault();
-        const fd= new FormData();
-        fd.append("file", file);
-        fd.append("post", pk);
-        axios.post(`${POLY_SERVER}/postfile/`,fd,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
-            console.log(response.data);
-        }).catch(function(error) {
-            console.log(error);
-        });
-    }
+
     
     //기존 이미지 삭제 =============================================================================
     const onClearImage=(e)=>{

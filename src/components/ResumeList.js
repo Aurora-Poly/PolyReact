@@ -12,9 +12,9 @@ import Paginator from "../elements/Paginator";
 
 //portfolioManage페이지의 이력서,자소서를 관리하는 컴포넌트
 function ResumeList(){
-    const [title, setTitle] = React.useState('');
-    const [comments, setComments] = React.useState('');
-    const [resume, setResume] = React.useState(null);
+    const [title, setTitle] = useState('');
+    const [comments, setComments] = useState('');
+    const [resume, setResume] = useState(null);
     const [listPage, setListPage] = useState(1);
     const [listCount, setListCount] = useState();
     const P_PAGE = 8;
@@ -46,7 +46,7 @@ function ResumeList(){
         const formData = new FormData();
         formData.append("title", title);
         formData.append("comments", comments);
-        formData.append('file_upload', resume);
+        formData.append("file", resume);
         axios.post(`${POLY_SERVER}/resume/`,formData,
         { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {

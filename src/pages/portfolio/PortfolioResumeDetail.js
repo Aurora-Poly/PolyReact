@@ -17,7 +17,6 @@ function PortfolioResumeDetail(){
         title: '',
         content: '',
         date: '',
-        file: null
     });
 
     const [file, setFile] = useState(null);
@@ -33,10 +32,10 @@ function PortfolioResumeDetail(){
             title: response.data.title,
             content: response.data.comments,
             date: response.data.date,
-            file: response.data.file_upload
+            // file: response.data.resume_file,
         });
-
-        setFilename(detail.file !== undefined || null ? detail.file.file : "첨부파일 없음");
+        setFile(response.data.resume_file !== undefined || null ? response.data.resume_file.file : '');
+        setFilename(response.data.resume_file !== undefined || null ? response.data.resume_file.file : "첨부파일 없음");
         console.log(filename);
     }
 
@@ -63,24 +62,6 @@ function PortfolioResumeDetail(){
         });
        
     }
-
-    //수정 버튼 클릭 시 변경점=============================================================================
-     const [updateMode, setUpdateMode] = useState(false);
-     const changeUpdate = (e) => {
-         setUpdateMode(!updateMode);
-     };
-
-     //제목,내용,날짜 변경 감지=============================================================================
-    const changeContent = (event) => {
-		setDetail(
-            {
-                ...detail,
-			// ...content,
-			[event.target.name]: event.target.value
-		    }
-        );
-        console.log([event.target.name], event.target.value);
-	};
 
     //파일 변경 감지
     const editFile =(event)=>{
@@ -115,7 +96,7 @@ function PortfolioResumeDetail(){
         });
     };
 
-    //수정하기(제목,내용,날짜)=============================================================================
+    //수정하기(제목,내용)=============================================================================
     const handlePut =(e)=>{
         e.preventDefault();
         const fd= new FormData();
@@ -127,7 +108,6 @@ function PortfolioResumeDetail(){
             console.log(response.data);
             alert("수정되었습니다.");
             window.location.reload(); //새로고침
-        
         }).catch(function(error) {
             console.log(error);
         });
@@ -140,63 +120,32 @@ function PortfolioResumeDetail(){
     return(
 
         <Background>
-
             <Div>
-                {updateMode ? 
-                    (
-                        <>
-                        {/* 수정 */}
-                            <Form position="relative" top="50px" padding="20px" background="#fff">
-                                <Input name="title" type="text" text="제목" placeholder="제목" value={detail.title} onChange={changeContent}/>
-                                <Input multi_line cols="99" rows="20"name="content" text="내용" placeholder="내용" value={detail.content} onChange={changeContent}/>
-                                <Input name="date" type="date" text="날짜" placeholder="날짜" value={detail.date} onChange={changeContent}/>
-                                
-
-                                <div className="flex_container">
-                                    <Input file name="file" type="file" text="첨부파일" placeholder="첨부파일" onChange={editFile}/>
-                                    <button type="button" onClick={handleFile}  className="btns"><IoIosAdd size="20px"/></button>
-                                    <button type="button" onClick={onClearFile}  className="btns"><AiOutlineMinus size="16px"/></button>     
-                                </div>
-                                {/* <span id="file_upload_name">{filename}</span><button type="button" onClick={onClearFile}>x</button> */}
-                                
-                                <BtnEditBox>
-                                    <Button just onClick={handlePut} text="저장" width="60px" height="35px" margin="0 10px 0 0"/>
-                                    <Button just onClick={changeUpdate} text="취소" width="60px" height="35px"/>
-                                </BtnEditBox>
-                            </Form> 
-                        </> 
-                        
-                    )
-                    : 
-                    (
-                        <>
-                        <Form position="relative" top="50px" padding="20px" background="#fff">
-                            <div style={{display:"inline-block", width:"70%"}}>
-                                <h2 style={{margin:0,marginBottom:"30px"}}>{detail.title}</h2>
-                            </div>
-                            <span style={{float:"right",color:"#adb5bd",fontSize:"14px"}}>
-                                등록일: {detail.date}
-                            </span>
-                            <div className="e_content">
-                                <h3>내용</h3>
-                                <div>{detail.content}</div>
-                            </div>
-                            <div>
-                                <h3>첨부파일</h3>
-                                {detail.image !== null ? 
-                                    <p><a href="/">{filename}</a></p>
-                                :
-                                    "등록된 파일 없음"
-                                }
-                            </div>
-                            <BtnBox>
-                                <Button just onClick={changeUpdate} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
-                                <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
-                            </BtnBox>
-                        </Form>
-                        </>
-                    )
-                    }
+                <Form position="relative" top="50px" padding="20px" background="#fff">
+                    <p>마이페이지 / 이력서,자기소개서</p>
+                    <div style={{display:"inline-block", width:"70%"}}>
+                        <h2 style={{margin:0,marginBottom:"30px"}}>{detail.title}</h2>
+                    </div>
+                    <span style={{float:"right",color:"#adb5bd",fontSize:"14px"}}>
+                        등록일: {detail.date}
+                    </span>
+                    <div className="e_content">
+                        <h3>내용</h3>
+                        <div>{detail.content}</div>
+                    </div>
+                    <div>
+                        <h3>첨부파일</h3>
+                        {detail.image !== null ? 
+                        <p><a href="/">{filename}</a></p>
+                    :
+                        "등록된 파일 없음"
+                        }
+                    </div>
+                    <BtnBox>
+                        <Button just onClick={()=>{navigate(`/mypage/resume/edit/${pk}`)}} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
+                        <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
+                    </BtnBox>
+                </Form>
             </Div>
         </Background>
     )
