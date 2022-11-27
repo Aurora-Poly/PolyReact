@@ -5,12 +5,11 @@ import {useState, useEffect} from 'react';
 import Input from '../../elements/Input';
 import Form from '../../elements/Form';
 import Button from "../../elements/Button";
-import {IoIosAdd} from "react-icons/io";
-import {AiOutlineMinus} from "react-icons/ai";
 import { POLY_SERVER } from "../../API";
 
 function PortfolioEdit(){
     const {pk} = useParams();
+    const navigate = useNavigate();
     const [detail, setDetail] = useState({
         title: '',
         content: '',
@@ -96,6 +95,7 @@ function PortfolioEdit(){
             { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
             }).then(function(response) {
                 console.log(response.data);
+                navigate(`/mypage/portfolio/${pk}`);
             }).catch(function(error) {
                 console.log(error);
             });
@@ -127,6 +127,7 @@ function PortfolioEdit(){
                 console.log(res1.data);
                 console.log(res2.data);
                 console.log(res3.data);
+                navigate(`/mypage/portfolio/${pk}`);
             })).catch(function(error) {
                 console.log(error);
             });
@@ -140,6 +141,7 @@ function PortfolioEdit(){
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
             console.log(response.data);
+            navigate(`/mypage/portfolio/${pk}`);
         }).catch(function(error) {
             console.log(error);
         });
@@ -153,7 +155,7 @@ function PortfolioEdit(){
         axios.post(`${POLY_SERVER}/postfile/`,fd,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            console.log(response.data);
+            navigate(`/mypage/portfolio/${pk}`);
         }).catch(function(error) {
             console.log(error);
         });
@@ -165,7 +167,6 @@ function PortfolioEdit(){
         axios.delete(`${POLY_SERVER}/postimage/${pk}/`,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            console.log(response.data);
             setIsImgExist(false);
             setEditImgExist(false);
         }).catch(function(error) {
@@ -178,7 +179,6 @@ function PortfolioEdit(){
         axios.delete(`${POLY_SERVER}/postfile/${pk}/`,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            console.log(response.data);
             setIsFileExist(false);
             setEditFileExist(false);
         }).catch(function(error) {
@@ -191,16 +191,16 @@ function PortfolioEdit(){
     const Save =(e)=>{
         e.preventDefault();
         if(editImgExist&&editFileExist){
-            console.log('postAll');
+            // console.log('postAll');
             postAll();
         }else if(editFileExist){
-            console.log('postFile');
+            // console.log('postFile');
             postFile();
         }else if(editImgExist){
-            console.log('postImage');
+            // console.log('postImage');
             postImage();
         }else{
-            console.log('postText');
+            // console.log('postText');
             postText();
         }
     }
@@ -212,7 +212,7 @@ function PortfolioEdit(){
 
     return(
         <Background>
-            <Form width="50%" height="700px" padding="15px" margin="0 auto" position="relative" top="80px" background="#fff">
+            <Form width="50%" height="610px" padding="15px" margin="0 auto" position="relative" top="70px" background="#fff">
                 <Input name="title" type="text" text="제목" placeholder="제목" value={detail.title} onChange={changeContent}/>
                 <Input multi_line twidth="98%" rows="20"name="content" text="내용" placeholder="내용" value={detail.content} onChange={changeContent}/>
 
@@ -220,8 +220,8 @@ function PortfolioEdit(){
                     {isImgExist ? 
                         <div>
                             <h5>첨부이미지</h5>
-                            <span>{imgname}</span>
-                            <button type="button" onClick={deleteImage}  className="btns"><AiOutlineMinus size="16px"/></button>
+                            <span>{imgname}</span>&nbsp;&nbsp;
+                            <DeleteButton type="button" onClick={deleteImage}  className="btns">X</DeleteButton>
                         </div>
                     : 
                         <Input file name="image" type="file" text="이미지" placeholder="이미지" accept={"image/png,image/jpeg,image/gif"} onChange={editImage}/>
@@ -231,8 +231,8 @@ function PortfolioEdit(){
                     {isFileExist ? 
                         <div>
                             <h5>첨부파일</h5>
-                            <span>{filename}</span>
-                            <button type="button" onClick={deleteFile}  className="btns"><AiOutlineMinus size="16px"/></button>     
+                            <span>{filename}</span>&nbsp;&nbsp;
+                            <DeleteButton type="button" onClick={deleteFile}  className="btns">X</DeleteButton>     
                         </div>
                     :
                         <Input file name="file" type="file" text="첨부파일" placeholder="첨부파일" onChange={editFile}/>
@@ -253,8 +253,16 @@ const Background = styled.div`
     background: url('/img/blur_desk3.jpg') no-repeat center center/cover, rgba(0,0,0,0.1);
 `;
 
-const BtnBox = styled.div`
+const DeleteButton = styled.button`
+    border: 0;
+    color: #526acc;
+    cursor: pointer;
+`;
 
+const BtnBox = styled.div`
+    float: right;
+    position: relative;
+    top: -30px;
 `;
 
 export default PortfolioEdit;

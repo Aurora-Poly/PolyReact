@@ -33,7 +33,7 @@ function PortfolioResumeDetail(){
             // file: response.data.resume_file,
         });
         if(response.data.resume_file !== null){
-            setFile(response.data.resume_file);
+            setFile(response.data.resume_file.file);
             let splitName = response.data.resume_file.file.split('/');
             setFilename(splitName[splitName.length-1]);
         }
@@ -57,6 +57,29 @@ function PortfolioResumeDetail(){
         });
     }
 
+    //파일다운로드?
+    const downloadFile =async(url,name)=>{
+        await axios({
+            url: url, // 파일 다운로드 요청 URL
+            method: 'GET', // 혹은 'POST'
+            responseType: 'blob', // 응답 데이터 타입 정의
+        }).then(function(response) {
+            const blob = new Blob([response.data]);
+            const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = name;
+			document.body.appendChild(a);
+			a.click();
+			setTimeout(_ => {
+				window.URL.revokeObjectURL(url);
+			}, 60000);
+			a.remove();
+        }).catch(function(error) {
+            console.log(error);
+        });
+    }
+
 
     useEffect(()=>{ 
         getCvList();
@@ -66,14 +89,10 @@ function PortfolioResumeDetail(){
 
         <Background>
             <Div>
-                <Form position="relative" top="50px" padding="20px" background="#fff">
-                    <p>마이페이지 / 이력서,자기소개서</p>
-                    <div style={{display:"inline-block", width:"70%"}}>
-                        <h2 style={{margin:0,marginBottom:"30px"}}>{detail.title}</h2>
-                    </div>
-                    <span style={{float:"right",color:"#adb5bd",fontSize:"14px"}}>
-                        등록일: {detail.date}
-                    </span>
+                <Form position="relative" top="70px" padding="20px" background="#fff">
+                    <SubpageName>마이페이지 / 이력서,자기소개서</SubpageName>
+                    <Date>등록일: {detail.date}</Date>
+                    <Title>{detail.title}</Title>
                     <div className="e_content">
                         <h3>내용</h3>
                         <div>
@@ -86,14 +105,18 @@ function PortfolioResumeDetail(){
                     </div>
                     <div>
                         <h3>첨부파일</h3>
-                        {filename !== null ? 
-                        <p>{filename}</p>
+                        {file !== null ?
+                        <>
+                            <span>{filename}</span>&nbsp;&nbsp;
+                            <DownloadButton type="button" onClick={()=>{downloadFile(`${file}`,`${filename}`)}}>다운로드</DownloadButton>
+                        </> 
                     :
                         "등록된 파일 없음"
                         }
                     </div>
                     <BtnBox>
-                        <Button just onClick={()=>{navigate(`/mypage/resume/edit/${pk}`)}} text="수정" width="60px" height="35px" margin="0 10px 0 0"/>
+                        <BackButton onClick={()=>{navigate(`/mypage/resume/`)}}>목록으로</BackButton>
+                        <Button just onClick={()=>{navigate(`/mypage/resume/edit/${pk}`)}} text="수정" width="60px" height="35px" margin="0 5px 0 0"/>
                         <Button href="/mypage" onClick={handleDelete} text="삭제" width="60px" height="35px"/>
                     </BtnBox>
                 </Form>
@@ -121,6 +144,47 @@ const Div = styled.div`
         height: auto;
         min-height: 300px;
     }
+
+    h3{
+        font-size: 15px;
+    }
+`;
+
+const SubpageName = styled.span`
+    margin: 0;
+    color: #818181;
+    font-size: small;
+`;
+
+const Title = styled.h2`
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    margin-top: 5px;
+`;
+
+const Date = styled.span`
+    font-size: small;
+    color: #818181;
+    float: right;
+`;
+
+const DownloadButton = styled.button`
+    border: 0;
+    color: #526acc;
+    cursor: pointer;
+`;
+
+const BackButton = styled.button`
+    border: 1px solid #818181;
+    color: #818181;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 8px;
+    margin-right: 5px;
+    box-sizing: border-box;
+    height: 35px;
+    width: 75px;
 `;
 
 const BtnBox = styled.div`

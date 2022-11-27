@@ -206,10 +206,12 @@ const Image = styled.div`
 
 const Title = styled.div`
     width: 100%;
+    height: 78px;
     
     >h2{
         display: inline-block;
         width: 95%;
+        margin-top: 0;
     }
 
     .icon{

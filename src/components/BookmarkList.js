@@ -28,7 +28,7 @@ function BookmarkList(){
 
     useEffect(()=>{
         getBookmarksList();
-    },[bookmarkCount]);
+    },[]);
 
     return(
         <>

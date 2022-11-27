@@ -6,8 +6,6 @@ import { useState, useEffect } from 'react';
 import Input from '../../elements/Input';
 import Form from '../../elements/Form';
 import Button from "../../elements/Button";
-import {IoIosAdd} from "react-icons/io";
-import {AiOutlineMinus} from "react-icons/ai";
 
 function PortfolioResumeEdit(){
     const {pk} = useParams();
@@ -30,7 +28,6 @@ function PortfolioResumeEdit(){
         setFile(e.target.files[0]);
         if(e.target.files[0]){
             setChangeExist(true);
-            console.log("수정파일 존재여부>>  ", changeExist);
         }
     }
 
@@ -62,12 +59,11 @@ function PortfolioResumeEdit(){
         axios.put(`${POLY_SERVER}/resume/${pk}/`,fd,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            console.log(response.data);
-            navigate('/mypage/resume');
+            navigate(`/mypage/resume/${pk}`);
         }).catch(function(error) {
             console.log(error);
         }).then(() => {
-            navigate('/mypage/resume');
+            navigate(`/mypage/resume/${pk}`);        
         });
     }
 
@@ -87,14 +83,13 @@ function PortfolioResumeEdit(){
             { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
             })
         ]).then(function(response) {
-            console.log(response.data);
-            navigate('/mypage/resume');
+            navigate(`/mypage/resume/${pk}`);
             // window.location.reload();
         }).catch(function(error) {
             console.log(error);
-            navigate('/mypage/resume');
+            navigate(`/mypage/resume/${pk}`);
         }).then(() => {
-            navigate('/mypage/resume');
+            navigate(`/mypage/resume/${pk}`);
         });
     }
 
@@ -104,7 +99,6 @@ function PortfolioResumeEdit(){
         axios.delete(`${POLY_SERVER}/resumefile/${pk}/`,
         { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
         }).then(function(response) {
-            console.log(response.data);
             setChangeExist(false);
             setIsExist(false);
         }).catch(function(error) {
@@ -117,12 +111,10 @@ function PortfolioResumeEdit(){
         e.preventDefault();
         if(changeExist){
             //수정파일 있으면 모두 수정
-            console.log('postall');
             postAll();
         }else{
             //수정파일 없으면 내용물만 수정
             postContent();
-            console.log('postContent');
         }
     }
 
@@ -133,22 +125,23 @@ function PortfolioResumeEdit(){
 
     return(
         <Background>
-            <Form width="50%" position="relative" top="50px" margin="0 auto" padding="20px" background="#fff">
+            <Form width="50%" position="relative" top="70px" margin="0 auto" padding="20px" background="#fff">
                     <Input name="title" type="text" text="제목" placeholder="제목" value={title} onChange={changeTitle}/>
                     <Input multi_line twidth="97%" rows="20"name="content" text="내용" placeholder="내용" value={comments} onChange={changeComments}/>
 
                     {isExist ? 
                         <div className="file-info">
-                            <p>{filename}</p>
-                            <button type="button" onClick={deleteFile}  className="btns"><AiOutlineMinus size="16px"/></button>     
+                            <h5>첨부파일</h5>
+                            <span>{filename}</span>&nbsp;&nbsp;
+                            <DeleteButton type="button" onClick={deleteFile} className="btns">X</DeleteButton>     
                         </div>
                     :
                         <Input file name="file" type="file" text="첨부파일" placeholder="첨부파일" onChange={changeFile}/>
                     }
                                 
-                    <div>
+                    <BtnBox>
                         <Button just onClick={Save} text="저장" width="60px" height="35px" margin="0 10px 0 0"/>
-                    </div>
+                    </BtnBox>
             </Form> 
         </Background>
     )
@@ -162,6 +155,18 @@ const Background = styled.div`
     .file-info{
 
     }
+`;
+
+const DeleteButton = styled.button`
+    border: 0;
+    color: #526acc;
+    cursor: pointer;
+`;
+
+const BtnBox = styled.div`
+    float: right;
+    position: relative;
+    top: -30px;
 `;
 
 export default PortfolioResumeEdit;

@@ -6,6 +6,7 @@ import Input from '../../elements/Input';
 import Form from "../../elements/Form";
 import Grid from "../../elements/Grid";
 import Button from '../../elements/Button';
+import { POLY_SERVER } from "../../API";
 
 function UserSettings(){
     //프로필 불러오기=========================================================
@@ -16,7 +17,7 @@ function UserSettings(){
     });
     const {user} = useParams();
     const getProfile = async ()=> {
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profile/${user}/`,
+        const response = await axios.get(`${POLY_SERVER}/user/profile/${user}/`,
             { headers : { Authorization: `Token ${localStorage.getItem('token')}` }}
             );
         setProfile({
@@ -28,7 +29,7 @@ function UserSettings(){
         setImage(response.data.image);
     }
     const getImage = async ()=> {
-        const response = await axios.get(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profileimg/`,
+        const response = await axios.get(`${POLY_SERVER}/user/profileimg/`,
             { headers : { Authorization: `Token ${localStorage.getItem('token')}` }}
             );
             if(response.data[0] !== undefined){
@@ -67,7 +68,7 @@ function UserSettings(){
     //기존 프로필 이미지 삭제 =============================================================================
     const onClearImage=(e)=>{
         e.preventDefault();
-        axios.delete(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profileimg/${user}/`,
+        axios.delete(`${POLY_SERVER}/user/profileimg/${user}/`,
         { headers: { Authorization: `Token ${localStorage.getItem('token')}` }}
         ).then(function(response) {
             console.log('프로필 삭제됨');
@@ -90,10 +91,10 @@ function UserSettings(){
         fdi.append("user", profile.user);
 
         axios.all([
-            axios.patch(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profile/${user}/`,fd,
+            axios.patch(`${POLY_SERVER}/user/profile/${user}/`,fd,
             { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
             }),
-            axios.post(`http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/profileimg/`,fdi,
+            axios.post(`${POLY_SERVER}/user/profileimg/`,fdi,
             { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
             })
             ]).then(axios.spread((res1, res2)=>{

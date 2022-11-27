@@ -5,6 +5,7 @@ import axios from 'axios';
 import Input from "../../elements/Input";
 import Form from "../../elements/Form";
 import Button from "../../elements/Button.js";
+import { POLY_SERVER } from "../../API";
 
 
 function UserLogin(){
@@ -25,7 +26,7 @@ function UserLogin(){
 
     const doLogin =(e)=>{
         e.preventDefault();
-        axios.post("http://ec2-43-201-75-218.ap-northeast-2.compute.amazonaws.com:8080/user/login/", {
+        axios.post(`${POLY_SERVER}/user/login/`, {
                 username: username,
                 password: password
             }).then(function(response) {
