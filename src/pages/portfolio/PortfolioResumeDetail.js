@@ -34,9 +34,11 @@ function PortfolioResumeDetail(){
             date: response.data.date,
             // file: response.data.resume_file,
         });
-        setFile(response.data.resume_file !== undefined || null ? response.data.resume_file.file : '');
-        setFilename(response.data.resume_file !== undefined || null ? response.data.resume_file.file : "첨부파일 없음");
-        console.log(filename);
+        if(response.data.resume_file !== null){
+            setFile(response.data.resume_file);
+            let splitName = response.data.resume_file.file.split('/');
+            setFilename(splitName[splitName.length-1]);
+        }
     }
 
     
@@ -135,8 +137,8 @@ function PortfolioResumeDetail(){
                     </div>
                     <div>
                         <h3>첨부파일</h3>
-                        {detail.image !== null ? 
-                        <p><a href="/">{filename}</a></p>
+                        {filename !== null ? 
+                        <p>{filename}</p>
                     :
                         "등록된 파일 없음"
                         }

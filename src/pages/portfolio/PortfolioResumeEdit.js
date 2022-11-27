@@ -55,8 +55,7 @@ function PortfolioResumeEdit(){
     }
 
     //API(내용수정)======================================================================================
-    const postContent =(e)=>{
-        e.preventDefault();
+    const postContent =()=>{
         const fd= new FormData();
         fd.append("title", title);
         fd.append("comments", comments);
