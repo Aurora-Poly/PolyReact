@@ -40,7 +40,7 @@ function Navbar(){
                         ( //토큰 있으면
                         <>
                             <CgUserlane size="18px"color="#54d498"/>&nbsp;
-                            <span>{username}</span>
+                            <span style={{marginRight:"20px"}}>{username}</span>
 
                             <span onClick={doLogout}>로그아웃</span>
                         </>
