@@ -134,12 +134,21 @@ function PortfolioEdit(){
     };
     //API(이미지수정)=============================================================================
     const postImage =()=>{
-        const fd= new FormData();
-        fd.append("image", image);
-        fd.append("post", pk);
-        axios.post(`${POLY_SERVER}/postimage/`,fd,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
+        const fdt= new FormData();
+        fdt.append("title", detail.title);
+        fdt.append("content", detail.content);
+        const fdi= new FormData();
+        fdi.append("image", image);
+        fdi.append("post", pk);
+
+        axios.all([
+            axios.patch(`${POLY_SERVER}/portfolio/${pk}/`,fdt,
+            { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
+            }),
+            axios.post(`${POLY_SERVER}/postimage/`,fdi,
+            { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
+            })
+            ]).then(function(response) {
             console.log(response.data);
             navigate(`/mypage/portfolio/${pk}`);
         }).catch(function(error) {
@@ -149,12 +158,21 @@ function PortfolioEdit(){
 
     //API(파일수정)=============================================================================
     const postFile =()=>{
-        const fd= new FormData();
-        fd.append("file", file);
-        fd.append("post", pk);
-        axios.post(`${POLY_SERVER}/postfile/`,fd,
-        { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
-        }).then(function(response) {
+        const fdt= new FormData();
+        fdt.append("title", detail.title);
+        fdt.append("content", detail.content);
+        const fdf= new FormData();
+        fdf.append("file", file);
+        fdf.append("post", pk);
+
+        axios.all([
+            axios.patch(`${POLY_SERVER}/portfolio/${pk}/`,fdt,
+            { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
+            }),
+            axios.post(`${POLY_SERVER}/postfile/`,fdf,
+            { headers: { 'Content-Type': `multipart/form-data`, Authorization: `Token ${localStorage.getItem('token')}` }
+            })
+            ]).then(function(response) {
             navigate(`/mypage/portfolio/${pk}`);
         }).catch(function(error) {
             console.log(error);
@@ -212,7 +230,7 @@ function PortfolioEdit(){
 
     return(
         <Background>
-            <Form width="50%" height="610px" padding="15px" margin="0 auto" position="relative" top="70px" background="#fff">
+            <Form width="50%" height="640px" padding="15px" margin="0 auto" position="relative" top="70px" background="#fff">
                 <Input name="title" type="text" text="제목" placeholder="제목" value={detail.title} onChange={changeContent}/>
                 <Input multi_line twidth="98%" rows="20"name="content" text="내용" placeholder="내용" value={detail.content} onChange={changeContent}/>
 

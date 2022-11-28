@@ -58,7 +58,7 @@ function PortfolioDetail(){
        
     }
 
-    //파일다운로드?
+    //파일다운로드
     const downloadFile =async(url,name)=>{
         await axios({
             url: url, // 파일 다운로드 요청 URL
@@ -107,10 +107,10 @@ function PortfolioDetail(){
                             <div>
                                 <h3>
                                     이미지 &nbsp;&nbsp;
-                                    <DownloadButton  type="button" onClick={()=>{downloadFile(`${detail.image.image}`,`${imagename}`)}}>다운로드</DownloadButton>
                                 </h3>
                                 {detail.image !== null ? 
                                 <>
+                                <DownloadButton  type="button" onClick={()=>{downloadFile(`${detail.image.image}`,`${imagename}`)}}>다운로드</DownloadButton>
                                     <div 
                                         style={{background:`url(${detail.image.image})`,
                                                 width:"100%", 
