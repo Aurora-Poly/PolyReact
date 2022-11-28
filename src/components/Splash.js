@@ -18,7 +18,7 @@ function Splash(){
                     width="180px" 
                     height="45px" 
                     text="Join" 
-                    href={insertedToken? "/mypage" : "/user/login"}
+                    href={insertedToken? "/mypage/home" : "/user/login"}
                     fontsize="18px"
                     delay="0.5s"
                     />
